@@ -30,7 +30,8 @@ if __name__ == '__main__':
     config = ActivityConfig(num_episodes=1000, out_path='result/cartpole/test1/')
     agent_builder = ActorCriticTracesAgentBuilder(num_actions, discretiser=CartpoleDiscretiser())
     learning = Learning(listener=BasicFunctions(render=False))
-    learning.learn(env, agent_builder, config)```
+    learning.learn(env, agent_builder, config)
+```
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
