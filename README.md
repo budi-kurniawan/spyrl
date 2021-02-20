@@ -41,6 +41,7 @@ Please make sure to update tests as appropriate.
 ## Citation
 
 To cite this repository in publications:
+```
 @misc{spyrl,
   author = {Kurniawan, Budi and Vamplew, Peter and Papasimeon, Michael and Dazeley, Richard and Foale, Cameron},
   title = {SpyRL Framework},
@@ -49,6 +50,7 @@ To cite this repository in publications:
   journal = {GitHub repository},
   howpublished = {\url{https://github.com/budi-kurniawan/spyrl}},
 }
+```
 
 ## License
 ...
