@@ -1,2 +1,8 @@
 .project
 .pydevproject
+__pycache__
+pyproject.toml
+dist
+build
+setup.cfg
+spyrl.egg-info
