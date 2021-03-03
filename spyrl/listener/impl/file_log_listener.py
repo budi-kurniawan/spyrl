@@ -14,11 +14,12 @@ class RewardType(Enum):
     REDEFINED = 4
 
 class FileLogListener(TrialListener, EpisodeListener):
-    def __init__(self, chart_offset, reward_type=RewardType.AVERAGE):
-        self.reward_type = reward_type
+    def __init__(self, **kwargs):
+        self.reward_type = kwargs.get('reward_type', RewardType.AVERAGE)
+        self.chart_offset = kwargs.get('chart_offset', 0)
+        self.draw = kwargs.get('draw', True)
         self.scores_file = None
         self.writer = None
-        self.chart_offset = chart_offset
 
     @override(EpisodeListener)
     def after_episode(self, event):
@@ -55,6 +56,8 @@ class FileLogListener(TrialListener, EpisodeListener):
         self.draw_chart(trial, out_path)
 
     def draw_chart(self, trial, out_path):
+        if not self.draw:
+            return 
         plt.rcParams["figure.figsize"] = (20, 4)
         plt.rcParams["legend.loc"] = 'lower center'
         x = []

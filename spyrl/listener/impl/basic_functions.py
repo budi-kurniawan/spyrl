@@ -17,9 +17,10 @@ class BasicFunctions(SessionListener, TrialListener, EpisodeListener, StepListen
         self.milestone_episodes = kwargs.get('milestone_episodes', [])
         self.use_num_steps_as_reward = kwargs.get('use_num_steps_as_reward', False)
         self.save_agent = kwargs.get('save_agent', False)
-        self.render = kwargs.get('render', False)        
+        self.render = kwargs.get('render', False)
+        self.draw = kwargs.get('draw', True)
         self.console_log_listener = ConsoleLogListener()
-        self.file_log_listener = FileLogListener(self.chart_offset, self.reward_type)
+        self.file_log_listener = FileLogListener(draw=self.draw, chart_offset=self.chart_offset, reward_type=self.reward_type)
         self.policy_maker = PolicyMaker(self.top_n, self.min_recorded_reward, self.milestone_episodes)
         if self.render:
             self.renderer = Renderer()
