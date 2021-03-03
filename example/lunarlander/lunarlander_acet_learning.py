@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-    LunarLander learning with ActorCritic agent with traces
+    LunarLander learning with actor critic with eligibility traces (ACET) agent
 """
 import gym
 import sys
@@ -17,15 +17,8 @@ __license__ = "GPL"
 __version__ = "0.1.0"
 
 if __name__ == '__main__':
-    id = 'LunarLander-v2'
-#     gym.envs.register(
-#         id=id,
-#         entry_point='gym.envs.classic_control:CartPoleEnv',
-#         max_episode_steps=100_000
-#     )
-    env = gym.make(id)
+    env = gym.make('LunarLander-v2')
     num_actions = env.action_space.n
-    print('num_actions:', num_actions)
     config = ActivityConfig(num_episodes=10_000, out_path='result/lunarlander/test1/')
     agent_builder = ActorCriticTracesAgentBuilder(num_actions, discretiser=LunarLanderDiscretiser())
     learning = Learning(listener=BasicFunctions(render=True))

@@ -1,7 +1,7 @@
 from spyrl.util.util import override
 from spyrl.activity.activity_context import ActivityContext
 from spyrl.agent.torch_seedable_agent import TorchSeedableAgent
-from spyrl.agent.dqn.dqn import DQN, ReplayMemory
+from spyrl.agent.impl.dqn.dqn import DQN, ReplayMemory
 import pickle
 import numpy as np
 import torch

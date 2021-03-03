@@ -1,6 +1,5 @@
 """ A class representing RL learning"""
 from datetime import datetime
-import os
 from spyrl.event.session_event import SessionEvent
 from spyrl.event.trial_event import TrialEvent
 from spyrl.event.episode_event import EpisodeEvent
@@ -39,7 +38,7 @@ class Learning(Activity):
             agent.trial_start(activity_context)
             max_reward = 0
             max_num_steps = 0
-            for episode in range(activity_context.start_episode, config.num_episodes + 1):
+            for episode in range(activity_context.start_episode, activity_context.start_episode + config.num_episodes):
                 activity_context.episode = episode
                 # env.reset() and fire_before_episode_event must be reversed, just like in Testing.test()
                 self.fire_before_episode_event(EpisodeEvent(activity_context, agent=agent, env=env))
@@ -47,8 +46,9 @@ class Learning(Activity):
                 self.fire_after_env_reset_event(EpisodeEvent(activity_context, agent=agent, env=env))
                 agent.episode_start(activity_context)
                 ep_reward = 0.0
-                step = 1
+                step = 0
                 while True:
+                    step += 1
                     activity_context.step = step
                     self.fire_before_step_event(StepEvent(activity_context, env=env))
                     action = agent.select_action(state)
@@ -59,7 +59,6 @@ class Learning(Activity):
                     self.fire_after_step_event(StepEvent(activity_context, env=env, reward=reward, agent=agent))
                     if terminal:
                         break
-                    step += 1
                 if max_reward < ep_reward:
                     max_reward = ep_reward
                 

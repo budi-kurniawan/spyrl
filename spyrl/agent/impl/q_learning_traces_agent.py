@@ -6,16 +6,16 @@ from spyrl.activity.activity_context import ActivityContext
 __author__ = 'bkurniawan'
 
 """
-This class represents an Q-learning with traces agent, using replacing traces (instead of accumulating traces)
-As such, e[s][a] is set to 1, instead of e[s][a] *= increment. Therefore, we do not need another 2-dimensional array
-Rather, we'll use visited to make the code faster
+This class represents a Q(lambda) or Q-learning with eligibility traces agent, using replacing traces 
+(instead of accumulating traces). As such, e[s][a] is set to 1, instead of e[s][a] *= increment. 
+Therefore, we do not need another 2-dimensional array. Rather, we'll use visited to make the code faster
 
 This algorithm is called Watkin's Q(lambda) (Q-learning + eligibility traces) and can be found in
     https://stackoverflow.com/questions/40862578/how-to-understand-watkinss-q%CE%BB-learning-algorithm-in-suttonbartos-rl-book
     
 Do not use http://www-anw.cs.umass.edu/~barto/courses/cs687/Chapter%207.pdf (wrong)
 """
-class QLearningTracesAgent(QLearningAgent):
+class QLambdaTracesAgent(QLearningAgent):
     def __init__(self, num_actions: int, discretizer, seed=None, initial_policy_path=None):
         super().__init__(num_actions, discretizer, seed, initial_policy_path)
         self.e = np.zeros([self.num_states, num_actions], dtype=np.float64)

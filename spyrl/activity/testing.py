@@ -7,31 +7,29 @@ from spyrl.event.episode_event import EpisodeEvent
 from spyrl.event.step_event import StepEvent
 from spyrl.util.stopper import Stopper
 from spyrl.activity.activity_context import ActivityContext
+from spyrl.activity.activity_config import ActivityConfig
 from spyrl.activity.activity import Activity
-
+from spyrl.tester_builder.tester_builder import TesterBuilder
 class Testing(Activity):
-    #def test(self, env, tester_builder: TesterBuilder, start_trial: int, num_trials: int, num_episodes: int, num_steps: int) -> None:
-    def test(self, env, out_path, *args, **kwargs) -> None:
-        start_trial = kwargs.get('start_trial', 1)
-        num_trials = kwargs.get('num_trials', 1)
-        num_episodes = kwargs.get('num_episodes', 1)
-        max_steps_per_episode = kwargs.get('num_steps', None)
-        start_episode = kwargs.get('start_episode', 1)
-        tester = kwargs.get('tester', None)
-        tester_builder = kwargs.get('tester_builder', None)
-        if tester is not None and tester_builder is not None:
-            print('Both tester and tester_builder are present. tester will be ignored')
-
-        if not os.path.exists(out_path):
-            os.makedirs(out_path)
-            print('Created ' + out_path)
-
-        end_trial = start_trial + num_trials
+    def __init__(self, **kwargs):
+        super().__init__()
+        listener = kwargs.get('listener', None)
+        if listener is not None:
+            self.add_listener(listener)
+        listeners = kwargs.get('listeners', [])
+        for listener in listeners:
+            self.add_listener(listener)
+    
+    def test(self, env, tester_builder: TesterBuilder, config: ActivityConfig) -> None:
+        end_trial = config.start_trial + config.num_trials
         activity_context = ActivityContext()
-        activity_context.out_path = out_path
-        activity_context.num_episodes = num_episodes
+        activity_context.out_path = config.out_path
+        activity_context.num_episodes = config.num_episodes
         self.fire_before_session_event(SessionEvent(activity_context))
-        for trial in range(start_trial, end_trial):
+    
+        activity_context = ActivityContext()
+        self.fire_before_session_event(SessionEvent(activity_context))
+        for trial in range(config.start_trial, end_trial):
             trial_start_time = datetime.now()
             activity_context.trial = trial
             activity_context.trial_start_time = trial_start_time
@@ -44,7 +42,7 @@ class Testing(Activity):
             tester.trial_start(activity_context)
             max_reward = 0
             max_num_steps = 0
-            for episode in range(start_episode, start_episode + num_episodes):
+            for episode in range(activity_context.start_episode, activity_context.start_episode + config.num_episodes):
                 activity_context.episode = episode
                 stopper = Stopper()
                 self.fire_before_episode_event(EpisodeEvent(activity_context, tester=tester, env=env, stopper=stopper))
@@ -52,7 +50,9 @@ class Testing(Activity):
                 self.fire_after_env_reset_event(EpisodeEvent(activity_context, tester=tester, env=env, stopper=stopper))
                 tester.episode_start(activity_context)
                 ep_reward = 0.0
-                for step in range(1, max_steps_per_episode + 1):
+                step = 0
+                while True:
+                    step += 1
                     activity_context.step = step
                     self.fire_before_step_event(StepEvent(activity_context, env=env))
                     action = tester.select_action(state)

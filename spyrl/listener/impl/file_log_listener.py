@@ -38,7 +38,8 @@ class FileLogListener(TrialListener, EpisodeListener):
     def before_trial(self, event):
         out_path = event.activity_context.out_path
         trial = event.activity_context.trial
-        self.scores_file = open(out_path + '/all-scores-' + str(trial).zfill(2) + '.txt', 'a+')
+        self.scores_path = os.path.join(out_path, 'scores-' + str(trial).zfill(2) + '.txt')
+        self.scores_file = open(self.scores_path, 'w')
 
     @override(TrialListener)
     def after_trial(self, event):
@@ -56,11 +57,10 @@ class FileLogListener(TrialListener, EpisodeListener):
     def draw_chart(self, trial, out_path):
         plt.rcParams["figure.figsize"] = (20, 4)
         plt.rcParams["legend.loc"] = 'lower center'
-        scores_path = out_path + '/all-scores-' + str(trial).zfill(2) + '.txt'        
         x = []
         y = []
         offset = self.chart_offset
-        with open(scores_path, 'r') as csvfile:
+        with open(self.scores_path, 'r') as csvfile:
             plots = csv.reader(csvfile, delimiter=',')
             for row in plots:
                 x.append(int(row[0]))
@@ -68,5 +68,5 @@ class FileLogListener(TrialListener, EpisodeListener):
         plt.plot(x, y)
         plt.xlabel('Episode')
         plt.ylabel('Total score')
-        plt.savefig(scores_path + '.png')
+        plt.savefig(self.scores_path + '.png')
         plt.close()
