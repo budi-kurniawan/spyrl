@@ -4,11 +4,10 @@
 """
 import gym
 import sys
+sys.path.insert(0, "../spyrl")
 from spyrl.agent_builder.agent_builder import AgentBuilder
 from spyrl.agent.impl.dqn_agent import DQNAgent
-from spyrl.listener.impl.policy_maker import PolicyMaker
 from spyrl.listener.impl.file_log_listener import RewardType
-sys.path.insert(0, "../spyrl")
 from spyrl.activity.learning import Learning
 from spyrl.activity.activity_config import ActivityConfig
 from spyrl.listener.impl.basic_functions import BasicFunctions
