@@ -115,13 +115,13 @@ if __name__ == '__main__':
     ]
     #create_charts(data_sources)
     
-    parent = '../../result/lunarlander/dqn-01/'
+    parent = '../../result/lunarlander/dqn-old/'
     context['max_records'] = 20000
-    context['start_trial'] = 10
+    context['start_trial'] = 0
     context['num_trials'] = 1
-    context['num_avg_samples'] = 40
+    context['num_avg_samples'] = 10
     context['show_figures'] = True
-    context['ylim'] = (-1200, 300)
+    context['ylim'] = (-300, 220)
     
     data_sources = [
             DataSource(name='dqn', data_paths=[parent], labels=['lunarlander-dqn-01'],

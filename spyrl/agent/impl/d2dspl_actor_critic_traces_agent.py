@@ -5,34 +5,34 @@ from datetime import datetime
 from sklearn.neural_network import MLPClassifier
 from spyrl.util.util import override
 from spyrl.activity.activity_context import ActivityContext
-from spyrl.agent.actor_critic_traces_agent import ActorCriticTracesAgent
+from spyrl.agent.impl.actor_critic_traces_agent import ActorCriticTracesAgent
 from spyrl.agent.seedable_agent import SeedableAgent
 
 __author__ = 'bkurniawan'
 
 class D2DSPLActorCriticTracesAgent(SeedableAgent):
     
-    def __init__(self, num_actions: int, discretizer, max_num_samples_for_classifier, normalizer, milestone_episodes, hidden_layer_sizes, seed):
+    def __init__(self, num_actions: int, discretiser, max_num_samples_for_classifier, normaliser, milestone_episodes, hidden_layer_sizes, seed):
         super().__init__(seed)
         self.max_num_samples_for_classifier = max_num_samples_for_classifier
         self.buffer_trim_interval = 5_000
-        self.normalizer = normalizer
+        self.normaliser = normaliser
         self.hidden_layer_sizes = hidden_layer_sizes
         self.milestone_episodes = milestone_episodes
         self.solver = 'lbfgs'
         self.alpha = 0.0001
         self.max_num_records = 14_000
         self.time_spent_on_creating_classifiers = 0
-        self.discretizer = discretizer
+        self.discretiser = discretiser
         self.buffer = []
-        self.base_agent = ActorCriticTracesAgent(num_actions, discretizer, seed, None)
+        self.base_agent = ActorCriticTracesAgent(num_actions, discretiser, seed, None)
 
     @override(ActorCriticTracesAgent)
     def episode_start(self, activity_context: ActivityContext) -> None:
         # reset traces
         self.base_agent.episode_start(activity_context)
-        num_discrete_states = self.discretizer.get_num_discrete_states()
-        num_state_variables = self.discretizer.get_num_state_variables()
+        num_discrete_states = self.discretiser.get_num_discrete_states()
+        num_state_variables = self.discretiser.get_num_state_variables()
         self.state_stats = np.zeros([num_discrete_states, num_state_variables], dtype=np.float64)
         self.state_visits = np.zeros(num_discrete_states, dtype=np.int32)
         self.next_state_stats = np.zeros([num_discrete_states, num_state_variables], dtype=np.float64)
@@ -49,7 +49,7 @@ class D2DSPLActorCriticTracesAgent(SeedableAgent):
             print('trim buffer at episode ', episode)
             buffer.sort(key=lambda tup: tup[1], reverse=True) # sorted by ep_reward, biggest on top
             del buffer[self.max_num_samples_for_classifier : ] # keep the first n samples with the highest ep_rewards
-        if episode in self.milestone_episodes:
+        if episode in self.milestone_episodes or episode == activity_context.num_of_episodes:
             if len(buffer) > self.max_num_samples_for_classifier:
                 print('trim buffer before saving it')
                 buffer.sort(key=lambda tup: tup[1], reverse=True) # sorted by ep_reward, biggest on top
@@ -59,10 +59,10 @@ class D2DSPLActorCriticTracesAgent(SeedableAgent):
             buffer_path = out_path + '/d2dspl-buffer-' + str(trial).zfill(2) + '-' + str(episode).zfill(8) + '.p'
             # not saving buffer as it is too big (2GB)
 #             pickle.dump(buffer, open(buffer_path, "wb"))
-            normalized_training_set = self.create_training_set(trial, episode, out_path)
+            normalised_training_set = self.create_training_set(trial, episode, out_path)
             print('creating classifier learning for buffer ', buffer_path)
             start_time = datetime.now()
-            self.create_classifier(trial, episode, out_path, normalized_training_set)            
+            self.create_classifier(trial, episode, out_path, normalised_training_set)            
             end_time = datetime.now()
             num_seconds = (end_time - start_time).total_seconds()
             self.time_spent_on_creating_classifiers += num_seconds
@@ -72,7 +72,7 @@ class D2DSPLActorCriticTracesAgent(SeedableAgent):
     def update(self, activity_context, state, action, reward, next_state, terminal, env_data) -> None:
         self.base_agent.update(activity_context, state, action, reward, next_state, terminal, env_data)
         self.ep_reward += reward
-        discrete_state = self.discretizer.discretize(state)
+        discrete_state = self.discretiser.discretise(state)
         self.state_visits[discrete_state] += 1
         self.state_stats[discrete_state] += state
         self.next_state_stats[discrete_state] += next_state
@@ -92,9 +92,9 @@ class D2DSPLActorCriticTracesAgent(SeedableAgent):
         del self.buffer
 
     def create_training_set(self, trial, episode, out_path):
-        normalized_training_set = []
-        num_discrete_states = self.discretizer.get_num_discrete_states()
-        num_state_variables = self.discretizer.get_num_state_variables()
+        normalised_training_set = []
+        num_discrete_states = self.discretiser.get_num_discrete_states()
+        num_state_variables = self.discretiser.get_num_state_variables()
         # consolidated_next_state_stats and consolidated_rewards are not used in D2D-SPL, but are useful in other methods such as hybrid D2D-DDQN
         consolidated_state_stats = np.zeros([num_discrete_states, num_state_variables], dtype=np.float64)
         consolidated_state_visits = np.zeros(num_discrete_states, dtype=np.int32)
@@ -110,31 +110,33 @@ class D2DSPLActorCriticTracesAgent(SeedableAgent):
             consolidated_state_visits += state_visits
             consolidated_next_state_stats += next_state_stats
             consolidated_rewards += reward
-        normalized_training_set_path = out_path + '/d2dspl-normalised_training_set-' + str(trial).zfill(2) + '-' + str(episode).zfill(8) + '.txt'
-        file = open(normalized_training_set_path, 'w') # create training_set file for D2D-SQL
+        normalised_training_set_path = out_path + '/d2dspl-normalised_training_set-' + str(trial).zfill(2) + '-' + str(episode).zfill(8) + '.txt'
+        file = open(normalised_training_set_path, 'w') # create training_set file for D2D-SQL
         num_rows = 0
         for i in range(num_discrete_states):
             if consolidated_state_visits[i] != 0:
                 consolidated_state_stats[i] /= consolidated_state_visits[i]
                 consolidated_next_state_stats[i] /= consolidated_state_visits[i]
                 consolidated_rewards[i] /= consolidated_state_visits[i]
-                normalized_consolidated_state_stats = self.normalizer.normalize(consolidated_state_stats[i])
-                normalized_consolidated_next_state_stats = self.normalizer.normalize(consolidated_next_state_stats[i])                
-                s1 = np.array2string(normalized_consolidated_state_stats, separator=',', precision=4)
+                normalised_consolidated_state_stats = self.normaliser.normalise(consolidated_state_stats[i]) \
+                        if self.normaliser is not None else consolidated_state_stats[i]
+                normalised_consolidated_next_state_stats = self.normaliser.normalise(consolidated_next_state_stats[i]) \
+                        if self.normaliser is not None else consolidated_next_state_stats[i]
+                s1 = np.array2string(normalised_consolidated_state_stats, separator=',', precision=4)
                 s2 = np.array2string(theta[i], separator=',', precision=4)
-                s3 = np.array2string(normalized_consolidated_next_state_stats, separator=',', precision=4)
+                s3 = np.array2string(normalised_consolidated_next_state_stats, separator=',', precision=4)
                 s4 = np.array2string(consolidated_rewards[i], separator=',', precision=4)
                 file.write(str(i) + ',' + s1 + ',' + s2 + ',' + s3 + ',' + s4 + '\n')
                 y = np.argmax(theta[i])
-                normalized_training_set.append((normalized_consolidated_state_stats, y))
+                normalised_training_set.append((normalised_consolidated_state_stats, y))
                 num_rows += 1
         #file.close()
         print('training set created with ' + str(num_rows) + ', rows.')
-        return normalized_training_set
+        return normalised_training_set
 
-    def create_classifier(self, trial, episode, out_path, normalized_training_set):
+    def create_classifier(self, trial, episode, out_path, normalised_training_set):
         classifier_path = out_path + '/d2dspl-classifier-' + str(trial).zfill(2) + '-' + str(episode).zfill(8) + '.p'
-        xy = zip(*normalized_training_set)
+        xy = zip(*normalised_training_set)
         X = next(xy)
         Y = next(xy)
         classifier = MLPClassifier(solver=self.solver, alpha=self.alpha, random_state=1, max_iter=1_000_000, hidden_layer_sizes=self.hidden_layer_sizes).fit(X, Y)
