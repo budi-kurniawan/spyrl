@@ -4,12 +4,13 @@
 """
 import gym
 import sys
-from spyrl.agent_builder.impl.d2dspl_actor_critic_traces_agent_builder import D2DSPLActorCriticTracesAgentBuilder
 sys.path.insert(0, "../spyrl")
 from spyrl.activity.learning import Learning
 from spyrl.activity.activity_config import ActivityConfig
-from spyrl.listener.impl.basic_functions import BasicFunctions
+from spyrl.agent_builder.impl.d2dspl_actor_critic_traces_agent_builder import D2DSPLActorCriticTracesAgentBuilder
 from spyrl.agent_builder.impl.actor_critic_traces_agent_builder import ActorCriticTracesAgentBuilder
+from spyrl.listener.impl.basic_functions import BasicFunctions
+from spyrl.listener.impl.file_log_listener import RewardType
 from example.lunarlander.helper.lunarlander_discretiser import LunarLanderDiscretiser
 
 __author__ = "Budi Kurniawan"
@@ -26,5 +27,5 @@ if __name__ == '__main__':
     agent_builder = D2DSPLActorCriticTracesAgentBuilder(num_actions, LunarLanderDiscretiser(), max_num_samples_for_classifier, 
             None, milestone_episodes)
     agent_builder = ActorCriticTracesAgentBuilder(num_actions, discretiser=LunarLanderDiscretiser())
-    learning = Learning(listener=BasicFunctions(render=False))
+    learning = Learning(listener=BasicFunctions(render=False, reward_type=RewardType.TOTAL))
     learning.learn(env, agent_builder, config)
