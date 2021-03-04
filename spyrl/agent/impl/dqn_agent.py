@@ -14,7 +14,7 @@ from typing import Dict
 __author__ = 'bkurniawan'
 
 class DQNAgent(TorchSeedableAgent):
-    def __init__(self, memory_size, batch_size, dqn_dims, normalizer, seed=None) -> None:
+    def __init__(self, memory_size, batch_size, dqn_dims, normaliser, seed=None) -> None:
         super().__init__(seed)
         self.memory = ReplayMemory(memory_size, self.random)
         self.batch_size = batch_size
@@ -23,7 +23,7 @@ class DQNAgent(TorchSeedableAgent):
         self.output_dim = dqn_dims[-1]
         self.loss_fn = nn.MSELoss()
         self.optim = optim.Adam(self.dqn.parameters())
-        self.normalizer = normalizer
+        self.normaliser = normaliser
         self.gamma = 0.99
 
     @override(TorchSeedableAgent)
@@ -63,33 +63,33 @@ class DQNAgent(TorchSeedableAgent):
             return self.np_random.choice(self.output_dim)
         else:
             self.dqn.train(mode=False)
-            q_values = self.get_Q(state) if self.normalizer is None else self.get_Q(self.normalizer.normalize(state))
+            q_values = self.get_Q(state) if self.normaliser is None else self.get_Q(self.normaliser.normalise(state))
             return int(torch.argmax(q_values))
 
-    def get_Q(self, normalized_states: np.ndarray) -> torch.FloatTensor:
-        normalized_states = torch.Tensor(normalized_states.reshape(-1, self.input_dim))
+    def get_Q(self, normalised_states: np.ndarray) -> torch.FloatTensor:
+        normalised_states = torch.Tensor(normalised_states.reshape(-1, self.input_dim))
         self.dqn.train(mode=False)
-        return self.dqn(normalized_states)
+        return self.dqn(normalised_states)
     
     def add_sample(self, state: np.ndarray, action: int, reward: float, next_state: np.ndarray, done: bool) -> None:
-        if self.normalizer is None:
+        if self.normaliser is None:
             self.memory.push(state, action, reward, next_state, done)
         else:
-            normalized_state = self.normalizer.normalize(state)
-            normalized_next_state = self.normalizer.normalize(next_state)
-            self.memory.push(normalized_state, action, reward, normalized_next_state, done)
+            normalised_state = self.normaliser.normalise(state)
+            normalised_next_state = self.normaliser.normalise(next_state)
+            self.memory.push(normalised_state, action, reward, normalised_next_state, done)
         
     def train(self) -> None:
         if len(self.memory) <= self.batch_size:
             return
         minibatch = self.memory.pop(self.batch_size)
-        normalized_states = np.vstack([x.state for x in minibatch])
+        normalised_states = np.vstack([x.state for x in minibatch])
         actions = np.array([x.action for x in minibatch])
         rewards = np.array([x.reward for x in minibatch])
-        normalized_next_states = np.vstack([x.next_state for x in minibatch])
+        normalised_next_states = np.vstack([x.next_state for x in minibatch])
         done = np.array([x.done for x in minibatch])
 
-        Q_predict = self.get_Q(normalized_states)
+        Q_predict = self.get_Q(normalised_states)
         Q_target = Q_predict.clone().data.numpy()
         """ Q_target is an numpy.ndarray of size (len(minibatch), num_actions).
             At this point Q_target[np.arange(len(Q_target)), actions]) is a 1-dim array of size len(minibatch) and each element is selected from
@@ -99,7 +99,7 @@ class DQNAgent(TorchSeedableAgent):
             where 2 is taken from the 1st element of [1,2,3] and 4 from the zeroth of [4,5,6].
             However, more importantly here, Q_target[np.arange(len(Q_target)), actions]) represents locations whose values are to be replaced
         """
-        Q_target[np.arange(len(Q_target)), actions] = self.get_q_update(rewards, normalized_next_states, done)
+        Q_target[np.arange(len(Q_target)), actions] = self.get_q_update(rewards, normalised_next_states, done)
         Q_target = torch.Tensor(Q_target)
         """
             Exactly one cell in each row in Q_target has been updated. In other words, the nth row of Q_predict and 
@@ -107,8 +107,8 @@ class DQNAgent(TorchSeedableAgent):
         """
         return self._train(Q_predict, Q_target)
     
-    def get_q_update(self, rewards: np.ndarray, normalized_next_states: np.ndarray, done: np.ndarray):
-        return rewards + self.gamma * np.max(self.get_Q(normalized_next_states).data.numpy(), axis=1) * ~done
+    def get_q_update(self, rewards: np.ndarray, normalised_next_states: np.ndarray, done: np.ndarray):
+        return rewards + self.gamma * np.max(self.get_Q(normalised_next_states).data.numpy(), axis=1) * ~done
 
     def _train(self, Q_pred: torch.FloatTensor, Q_true: torch.FloatTensor) -> float:
         """Computes loss and backpropagation

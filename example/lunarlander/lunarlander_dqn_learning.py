@@ -30,7 +30,7 @@ if __name__ == '__main__':
         start_trial = int(sys.argv[1])
     
     env = gym.make('LunarLander-v2')
-    config = ActivityConfig(start_trial=start_trial, num_trials=10, num_episodes=20000, out_path='result/lunarlander/dqn-01/')
+    config = ActivityConfig(start_trial=start_trial, num_trials=10, num_episodes=20000, out_path='result/lunarlander/dqn-00/')
     agent_builder = AceZeroDQNAgentBuilder(env.action_space.n)
     milestone_episodes = [10000, 12000, 14000, 16000, 18000]
     learning = Learning(listener=BasicFunctions(render=False, draw=False, milestone_episodes=milestone_episodes, 

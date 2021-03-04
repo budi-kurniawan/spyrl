@@ -3,7 +3,6 @@ from collections import namedtuple
 import numpy as np
 import torch
 import torch.nn as nn
-import random # needed in ReplayMemory
 
 Transition = namedtuple("Transition", ["state", "action", "reward", "next_state", "done"])
 

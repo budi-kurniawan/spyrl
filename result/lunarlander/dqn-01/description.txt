@@ -1,0 +1,8 @@
+20,000 episodes with 
+
+class AceZeroDQNAgentBuilder(AgentBuilder):
+    def create_agent(self, seed, initial_policy_path=None):
+        num_inputs = 8
+        print('num actions:', self.num_actions)
+        memory_size = 1_000_000; batch_size = 64; dqn_dims = [num_inputs, 300, self.num_actions]
+        return DQNAgent(memory_size, batch_size, dqn_dims, self.normaliser, seed)

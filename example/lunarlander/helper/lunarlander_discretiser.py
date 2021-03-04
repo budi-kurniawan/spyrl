@@ -18,7 +18,7 @@ class LunarLanderDiscretiser(Discretiser):
 #             20.0*self.lander.angularVelocity/FPS,
 #             1.0 if self.legs[0].ground_contact else 0.0,
 #             1.0 if self.legs[1].ground_contact else 0.0        
-        print(state)
+        #print(state)
         pos_x, pos_y, vel_x, vel_y, angle, angular_vel, ground_contact_0, ground_contact_1 = state
         pos_x = self.do_discretise(pos_x, [-0.2, 0, 0.2])
         pos_y = self.do_discretise(pos_y, [0.1, 0.3, 0.5])
@@ -28,7 +28,7 @@ class LunarLanderDiscretiser(Discretiser):
         angular_vel = self.do_discretise(angular_vel, [-0.25, 0, 0.25])
         ground_contact_0 = int(ground_contact_0)
         ground_contact_1 = int(ground_contact_1)
-        print(pos_x, pos_y, vel_x, vel_y, angle, angular_vel, ground_contact_0, ground_contact_1)
+        #print(pos_x, pos_y, vel_x, vel_y, angle, angular_vel, ground_contact_0, ground_contact_1)
         return (pos_x * 4 * 4 * 4 * 4 * 4 * 2 * 2 + pos_y * 4 * 4 * 4 * 4 * 2 * 2 + vel_x * 4 * 4 * 4 * 2 * 2 
                 + vel_y * 4 * 4 * 2 * 2 + angle * 4 * 2 * 2 + angular_vel * 2 * 2 
                 + ground_contact_0 * 2 + ground_contact_1)
