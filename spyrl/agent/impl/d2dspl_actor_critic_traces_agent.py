@@ -1,5 +1,6 @@
 """ A class representing D2D-SPL Actor-Critic with traces agents """
 import numpy as np
+import os
 import pickle
 from datetime import datetime
 from sklearn.neural_network import MLPClassifier
@@ -12,13 +13,12 @@ __author__ = 'bkurniawan'
 
 class D2DSPLActorCriticTracesAgent(SeedableAgent):
     
-    def __init__(self, num_actions: int, discretiser, max_num_samples_for_classifier, normaliser, milestone_episodes, hidden_layer_sizes, seed):
+    def __init__(self, num_actions: int, discretiser, max_num_samples_for_classifier, normaliser, hidden_layer_sizes, seed):
         super().__init__(seed)
         self.max_num_samples_for_classifier = max_num_samples_for_classifier
         self.buffer_trim_interval = 5_000
         self.normaliser = normaliser
         self.hidden_layer_sizes = hidden_layer_sizes
-        self.milestone_episodes = milestone_episodes
         self.solver = 'lbfgs'
         self.alpha = 0.0001
         self.max_num_records = 14_000
@@ -49,7 +49,7 @@ class D2DSPLActorCriticTracesAgent(SeedableAgent):
             print('trim buffer at episode ', episode)
             buffer.sort(key=lambda tup: tup[1], reverse=True) # sorted by ep_reward, biggest on top
             del buffer[self.max_num_samples_for_classifier : ] # keep the first n samples with the highest ep_rewards
-        if episode in self.milestone_episodes or episode == activity_context.num_of_episodes:
+        if episode == activity_context.num_episodes:
             if len(buffer) > self.max_num_samples_for_classifier:
                 print('trim buffer before saving it')
                 buffer.sort(key=lambda tup: tup[1], reverse=True) # sorted by ep_reward, biggest on top
@@ -110,7 +110,8 @@ class D2DSPLActorCriticTracesAgent(SeedableAgent):
             consolidated_state_visits += state_visits
             consolidated_next_state_stats += next_state_stats
             consolidated_rewards += reward
-        normalised_training_set_path = out_path + '/d2dspl-normalised_training_set-' + str(trial).zfill(2) + '-' + str(episode).zfill(8) + '.txt'
+        normalised_training_set_path = os.path.join(out_path, 'd2dspl-normalised_training_set-' 
+                                                    + str(trial).zfill(2) + '-' + str(episode).zfill(8) + '.txt')
         file = open(normalised_training_set_path, 'w') # create training_set file for D2D-SQL
         num_rows = 0
         for i in range(num_discrete_states):
@@ -135,7 +136,7 @@ class D2DSPLActorCriticTracesAgent(SeedableAgent):
         return normalised_training_set
 
     def create_classifier(self, trial, episode, out_path, normalised_training_set):
-        classifier_path = out_path + '/d2dspl-classifier-' + str(trial).zfill(2) + '-' + str(episode).zfill(8) + '.p'
+        classifier_path = os.path.join(out_path, 'd2dspl-classifier-' + str(trial).zfill(2) + '-' + str(episode).zfill(8) + '.p')
         xy = zip(*normalised_training_set)
         X = next(xy)
         Y = next(xy)
@@ -145,6 +146,6 @@ class D2DSPLActorCriticTracesAgent(SeedableAgent):
         print('classifier score for classifier ' + classifier_path + ' : ' + str(score))
     
     def write_to_learning_times_file(self, out_path, message):
-        learning_times_file = open(out_path + '/d2dspl-agent-learning-times.txt', 'a+')
+        learning_times_file = open(os.path.join(out_path, 'd2dspl-agent-learning-times.txt', 'a+'))
         learning_times_file.write(message + '\n')        
         learning_times_file.close()

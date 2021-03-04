@@ -8,7 +8,6 @@ sys.path.insert(0, "../spyrl")
 from spyrl.activity.learning import Learning
 from spyrl.activity.activity_config import ActivityConfig
 from spyrl.agent_builder.impl.d2dspl_actor_critic_traces_agent_builder import D2DSPLActorCriticTracesAgentBuilder
-from spyrl.agent_builder.impl.actor_critic_traces_agent_builder import ActorCriticTracesAgentBuilder
 from spyrl.listener.impl.basic_functions import BasicFunctions
 from spyrl.listener.impl.file_log_listener import RewardType
 from example.lunarlander.helper.lunarlander_discretiser import LunarLanderDiscretiser
@@ -21,11 +20,9 @@ __version__ = "0.1.0"
 if __name__ == '__main__':
     env = gym.make('LunarLander-v2')
     num_actions = env.action_space.n
-    max_num_samples_for_classifier = 2000 #4000 #3000 #200 #300 #500 #1000 #1500 #2000
-    config = ActivityConfig(num_trials = 1, num_episodes=10_000, out_path='result/lunarlander/d2dspl-01/')
-    milestone_episodes = [5000, 6000, 7000, 8000, 9000]
-    agent_builder = D2DSPLActorCriticTracesAgentBuilder(num_actions, LunarLanderDiscretiser(), max_num_samples_for_classifier, 
-            None, milestone_episodes)
-    agent_builder = ActorCriticTracesAgentBuilder(num_actions, discretiser=LunarLanderDiscretiser())
+    max_num_samples_for_classifier = 1000 #4000 #3000 #200 #300 #500 #1000 #1500 #2000
+    config = ActivityConfig(num_trials = 10, num_episodes=5_000, out_path='result/lunarlander/d2dspl-01b/')
+    agent_builder = D2DSPLActorCriticTracesAgentBuilder(num_actions, LunarLanderDiscretiser(), 
+                        max_num_samples_for_classifier, None, [128, 128])
     learning = Learning(listener=BasicFunctions(render=False, reward_type=RewardType.TOTAL))
     learning.learn(env, agent_builder, config)
