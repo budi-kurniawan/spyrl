@@ -17,10 +17,15 @@ __copyright__ = "Copyright 2021, Budi Kurniawan"
 __license__ = "GPL"
 __version__ = "0.1.0"
 
+# class AceZeroDQNAgentBuilder(AgentBuilder):
+#     def create_agent(self, seed, initial_policy_path=None):
+#         num_inputs = 8
+#         memory_size = 1_000_000; batch_size = 64; dqn_dims = [num_inputs, 300, self.num_actions]
+#         return DQNAgent(memory_size, batch_size, dqn_dims, self.normaliser, seed)
 class AceZeroDQNAgentBuilder(AgentBuilder):
     def create_agent(self, seed, initial_policy_path=None):
         num_inputs = 8
-        memory_size = 1_000_000; batch_size = 64; dqn_dims = [num_inputs, 300, self.num_actions]
+        memory_size = 50_000; batch_size = 64; dqn_dims = [num_inputs, 128, self.num_actions]
         return DQNAgent(memory_size, batch_size, dqn_dims, self.normaliser, seed)
 
 if __name__ == '__main__':
@@ -30,7 +35,7 @@ if __name__ == '__main__':
         start_trial = int(sys.argv[1])
     
     env = gym.make('LunarLander-v2')
-    config = ActivityConfig(start_trial=start_trial, num_trials=10, num_episodes=20000, out_path='result/lunarlander/dqn-00/')
+    config = ActivityConfig(start_trial=start_trial, num_trials=3, num_episodes=20000, out_path='result/lunarlander/dqn-02/')
     agent_builder = AceZeroDQNAgentBuilder(env.action_space.n)
     milestone_episodes = [10000, 12000, 14000, 16000, 18000]
     learning = Learning(listener=BasicFunctions(render=False, draw=False, milestone_episodes=milestone_episodes, 
