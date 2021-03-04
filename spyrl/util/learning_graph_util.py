@@ -116,8 +116,9 @@ if __name__ == '__main__':
     #create_charts(data_sources)
     
     parent = '../../result/lunarlander/dqn-old/'
+    parent = '../../result/lunarlander/dqn-02/'
     context['max_records'] = 20000
-    context['start_trial'] = 0
+    context['start_trial'] = 4
     context['num_trials'] = 1
     context['num_avg_samples'] = 10
     context['show_figures'] = True
