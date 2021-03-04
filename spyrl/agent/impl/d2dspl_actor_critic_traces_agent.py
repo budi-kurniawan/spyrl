@@ -146,6 +146,6 @@ class D2DSPLActorCriticTracesAgent(SeedableAgent):
         print('classifier score for classifier ' + classifier_path + ' : ' + str(score))
     
     def write_to_learning_times_file(self, out_path, message):
-        learning_times_file = open(os.path.join(out_path, 'd2dspl-agent-learning-times.txt', 'a+'))
+        learning_times_file = open(os.path.join(out_path, 'd2dspl-agent-learning-times.txt'), 'a+')
         learning_times_file.write(message + '\n')        
         learning_times_file.close()

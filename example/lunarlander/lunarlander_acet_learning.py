@@ -23,6 +23,6 @@ if __name__ == '__main__':
     config = ActivityConfig(num_trials=10, num_episodes=10_000, out_path='result/lunarlander/acet-02/')
     agent_builder = ActorCriticTracesAgentBuilder(num_actions, discretiser=LunarLanderDiscretiser())
     milestone_episodes = [5000]
-    learning = Learning(listener=BasicFunctions(render=False, draw=False, reward_type=RewardType.TOTAL), 
-                        milestone_episodes=milestone_episodes)
+    learning = Learning(listener=BasicFunctions(render=False, draw=False, reward_type=RewardType.TOTAL, 
+                        milestone_episodes=milestone_episodes))
     learning.learn(env, agent_builder, config)
