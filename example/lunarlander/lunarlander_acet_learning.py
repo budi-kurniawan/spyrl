@@ -22,5 +22,5 @@ if __name__ == '__main__':
     num_actions = env.action_space.n
     config = ActivityConfig(num_episodes=10_000, out_path='result/lunarlander/acet-01/')
     agent_builder = ActorCriticTracesAgentBuilder(num_actions, discretiser=LunarLanderDiscretiser())
-    learning = Learning(listener=BasicFunctions(render=False, reward_type=RewardType.TOTAL))
+    learning = Learning(listener=BasicFunctions(render=False, draw=False, reward_type=RewardType.TOTAL))
     learning.learn(env, agent_builder, config)
