@@ -4,12 +4,12 @@
 """
 import gym
 import sys
-from spyrl.listener.impl.file_log_listener import RewardType
 sys.path.insert(0, "../spyrl")
 from spyrl.activity.learning import Learning
 from spyrl.activity.activity_config import ActivityConfig
-from spyrl.listener.impl.basic_functions import BasicFunctions
 from spyrl.agent_builder.impl.actor_critic_traces_agent_builder import ActorCriticTracesAgentBuilder
+from spyrl.listener.impl.basic_functions import BasicFunctions
+from spyrl.listener.impl.file_log_listener import RewardType
 from example.lunarlander.helper.lunarlander_discretiser import LunarLanderDiscretiser
 
 __author__ = "Budi Kurniawan"
