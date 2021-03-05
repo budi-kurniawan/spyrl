@@ -17,7 +17,7 @@ from spyrl.util.util import get_project_dir
 if __name__ == '__main__':    
     env = gym.make('LunarLander-v2')
     num_actions = env.action_space.n
-    num_learning_episodes = 10000
+    num_learning_episodes = 20000
     policy_parent_path = 'result/lunarlander/dqn-01/'
     out_path = policy_parent_path + 'performance-1000/'
     config = ActivityConfig(num_trials=10, num_episodes=100, out_path=out_path)    
