@@ -1,0 +1,2 @@
+max_num_samples_for_classifier = 1000
+hidden layers: [128, 128]

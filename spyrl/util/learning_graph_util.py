@@ -15,7 +15,6 @@ def get_data(start_trial, num_trials, path, max_records, num_avg_samples, offset
     X = []
     Y = []
     y_max = float('-inf')
-    print('num_avg-samples:', num_avg_samples)
     for i in range(start_trial, start_trial + num_trials):
         file = os.path.join(path, 'scores-' + str(i).zfill(2) + '.txt')
         print(file)
@@ -102,7 +101,7 @@ def create_charts(data_sources):
             plt.show()
             
 if __name__ == '__main__':
-    parent = '../../result/lunarlander/acet-02/'
+    parent = '../../result/lunarlander/acet-01/'
     context['max_records'] = 10000
     context['num_trials'] = 10
     context['start_trial'] = 1
@@ -114,7 +113,7 @@ if __name__ == '__main__':
             DataSource(name='acet', data_paths=[parent], labels=['lunarlander-acet-01', 'ac-002'],
                        image_path=None, image_xy=None, result_path='./temp/temp-01.png')
     ]
-    create_charts(data_sources)
+    #create_charts(data_sources)
     
     parent = '../../result/lunarlander/dqn-old/'
     parent = '../../result/lunarlander/dqn-02/'
@@ -159,4 +158,3 @@ if __name__ == '__main__':
                        image_path=None, image_xy=None, result_path='./temp/temp-01.png')
     ]
     #create_charts(data_sources)
-        
