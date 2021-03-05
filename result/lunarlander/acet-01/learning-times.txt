@@ -1,1 +1,10 @@
-Trial 1 finished in 11777.140267 seconds on ubuntu16
+Trial 1 finished in 2755.924913 seconds on richard-System-Product-Name
+Trial 2 finished in 2805.323456 seconds on richard-System-Product-Name
+Trial 3 finished in 3028.310744 seconds on richard-System-Product-Name
+Trial 4 finished in 2460.464517 seconds on richard-System-Product-Name
+Trial 5 finished in 3053.068467 seconds on richard-System-Product-Name
+Trial 6 finished in 2760.987091 seconds on richard-System-Product-Name
+Trial 7 finished in 2503.680952 seconds on richard-System-Product-Name
+Trial 8 finished in 2483.641537 seconds on richard-System-Product-Name
+Trial 9 finished in 2011.728448 seconds on richard-System-Product-Name
+Trial 10 finished in 2647.377861 seconds on richard-System-Product-Name

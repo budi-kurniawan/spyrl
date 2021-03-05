@@ -102,18 +102,19 @@ def create_charts(data_sources):
             plt.show()
             
 if __name__ == '__main__':
-    parent = '../../result/lunarlander/acet-01/'
+    parent = '../../result/lunarlander/acet-02/'
     context['max_records'] = 10000
-    context['num_trials'] = 1
+    context['num_trials'] = 10
+    context['start_trial'] = 1
     context['num_avg_samples'] = 20
     context['show_figures'] = True
     context['ylim'] = (-200, 300)
     
     data_sources = [
-            DataSource(name='ac', data_paths=[parent], labels=['lunarlander-acet-01', 'ac-002'],
+            DataSource(name='acet', data_paths=[parent], labels=['lunarlander-acet-01', 'ac-002'],
                        image_path=None, image_xy=None, result_path='./temp/temp-01.png')
     ]
-    #create_charts(data_sources)
+    create_charts(data_sources)
     
     parent = '../../result/lunarlander/dqn-old/'
     parent = '../../result/lunarlander/dqn-02/'
@@ -157,5 +158,5 @@ if __name__ == '__main__':
             DataSource(name='Q-learning', data_paths=[parent], labels=['D2D-SPL'],
                        image_path=None, image_xy=None, result_path='./temp/temp-01.png')
     ]
-    create_charts(data_sources)
+    #create_charts(data_sources)
         

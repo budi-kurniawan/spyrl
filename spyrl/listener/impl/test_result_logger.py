@@ -27,6 +27,9 @@ class TestResultLogger(TrialListener, EpisodeListener):
     @override(TrialListener)
     def before_trial(self, event):
         out_path = event.activity_context.out_path
+        if not os.path.exists(out_path):
+            os.makedirs(out_path)
+            print('Created ' + out_path)
         trial = event.activity_context.trial
         self.scores_file = open(out_path + '/scores-' + str(trial).zfill(2) + '.txt', 'w')
 

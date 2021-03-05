@@ -7,7 +7,7 @@ class ActorCriticTester(Tester):
 
     @override(Tester)
     def select_action(self, state)->int:
-        discrete_state = self.discretizer.discretize(state);
+        discrete_state = self.discretiser.discretise(state);
         return np.argmax(self.theta[discrete_state])
     
     @override(Tester)
