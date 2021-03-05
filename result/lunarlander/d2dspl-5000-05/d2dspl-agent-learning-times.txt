@@ -1,0 +1,20 @@
+Creating classifier ../spyrl/result/lunarlander/d2dspl-05//d2dspl-buffer-01-00005000.p took 119.154622 seconds
+Trial 1 took 1733.847785 seconds, including 119.154622 seconds for training all classifiers
+Creating classifier ../spyrl/result/lunarlander/d2dspl-05//d2dspl-buffer-02-00005000.p took 149.888778 seconds
+Trial 2 took 2040.395215 seconds, including 149.888778 seconds for training all classifiers
+Creating classifier ../spyrl/result/lunarlander/d2dspl-05//d2dspl-buffer-03-00005000.p took 141.057175 seconds
+Trial 3 took 1652.740872 seconds, including 141.057175 seconds for training all classifiers
+Creating classifier ../spyrl/result/lunarlander/d2dspl-05//d2dspl-buffer-04-00005000.p took 159.596043 seconds
+Trial 4 took 1583.554658 seconds, including 159.596043 seconds for training all classifiers
+Creating classifier ../spyrl/result/lunarlander/d2dspl-05//d2dspl-buffer-05-00005000.p took 142.620155 seconds
+Trial 5 took 1774.039837 seconds, including 142.620155 seconds for training all classifiers
+Creating classifier ../spyrl/result/lunarlander/d2dspl-05//d2dspl-buffer-06-00005000.p took 122.348537 seconds
+Trial 6 took 1552.467841 seconds, including 122.348537 seconds for training all classifiers
+Creating classifier ../spyrl/result/lunarlander/d2dspl-05//d2dspl-buffer-07-00005000.p took 143.249274 seconds
+Trial 7 took 1625.838579 seconds, including 143.249274 seconds for training all classifiers
+Creating classifier ../spyrl/result/lunarlander/d2dspl-05//d2dspl-buffer-08-00005000.p took 133.930135 seconds
+Trial 8 took 1559.698555 seconds, including 133.930135 seconds for training all classifiers
+Creating classifier ../spyrl/result/lunarlander/d2dspl-05//d2dspl-buffer-09-00005000.p took 105.38008 seconds
+Trial 9 took 1171.036037 seconds, including 105.38008 seconds for training all classifiers
+Creating classifier ../spyrl/result/lunarlander/d2dspl-05//d2dspl-buffer-10-00005000.p took 104.480324 seconds
+Trial 10 took 1687.566558 seconds, including 104.480324 seconds for training all classifiers
