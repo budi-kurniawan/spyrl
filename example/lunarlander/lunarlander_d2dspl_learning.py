@@ -24,7 +24,7 @@ if __name__ == '__main__':
     num_episodes = 5000
     session_id = '06'
     config = ActivityConfig(num_trials = 10, num_episodes=num_episodes, 
-                            out_path='result/lunarlander/d2dspl-' + str(num_episodes) + session_id + '/')
+                            out_path='result/lunarlander/d2dspl-' + str(num_episodes) + '-' + session_id + '/')
     agent_builder = D2DSPLActorCriticTracesAgentBuilder(num_actions, LunarLanderDiscretiser(), 
                         max_num_samples_for_classifier, None, [50, 50])
     learning = Learning(listener=BasicFunctions(render=False, draw=False, reward_type=RewardType.TOTAL))
