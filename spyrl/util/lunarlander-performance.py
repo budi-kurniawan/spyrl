@@ -71,9 +71,12 @@ if __name__ == '__main__':
     data_sources = [
             BehaviourDataSource(label='acet-5K', data_parent_path=parent + 'acet-01/performance-5000'),
             BehaviourDataSource(label='acet-10K', data_parent_path=parent + 'acet-01/performance-10000'),
-            BehaviourDataSource(label='d2dspl-5K-01', data_parent_path=parent + 'd2dspl-01/performance'),
-            BehaviourDataSource(label='d2dspl-5K-02', data_parent_path=parent + 'd2dspl-02/performance'),
-            BehaviourDataSource(label='d2dspl-5K-03', data_parent_path=parent + 'd2dspl-03/performance'),
-            BehaviourDataSource(label='d2dspl-1K-06', data_parent_path=parent + 'd2dspl-06/performance'),
+            BehaviourDataSource(label='acet-1K', data_parent_path=parent + 'acet-02/performance-1000'),
+            BehaviourDataSource(label='acet-2K', data_parent_path=parent + 'acet-02/performance-2000'),
+            BehaviourDataSource(label='d2dspl-1K-01', data_parent_path=parent + 'd2dspl-1000-01/performance'),
+            BehaviourDataSource(label='d2dspl-5K-01', data_parent_path=parent + 'd2dspl-5000-01/performance'),
+            BehaviourDataSource(label='d2dspl-5K-02', data_parent_path=parent + 'd2dspl-5000-02/performance'),
+            BehaviourDataSource(label='d2dspl-5K-03', data_parent_path=parent + 'd2dspl-5000-03/performance'),
+            #BehaviourDataSource(label='d2dspl-1K-06', data_parent_path=parent + 'd2dspl-1000-06/performance'),
         ]    
     draw(data_sources, result_path)
