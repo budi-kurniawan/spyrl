@@ -20,9 +20,9 @@ __version__ = "0.1.0"
 if __name__ == '__main__':
     env = gym.make('LunarLander-v2')
     num_actions = env.action_space.n
-    max_num_samples_for_classifier = 2000
-    config = ActivityConfig(num_trials = 10, num_episodes=5_000, out_path='result/lunarlander/d2dspl-05/')
+    max_num_samples_for_classifier = 1000
+    config = ActivityConfig(num_trials = 10, num_episodes=1_000, out_path='result/lunarlander/d2dspl-06/')
     agent_builder = D2DSPLActorCriticTracesAgentBuilder(num_actions, LunarLanderDiscretiser(), 
-                        max_num_samples_for_classifier, None, [300, 300])
+                        max_num_samples_for_classifier, None, [128, 128])
     learning = Learning(listener=BasicFunctions(render=False, draw=False, reward_type=RewardType.TOTAL))
     learning.learn(env, agent_builder, config)
