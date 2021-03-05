@@ -20,9 +20,9 @@ __version__ = "0.1.0"
 if __name__ == '__main__':
     env = gym.make('LunarLander-v2')
     num_actions = env.action_space.n
-    max_num_samples_for_classifier = 400
+    max_num_samples_for_classifier = 300
     num_episodes = 5000
-    session_id = '07'
+    session_id = '08'
     config = ActivityConfig(num_trials = 3, num_episodes=num_episodes, 
                             out_path='result/lunarlander/d2dspl-' + str(num_episodes) + '-' + session_id + '/')
     agent_builder = D2DSPLActorCriticTracesAgentBuilder(num_actions, LunarLanderDiscretiser(), 
