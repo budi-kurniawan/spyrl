@@ -23,7 +23,7 @@ __version__ = "0.1.0"
 if __name__ == '__main__':
     env = gym.make('LunarLander-v2')
     num_actions = env.action_space.n
-    num_learning_episodes = 4000
+    num_learning_episodes = 2000
     policy_parent_path = 'result/lunarlander/acet-03/'
     out_path = policy_parent_path + 'performance-'+ str(num_learning_episodes) + '/'
     config = ActivityConfig(num_trials=10, num_episodes=100, out_path=out_path)    
