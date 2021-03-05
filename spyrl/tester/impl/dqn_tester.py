@@ -13,7 +13,8 @@ class DQNTester(Tester):
         
     @override(Tester)
     def select_action(self, state)->int:
-        state = self.normalizer.normalize(state)
+        if self.normaliser is not None:
+            state = self.normaliser.normalise(state)
         scores = self.get_Q(state)
         _, argmax = torch.max(scores.data, 1)
         return int(argmax.numpy())
