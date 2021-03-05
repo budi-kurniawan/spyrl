@@ -1,8 +1,8 @@
 d2dspl-5000-01: 5000 eps, 1000 samples for classifier, hidden layer: [128, 128]
 d2dspl-5000-02: 5000 eps, 2000 samples for classifier, hidden layer: [128, 128]
 d2dspl-5000-03: 5000 eps, 2000 samples for classifier, hidden layer: [50, 50]
-d2dspl-04: 5000 eps, 500 samples for classifier, hidden layer: [128, 128]
-d2dspl-05: 5000 eps, 2000 samples for classifier, hidden layer: [300, 300]
+d2dspl-5000-04: 5000 eps, 500 samples for classifier, hidden layer: [128, 128]
+d2dspl-5000-05: 5000 eps, 2000 samples for classifier, hidden layer: [300, 300]
 d2dspl-5000-06: 5000 eps, 1000 samples for classifier, hidden layer: [50, 50]
 
 
