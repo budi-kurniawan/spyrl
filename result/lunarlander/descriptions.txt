@@ -3,3 +3,7 @@ d2dspl-02: 2000 samples for classifier, hidden layer: [128, 128]
 d2dspl-03: 2000 samples for classifier, hidden layer: [50, 50]
 d2dspl-04: 500 samples for classifier, hidden layer: [128, 128]
 d2dspl-05: 2000 samples for classifier, hidden layer: [300, 300]
+
+
+acet-01: 5K and 10K episodes
+acet-02: 1K and 2K episodes
