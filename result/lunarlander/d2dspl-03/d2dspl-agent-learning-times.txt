@@ -1,0 +1,20 @@
+Creating classifier ../spyrl/result/lunarlander/d2dspl-03//d2dspl-buffer-01-00005000.p took 103.463153 seconds
+Trial 1 took 1906.723551 seconds, including 103.463153 seconds for training all classifiers
+Creating classifier ../spyrl/result/lunarlander/d2dspl-03//d2dspl-buffer-02-00005000.p took 101.098868 seconds
+Trial 2 took 1375.743628 seconds, including 101.098868 seconds for training all classifiers
+Creating classifier ../spyrl/result/lunarlander/d2dspl-03//d2dspl-buffer-03-00005000.p took 105.936217 seconds
+Trial 3 took 2097.917559 seconds, including 105.936217 seconds for training all classifiers
+Creating classifier ../spyrl/result/lunarlander/d2dspl-03//d2dspl-buffer-04-00005000.p took 89.319387 seconds
+Trial 4 took 1605.102785 seconds, including 89.319387 seconds for training all classifiers
+Creating classifier ../spyrl/result/lunarlander/d2dspl-03//d2dspl-buffer-05-00005000.p took 95.643615 seconds
+Trial 5 took 1669.026901 seconds, including 95.643615 seconds for training all classifiers
+Creating classifier ../spyrl/result/lunarlander/d2dspl-03//d2dspl-buffer-06-00005000.p took 106.87359 seconds
+Trial 6 took 2170.162162 seconds, including 106.87359 seconds for training all classifiers
+Creating classifier ../spyrl/result/lunarlander/d2dspl-03//d2dspl-buffer-07-00005000.p took 102.189265 seconds
+Trial 7 took 2095.001025 seconds, including 102.189265 seconds for training all classifiers
+Creating classifier ../spyrl/result/lunarlander/d2dspl-03//d2dspl-buffer-08-00005000.p took 101.29211 seconds
+Trial 8 took 2190.317288 seconds, including 101.29211 seconds for training all classifiers
+Creating classifier ../spyrl/result/lunarlander/d2dspl-03//d2dspl-buffer-09-00005000.p took 100.935952 seconds
+Trial 9 took 2051.334709 seconds, including 100.935952 seconds for training all classifiers
+Creating classifier ../spyrl/result/lunarlander/d2dspl-03//d2dspl-buffer-10-00005000.p took 99.513689 seconds
+Trial 10 took 1740.186305 seconds, including 99.513689 seconds for training all classifiers
