@@ -18,8 +18,8 @@ def draw(data_sources, result_path=None):
     offset = 0
     for ds in data_sources:
         label = ds.label
-        print('label:', label)
         legend_labels.append(label)
+        values = []
         for trial in range(1, 11):
             file = ds.data_parent_path + '/scores-' + str(trial).zfill(2) + '.txt'
             if not os.path.exists(file):
@@ -28,29 +28,18 @@ def draw(data_sources, result_path=None):
             with open(file,'r') as csvfile:
                 plots = csv.reader(csvfile, delimiter=',')
                 for row in plots:
-                    sample = {'episode': row[0], 'value': float(row[1]), 'label':label}
+                    value = float(row[1])
+                    values.append(value)
+                    sample = {'value': value, 'label':label}
                     data.append(sample)
+        print('mean:', np.mean(values), ', median:', np.median(values))
     
     sns.set(style="whitegrid")
     dataFrame = pd.DataFrame(data)
-    bplot = sns.boxplot(x="label", y="value", hue="label", data=dataFrame, whis=np.inf, width=0.6, palette=context['palette'])
-    #bplot = sns.boxplot(data=dataFrame, whis=np.inf, width=0.6, palette=context['palette'])
-    #bplot = sns.swarmplot(data=dataFrame, color=".2")
-    #bplot = sns.boxplot(x="behaviour", y="value", hue="label", data=dataFrame, palette=context['palette'])
-    # currently cannot show data points as this is a 'bug': https://github.com/mwaskom/seaborn/issues/941
-    #ax = sns.swarmplot(x="behaviour", y="value", data=dataFrame, color=".25")
-    
-    #bplot = sns.swarmplot(x="label", y="value", hue="label", data=dataFrame, color=".2")
-
+    bplot = sns.boxplot(x="label", y="value", hue="label", data=dataFrame, linewidth=2.5)
+    #bplot = sns.boxplot(x="label", y="value", data=dataFrame, linewidth=2.5)
     handles, _ = bplot.get_legend_handles_labels()
     bplot.legend(handles, legend_labels)#    facecolors = ('orange', 'lightblue', 'lightgreen', 'green', 'lightyellow', 'lightcyan', 'yellow', 'lightpink', 'red')
-#     artists = bplot.artists
-#     for i in range(len(artists)):
-#         artists[i].set_facecolor(facecolors[i % 8])
-
-#     for i in range(len(baselines)):
-#         baseline = baselines[i]
-#         bplot.plot([-.4 + i, 0.4 + i], [baseline['value'], baseline['value']], linewidth=4, color=context['baseline_color'], zorder=0.5)
     plt.xlabel('Agent')
     plt.ylabel('Average Score')
     if 'ylim' in context:
@@ -69,7 +58,7 @@ if __name__ == '__main__':
               '#f8f8f8', '#e8e8e8', '#d7d7d7', '#909090', '#808080', '#707070',
               'LightGreen', 'MediumSpringGreen', 'GreenYellow', 'Green', 'LightGreen', 'MediumSpringGreen', 'GreenYellow', 'Green'] 
     context['palette'] = colors
-    context['figsize'] = (15, 7.5)
+    context['figsize'] = (5, 5)
 
     result_path = './ac-dqn-so/ac-dqn-morl-performance-boxplot-1.pdf'
     data_sources = [
@@ -78,4 +67,3 @@ if __name__ == '__main__':
             BehaviourDataSource(label='d2dspl-5K', data_parent_path=parent + 'd2dspl-01/performance'),
         ]    
     draw(data_sources, result_path)
-
