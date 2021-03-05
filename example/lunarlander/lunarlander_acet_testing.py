@@ -5,9 +5,9 @@
 import gym
 import sys
 import os
+sys.path.insert(0, "../spyrl")
 from spyrl.tester_builder.impl.actor_critic_tester_builder import ActorCriticTesterBuilder
 from example.lunarlander.helper.lunarlander_discretiser import LunarLanderDiscretiser
-sys.path.insert(0, "../spyrl")
 from spyrl.listener.impl.file_log_listener import RewardType
 from spyrl.activity.testing import Testing
 from spyrl.listener.impl.console_log_listener import ConsoleLogListener
