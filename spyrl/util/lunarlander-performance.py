@@ -79,6 +79,9 @@ if __name__ == '__main__':
             BehaviourDataSource(label='d2dspl-5K-01', data_parent_path=parent + 'd2dspl-5000-01/performance'),
             BehaviourDataSource(label='d2dspl-5K-02', data_parent_path=parent + 'd2dspl-5000-02/performance'),
             BehaviourDataSource(label='d2dspl-5K-03', data_parent_path=parent + 'd2dspl-5000-03/performance'),
+            BehaviourDataSource(label='d2dspl-5K-04', data_parent_path=parent + 'd2dspl-5000-04/performance'),
+            BehaviourDataSource(label='d2dspl-5K-05', data_parent_path=parent + 'd2dspl-5000-05/performance'),
+            BehaviourDataSource(label='d2dspl-5K-06', data_parent_path=parent + 'd2dspl-5000-06/performance'),
             #BehaviourDataSource(label='d2dspl-1K-06', data_parent_path=parent + 'd2dspl-1000-06/performance'),
-        ]    
+        ]
     draw(data_sources, result_path)
