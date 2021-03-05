@@ -25,10 +25,7 @@ class Testing(Activity):
         activity_context = ActivityContext()
         activity_context.out_path = config.out_path
         activity_context.num_episodes = config.num_episodes
-        self.fire_before_session_event(SessionEvent(activity_context))
-    
-        activity_context = ActivityContext()
-        self.fire_before_session_event(SessionEvent(activity_context))
+        self.fire_before_session_event(SessionEvent(activity_context))    
         for trial in range(config.start_trial, end_trial):
             trial_start_time = datetime.now()
             activity_context.trial = trial

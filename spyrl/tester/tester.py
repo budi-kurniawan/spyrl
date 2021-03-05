@@ -6,8 +6,8 @@ class Tester:
 
     def __init__(self, policy_path, **kwargs):
         self.policy_path = policy_path
-        self.discretizer = kwargs.get('discretizer', None)
-        self.normalizer = kwargs.get('normalizer', None)
+        self.discretiser = kwargs.get('discretiser', None)
+        self.normaliser = kwargs.get('normaliser', None)
         self.load_policy()
 
     def trial_start(self, activity_context: ActivityContext) -> None:

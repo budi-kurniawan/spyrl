@@ -128,5 +128,34 @@ if __name__ == '__main__':
             DataSource(name='dqn', data_paths=[parent], labels=['lunarlander-dqn-01'],
                        image_path=None, image_xy=None, result_path='./temp/temp-01.png')
     ]
-    create_charts(data_sources)
+    #create_charts(data_sources)
     
+    
+    parent = '../../../joadia/results/'
+    context['max_records'] = 23000
+    context['start_trial'] = 1
+    context['num_trials'] = 1
+    context['num_avg_samples'] = 20
+    context['show_figures'] = True
+    context['ylim'] = (-60, -30)
+    
+    data_sources = [
+            DataSource(name='Q-learning', data_paths=[parent], labels=['Joadia Q-learning'],
+                       image_path=None, image_xy=None, result_path='./temp/temp-01.png')
+    ]
+    #create_charts(data_sources)
+
+    parent = '../../result/lunarlander/d2dspl-01/'
+    context['max_records'] = 5000
+    context['start_trial'] = 1
+    context['num_trials'] = 10
+    context['num_avg_samples'] = 10
+    context['show_figures'] = True
+    context['ylim'] = (-300, 300)
+    
+    data_sources = [
+            DataSource(name='Q-learning', data_paths=[parent], labels=['D2D-SPL'],
+                       image_path=None, image_xy=None, result_path='./temp/temp-01.png')
+    ]
+    create_charts(data_sources)
+        
