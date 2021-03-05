@@ -20,6 +20,8 @@ def draw(data_sources, result_path=None):
         label = ds.label
         legend_labels.append(label)
         values = []
+        num_solves = 0
+        num_solves2 = []
         for trial in range(1, 11):
             file = ds.data_parent_path + '/scores-' + str(trial).zfill(2) + '.txt'
             if not os.path.exists(file):
@@ -27,12 +29,17 @@ def draw(data_sources, result_path=None):
                 break
             with open(file,'r') as csvfile:
                 plots = csv.reader(csvfile, delimiter=',')
+                solves = 0
                 for row in plots:
                     value = float(row[1])
+                    if value >= 200:
+                        solves += 1
+                        num_solves += 1
                     values.append(value)
                     sample = {'value': value, 'label':label}
                     data.append(sample)
-        print('mean:', np.mean(values), ', median:', np.median(values))
+                num_solves2.append(solves)
+        print(label, ', mean:', np.mean(values), ', median:', np.median(values), ', solves:', num_solves, num_solves2)
     
     sns.set(style="whitegrid")
     dataFrame = pd.DataFrame(data)
@@ -64,7 +71,9 @@ if __name__ == '__main__':
     data_sources = [
             BehaviourDataSource(label='acet-5K', data_parent_path=parent + 'acet-01/performance-5000'),
             BehaviourDataSource(label='acet-10K', data_parent_path=parent + 'acet-01/performance-10000'),
-            BehaviourDataSource(label='d2dspl-5K', data_parent_path=parent + 'd2dspl-01/performance'),
-            BehaviourDataSource(label='d2dspl-5Kb', data_parent_path=parent + 'd2dspl-02/performance'),
+            BehaviourDataSource(label='d2dspl-5K-01', data_parent_path=parent + 'd2dspl-01/performance'),
+            BehaviourDataSource(label='d2dspl-5K-02', data_parent_path=parent + 'd2dspl-02/performance'),
+            BehaviourDataSource(label='d2dspl-5K-03', data_parent_path=parent + 'd2dspl-03/performance'),
+            BehaviourDataSource(label='d2dspl-1K-06', data_parent_path=parent + 'd2dspl-06/performance'),
         ]    
     draw(data_sources, result_path)
