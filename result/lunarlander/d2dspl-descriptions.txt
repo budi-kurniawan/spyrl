@@ -1,0 +1,3 @@
+d2dspl-01: 1000 samples for classifier, hidden layer: [128, 128]
+d2dspl-02: 2000 samples for classifier, hidden layer: [128, 128]
+d2dspl-03: 2000 samples for classifier, hidden layer: [50, 50]
