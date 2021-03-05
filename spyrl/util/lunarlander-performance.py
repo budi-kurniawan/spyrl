@@ -65,5 +65,6 @@ if __name__ == '__main__':
             BehaviourDataSource(label='acet-5K', data_parent_path=parent + 'acet-01/performance-5000'),
             BehaviourDataSource(label='acet-10K', data_parent_path=parent + 'acet-01/performance-10000'),
             BehaviourDataSource(label='d2dspl-5K', data_parent_path=parent + 'd2dspl-01/performance'),
+            BehaviourDataSource(label='d2dspl-5Kb', data_parent_path=parent + 'd2dspl-02/performance'),
         ]    
     draw(data_sources, result_path)
