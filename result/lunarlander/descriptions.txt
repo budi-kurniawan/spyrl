@@ -12,3 +12,4 @@ d2dspl-1000-01: 1000 eps, 1000 samples for classifier, hidden layer: [128, 128]
 
 acet-01: 5K and 10K episodes
 acet-02: 1K and 2K episodes
+acet-03: 2K and 4K episodes

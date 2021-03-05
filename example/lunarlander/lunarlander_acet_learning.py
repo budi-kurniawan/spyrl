@@ -20,9 +20,9 @@ __version__ = "0.1.0"
 if __name__ == '__main__':
     env = gym.make('LunarLander-v2')
     num_actions = env.action_space.n
-    config = ActivityConfig(num_trials=10, num_episodes=2_000, out_path='result/lunarlander/acet-02/')
+    config = ActivityConfig(num_trials=10, num_episodes=4000, out_path='result/lunarlander/acet-03/')
     agent_builder = ActorCriticTracesAgentBuilder(num_actions, discretiser=LunarLanderDiscretiser())
-    milestone_episodes = [1000]
+    milestone_episodes = [2000]
     learning = Learning(listener=BasicFunctions(render=False, draw=False, reward_type=RewardType.TOTAL, 
                         milestone_episodes=milestone_episodes))
     learning.learn(env, agent_builder, config)
