@@ -23,7 +23,7 @@ if __name__ == '__main__':
     env = gym.make('LunarLander-v2')
     num_actions = env.action_space.n
     num_learning_episodes = 5000
-    policy_parent_path = 'result/lunarlander/d2dspl-5000-08/'
+    policy_parent_path = 'result/lunarlander/d2dspl-5000-07/'
     out_path = policy_parent_path + 'performance/'
     config = ActivityConfig(num_trials=3, num_episodes=100, out_path=out_path)    
     policy_parent_path = os.path.join(get_project_dir(), policy_parent_path)    
