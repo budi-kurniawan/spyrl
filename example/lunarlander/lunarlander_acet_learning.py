@@ -11,7 +11,7 @@ from spyrl.agent_builder.impl.actor_critic_traces_agent_builder import ActorCrit
 from spyrl.listener.impl.basic_functions import BasicFunctions
 from spyrl.listener.impl.file_log_listener import RewardType
 from example.lunarlander.helper.lunarlander_discretiser import LunarLanderDiscretiser,\
-    LunarLanderDiscretiser12288
+    LunarLanderDiscretiser12288, LunarLanderDiscretiser24576
 
 __author__ = "Budi Kurniawan"
 __copyright__ = "Copyright 2021, Budi Kurniawan"
@@ -21,8 +21,8 @@ __version__ = "0.1.0"
 if __name__ == '__main__':
     env = gym.make('LunarLander-v2')
     num_actions = env.action_space.n
-    config = ActivityConfig(num_trials=10, num_episodes=10000, out_path='result/lunarlander/acet-11/')
-    agent_builder = ActorCriticTracesAgentBuilder(num_actions, discretiser=LunarLanderDiscretiser12288())
+    config = ActivityConfig(num_trials=3, num_episodes=10000, out_path='result/lunarlander/acet-21/')
+    agent_builder = ActorCriticTracesAgentBuilder(num_actions, discretiser=LunarLanderDiscretiser24576())
     milestone_episodes = [1000, 2000, 4000, 5000, 8000]
     learning = Learning(listener=BasicFunctions(render=False, draw=False, reward_type=RewardType.TOTAL, 
                         milestone_episodes=milestone_episodes))

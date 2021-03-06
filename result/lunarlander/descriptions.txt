@@ -17,3 +17,5 @@ acet-02: 1K and 2K episodes
 acet-03: 2K and 4K episodes
 
 acet-11: 1K, 2K, 4K, 5K, 8K and 10K episodes with Discretiser12288
+
+acet-21: 1K, 2K, 4K, 5K, 8K and 10K episodes with Discretiser24576

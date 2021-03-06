@@ -117,6 +117,8 @@ if __name__ == '__main__':
     
     parent = '../../result/lunarlander/dqn-old/'
     parent2 = '../../result/lunarlander/dqn-old-02/'
+    parent3 = '../../result/lunarlander/dqn-hacked/'
+    parent4 = '../../result/lunarlander/dqn-02/'
     context['max_records'] = 20000
     context['start_trial'] = 1
     context['num_trials'] = 1
@@ -125,7 +127,8 @@ if __name__ == '__main__':
     context['ylim'] = (-800, 200)
     
     data_sources = [
-            DataSource(name='dqn', data_paths=[parent, parent2], labels=['dqn-old', 'dqn-old-02'],
+            DataSource(name='dqn', data_paths=[parent, parent3, parent4], 
+                       labels=['dqn-old', 'dqn-hacked', 'dqn-01'],
                        image_path=None, image_xy=None, result_path='./temp/temp-01.png')
     ]
     create_charts(data_sources)
