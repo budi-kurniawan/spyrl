@@ -4,6 +4,7 @@
 """
 import gym
 import sys
+from example.cartpole.helper.env_wrapper import GymEnvWrapper
 sys.path.insert(0, "../spyrl")
 from spyrl.agent_builder.agent_builder import AgentBuilder
 from spyrl.agent.impl.dqn_agent import DQNAgent
@@ -41,9 +42,11 @@ if __name__ == '__main__':
         max_episode_steps=100_000
     )
     env = gym.make(id)
+    num_actions = env.action_space.n
+    env = GymEnvWrapper(env)
 
-    config = ActivityConfig(start_trial=start_trial, num_trials=1, num_episodes=1000, out_path='result/cartpole/dqn-01/')
-    agent_builder = DQNAgentBuilder(env.action_space.n)
+    config = ActivityConfig(start_trial=start_trial, num_trials=1, num_episodes=1000, out_path='result/cartpole/dqn-01-with-wrapper/')
+    agent_builder = DQNAgentBuilder(num_actions)
     milestone_episodes = []
     learning = Learning(listener=BasicFunctions(render=False, draw=True, milestone_episodes=milestone_episodes, 
             reward_type=RewardType.TOTAL))
