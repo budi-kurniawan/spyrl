@@ -6,7 +6,7 @@ import csv
 import os
 from collections import namedtuple
 
-BehaviourDataSource = namedtuple('BehaviourDataSource', 'label data_parent_path num_trials', defaults=[None, None])
+DataSource = namedtuple('DataSource', 'label data_parent_path num_trials', defaults=[None, None, 10])
 context = {'palette': 'Blues', 'baseline_color': 'red', 'figsize': (15, 5)}
 """ info about the palette: http://seaborn.pydata.org/tutorial/color_palettes.html """
 
@@ -22,7 +22,7 @@ def draw(data_sources, result_path=None):
         values = []
         num_solves = 0
         num_solves2 = []
-        for trial in range(1, 11):
+        for trial in range(1, 1 + ds.num_trials):
             file = ds.data_parent_path + '/scores-' + str(trial).zfill(2) + '.txt'
             if not os.path.exists(file):
                 print(file + " does not exist.")
@@ -69,20 +69,20 @@ if __name__ == '__main__':
 
     result_path = './ac-dqn-so/ac-dqn-morl-performance-boxplot-1.pdf'
     data_sources = [
-            BehaviourDataSource(label='acet-02-1K', data_parent_path=parent + 'acet-02/performance-1000'),
-            BehaviourDataSource(label='acet-02-2K', data_parent_path=parent + 'acet-02/performance-2000'),
-            BehaviourDataSource(label='acet-03-4K', data_parent_path=parent + 'acet-03/performance-4000'),
-            BehaviourDataSource(label='acet-01-5K', data_parent_path=parent + 'acet-01/performance-5000'),
-            BehaviourDataSource(label='acet-01-10K', data_parent_path=parent + 'acet-01/performance-10000'),
-            BehaviourDataSource(label='d2dspl-1K-01', data_parent_path=parent + 'd2dspl-1000-01/performance'),
-            BehaviourDataSource(label='d2dspl-5K-01', data_parent_path=parent + 'd2dspl-5000-01/performance'),
-            BehaviourDataSource(label='d2dspl-5K-02', data_parent_path=parent + 'd2dspl-5000-02/performance'),
-            BehaviourDataSource(label='d2dspl-5K-03', data_parent_path=parent + 'd2dspl-5000-03/performance'),
-            BehaviourDataSource(label='d2dspl-5K-04', data_parent_path=parent + 'd2dspl-5000-04/performance'),
-            BehaviourDataSource(label='d2dspl-5K-05', data_parent_path=parent + 'd2dspl-5000-05/performance'),
-            BehaviourDataSource(label='d2dspl-5K-06', data_parent_path=parent + 'd2dspl-5000-06/performance'),
-            BehaviourDataSource(label='dqn-01-10K', data_parent_path=parent + 'dqn-01/performance-10000'),
-            BehaviourDataSource(label='dqn-01-20K', data_parent_path=parent + 'dqn-01/performance-20000'),
-            #BehaviourDataSource(label='d2dspl-1K-06', data_parent_path=parent + 'd2dspl-1000-06/performance'),
+            DataSource(label='acet-02-1K', data_parent_path=parent + 'acet-02/performance-1000'),
+            DataSource(label='acet-02-2K', data_parent_path=parent + 'acet-02/performance-2000'),
+            DataSource(label='acet-03-4K', data_parent_path=parent + 'acet-03/performance-4000'),
+            DataSource(label='acet-01-5K', data_parent_path=parent + 'acet-01/performance-5000'),
+            DataSource(label='acet-01-10K', data_parent_path=parent + 'acet-01/performance-10000'),
+            DataSource(label='d2dspl-1K-01', data_parent_path=parent + 'd2dspl-1000-01/performance'),
+            DataSource(label='d2dspl-5K-01', data_parent_path=parent + 'd2dspl-5000-01/performance'),
+            DataSource(label='d2dspl-5K-02', data_parent_path=parent + 'd2dspl-5000-02/performance'),
+            DataSource(label='d2dspl-5K-03', data_parent_path=parent + 'd2dspl-5000-03/performance'),
+            DataSource(label='d2dspl-5K-04', data_parent_path=parent + 'd2dspl-5000-04/performance'),
+            DataSource(label='d2dspl-5K-05', data_parent_path=parent + 'd2dspl-5000-05/performance'),
+            DataSource(label='d2dspl-5K-06', data_parent_path=parent + 'd2dspl-5000-06/performance'),
+            DataSource(label='dqn-old-1K', data_parent_path=parent + 'dqn-old/performance-1000', num_trials=1),
+            DataSource(label='dqn-old-2K', data_parent_path=parent + 'dqn-old/performance-2000', num_trials=1),
+            #DataSource(label='d2dspl-1K-06', data_parent_path=parent + 'd2dspl-1000-06/performance'),
         ]
     draw(data_sources, result_path)

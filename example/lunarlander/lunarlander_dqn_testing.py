@@ -17,11 +17,11 @@ from spyrl.util.util import get_project_dir
 if __name__ == '__main__':    
     env = gym.make('LunarLander-v2')
     num_actions = env.action_space.n
-    num_learning_episodes = 20000
-    policy_parent_path = 'result/lunarlander/dqn-01/'
-    out_path = policy_parent_path + 'performance-20000/'
-    config = ActivityConfig(num_trials=10, num_episodes=100, out_path=out_path)    
-    policy_parent_path = os.path.join(get_project_dir(), policy_parent_path)    
+    num_learning_episodes = 1000
+    policy_parent_path = 'result/lunarlander/dqn-old/'
+    out_path = policy_parent_path + 'performance-1000/'
+    config = ActivityConfig(num_trials=1, num_episodes=100, out_path=out_path)    
+    policy_parent_path = os.path.join(get_project_dir(), policy_parent_path)
     
     tester_builder = DQNTesterBuilder(policy_parent_path, num_learning_episodes, None, input_dim=8)
     testing = Testing(listeners=[ConsoleLogListener(), TestResultLogger(RewardType.TOTAL)])
