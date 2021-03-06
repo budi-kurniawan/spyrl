@@ -1,0 +1,2 @@
+Trial 1 finished in 9.172995 seconds.
+Trial 2 finished in 9.555308 seconds.
