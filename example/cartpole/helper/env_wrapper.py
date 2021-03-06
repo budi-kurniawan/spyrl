@@ -1,3 +1,4 @@
+import numpy as np
 class GymEnvWrapper():
     
     def __init__(self, env):
@@ -5,8 +6,8 @@ class GymEnvWrapper():
         
     def reset(self):
         self.env.reset()
-        self.env.state = [0, 0, 0, 0]
-        return [0,0,0,0]
+        self.env.state = np.array([0, 0, 0, 0])
+        return self.env.state
     
     def step(self, action):
         return self.env.step(action)
