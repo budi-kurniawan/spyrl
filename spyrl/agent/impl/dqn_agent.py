@@ -1,15 +1,15 @@
+import pickle
+import numpy as np
+from typing import Dict
+import torch
+import torch.nn as nn
+import torch.optim as optim
 from spyrl.util.util import override
 from spyrl.activity.activity_context import ActivityContext
 from spyrl.agent.torch_seedable_agent import TorchSeedableAgent
 from spyrl.agent.impl.dqn.dqn import DQN, ReplayMemory
-import pickle
-import numpy as np
-import torch
-import torch.nn as nn
-import torch.optim as optim
-from typing import Dict
 
-""" A class representing DQN agents """
+""" A Torch-based class representing DQN agents """
 
 __author__ = 'bkurniawan'
 
@@ -28,6 +28,9 @@ class DQNAgent(TorchSeedableAgent):
 
     @override(TorchSeedableAgent)
     def update(self, activity_context: ActivityContext, state: np.ndarray, action: int, reward: float, next_state: np.ndarray, terminal: bool, env_data: Dict[str, object]) -> None:
+        # hacked
+        if terminal:
+            reward = -1
         self.add_sample(state, action, reward, next_state, terminal)
         self.train()
         
@@ -63,7 +66,9 @@ class DQNAgent(TorchSeedableAgent):
             return self.np_random.choice(self.output_dim)
         else:
             self.dqn.train(mode=False)
-            q_values = self.get_Q(state) if self.normaliser is None else self.get_Q(self.normaliser.normalise(state))
+            if self.normaliser is not None:
+                state = self.normaliser.normalise(state)
+            q_values = self.get_Q(state)
             return int(torch.argmax(q_values))
 
     def get_Q(self, normalised_states: np.ndarray) -> torch.FloatTensor:

@@ -1,1 +1,0 @@
-Trial 1 finished in 424.656339 seconds.

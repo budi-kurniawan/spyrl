@@ -6,6 +6,7 @@ import gym
 import sys
 import os
 sys.path.insert(0, "../spyrl")
+from spyrl.listener.impl.renderer import Renderer
 from spyrl.activity.testing import Testing
 from spyrl.activity.activity_config import ActivityConfig
 from spyrl.listener.impl.test_result_logger import TestResultLogger
@@ -19,10 +20,10 @@ if __name__ == '__main__':
     num_actions = env.action_space.n
     num_learning_episodes = 1000
     policy_parent_path = 'result/lunarlander/dqn-old/'
-    out_path = policy_parent_path + 'performance-1000/'
+    out_path = policy_parent_path + 'performance-1000-b/'
     config = ActivityConfig(num_trials=1, num_episodes=100, out_path=out_path)    
     policy_parent_path = os.path.join(get_project_dir(), policy_parent_path)
     
     tester_builder = DQNTesterBuilder(policy_parent_path, num_learning_episodes, None, input_dim=8)
-    testing = Testing(listeners=[ConsoleLogListener(), TestResultLogger(RewardType.TOTAL)])
+    testing = Testing(listeners=[ConsoleLogListener(), TestResultLogger(RewardType.TOTAL), Renderer()])
     testing.test(env, tester_builder, config)
