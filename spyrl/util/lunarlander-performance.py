@@ -80,7 +80,7 @@ if __name__ == '__main__':
             DataSource(label='acet-21-5K', data_parent_path=parent + 'acet-21/performance-5000', num_trials=3),
 #            DataSource(label='acet-11-8K', data_parent_path=parent + 'acet-11/performance-8000'),
             DataSource(label='acet-21-10K', data_parent_path=parent + 'acet-21/performance-10000', num_trials=3),
-#             DataSource(label='d2dspl-1K-01', data_parent_path=parent + 'd2dspl-1000-01/performance'),
+            DataSource(label='d2dspl-5K-21', data_parent_path=parent + 'd2dspl-5000-21/performance', num_trials=3),
 #             DataSource(label='d2dspl-5K-01', data_parent_path=parent + 'd2dspl-5000-01/performance'),
 #             DataSource(label='d2dspl-5K-02', data_parent_path=parent + 'd2dspl-5000-02/performance'),
 #             DataSource(label='d2dspl-5K-03', data_parent_path=parent + 'd2dspl-5000-03/performance'),

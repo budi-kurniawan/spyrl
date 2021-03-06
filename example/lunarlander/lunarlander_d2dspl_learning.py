@@ -24,7 +24,7 @@ if __name__ == '__main__':
     max_num_samples_for_classifier = 1000
     num_episodes = 5000
     session_id = '21'
-    config = ActivityConfig(num_trials = 3, num_episodes=num_episodes, 
+    config = ActivityConfig(start_trial=4, num_trials = 7, num_episodes=num_episodes, 
                             out_path='result/lunarlander/d2dspl-' + str(num_episodes) + '-' + session_id + '/')
     agent_builder = D2DSPLActorCriticTracesAgentBuilder(num_actions, LunarLanderDiscretiser24576(), 
                         max_num_samples_for_classifier, None, [128, 128])
