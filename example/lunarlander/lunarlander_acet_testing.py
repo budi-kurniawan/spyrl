@@ -16,15 +16,10 @@ from spyrl.listener.impl.test_result_logger import TestResultLogger
 from spyrl.activity.activity_config import ActivityConfig
 from spyrl.util.util import get_project_dir
 
-__author__ = "Budi Kurniawan"
-__copyright__ = "Copyright 2021, Budi Kurniawan"
-__license__ = "GPL"
-__version__ = "0.1.0"
-
 if __name__ == '__main__':
     env = gym.make('LunarLander-v2')
     num_actions = env.action_space.n
-    num_learning_episodes = 10000
+    num_learning_episodes = 1000
     policy_parent_path = 'result/lunarlander/acet-21/'
     out_path = policy_parent_path + 'performance-'+ str(num_learning_episodes) + '/'
     config = ActivityConfig(num_trials=3, num_episodes=100, out_path=out_path)    
