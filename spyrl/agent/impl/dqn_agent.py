@@ -28,9 +28,6 @@ class DQNAgent(TorchSeedableAgent):
 
     @override(TorchSeedableAgent)
     def update(self, activity_context: ActivityContext, state: np.ndarray, action: int, reward: float, next_state: np.ndarray, terminal: bool, env_data: Dict[str, object]) -> None:
-        # hacked
-        if terminal:
-            reward = -1
         self.add_sample(state, action, reward, next_state, terminal)
         self.train()
         

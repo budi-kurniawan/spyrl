@@ -53,6 +53,9 @@ class Learning(Activity):
                     self.fire_before_step_event(StepEvent(activity_context, env=env))
                     action = agent.select_action(state)
                     next_state, reward, terminal, env_data = env.step(action)
+                    if terminal: # hacked
+                        reward = -1
+
                     agent.update(activity_context, state, action, reward, next_state, terminal, env_data)
                     state = next_state
                     ep_reward += reward
