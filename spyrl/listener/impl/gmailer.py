@@ -43,6 +43,7 @@ class Gmailer(TrialListener, SessionListener):
         try:
             self.body = self.session_name + ' earning has started.'
             self.subject = self.session_name + ' learning has started.'
+            self.ok = True
             self.send_email()            
         except:
             print("Cannot send email")
