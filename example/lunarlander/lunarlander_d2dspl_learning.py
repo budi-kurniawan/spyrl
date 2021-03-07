@@ -22,15 +22,15 @@ __version__ = "0.1.0"
 if __name__ == '__main__':
     env = gym.make('LunarLander-v2')
     num_actions = env.action_space.n
-    max_num_samples_for_classifier = 1000
-    num_episodes = 50
-    session_id = 'dummy'
-    milestone_episodes = [5, 10]
-    config = ActivityConfig(start_trial=1, num_trials = 2, num_episodes=num_episodes, 
-                            out_path='result/lunarlander/d2dspl-' + str(num_episodes) + '-' + session_id + '/')
+    max_num_samples_for_classifier = 500
+    num_episodes = 10000
+    session_id = '22'
+    milestone_episodes = [5000, 10000]
+    config = ActivityConfig(start_trial=1, num_trials = 10, num_episodes=num_episodes, 
+                            out_path='result/lunarlander/d2dspl-acet-' + str(num_episodes) + '-' + session_id + '/')
     agent_builder = D2DSPLActorCriticTracesAgentBuilder(num_actions, LunarLanderDiscretiser24576(), 
                         max_num_samples_for_classifier, None, [128, 128])
     learning = Learning(listener=BasicFunctions(render=False, draw=False, reward_type=RewardType.TOTAL, 
                 milestone_episodes=milestone_episodes))
-    learning.add_listener(Gmailer("D2DSPL with AC"))
+    learning.add_listener(Gmailer("D2DSPL-ACET-22"))
     learning.learn(env, agent_builder, config)
