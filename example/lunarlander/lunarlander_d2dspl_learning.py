@@ -4,8 +4,8 @@
 """
 import gym
 import sys
-from spyrl.listener.impl.gmailer import Gmailer
 sys.path.insert(0, "../spyrl")
+from spyrl.listener.impl.gmailer import Gmailer
 from spyrl.activity.learning import Learning
 from spyrl.activity.activity_config import ActivityConfig
 from spyrl.agent_builder.impl.d2dspl_actor_critic_traces_agent_builder import D2DSPLActorCriticTracesAgentBuilder
