@@ -59,6 +59,16 @@ class Gmailer(TrialListener, SessionListener):
             self.send_email()
         except:
             print("Cannot send email")
+
+    @override(TrialListener)
+    def after_trial(self, event):
+        trial = event.activity_context.trial
+        try:
+            self.body = self.session_name + ' learning has finished trial ' + str(trial)
+            self.subject = self.session_name + ' learning has finished trial ' + str(trial)
+            self.send_email()
+        except:
+            print("Cannot send email")
         
     def send_email(self):
         if not self.ok:
