@@ -4,3 +4,17 @@ Creating classifier ../spyrl/result/lunarlander/d2dspl-5000-21//d2dspl-buffer-02
 Trial 2 took 1187.664086 seconds, including 12.291605 seconds for training all classifiers
 Creating classifier ../spyrl/result/lunarlander/d2dspl-5000-21//d2dspl-buffer-03-00005000.p took 38.36255 seconds
 Trial 3 took 1178.130486 seconds, including 38.36255 seconds for training all classifiers
+Creating classifier ../spyrl/result/lunarlander/d2dspl-5000-21//d2dspl-buffer-04-00005000.p took 30.301191 seconds
+Trial 4 took 1158.703133 seconds, including 30.301191 seconds for training all classifiers
+Creating classifier ../spyrl/result/lunarlander/d2dspl-5000-21//d2dspl-buffer-05-00005000.p took 32.627558 seconds
+Trial 5 took 1793.140299 seconds, including 32.627558 seconds for training all classifiers
+Creating classifier ../spyrl/result/lunarlander/d2dspl-5000-21//d2dspl-buffer-06-00005000.p took 33.546663 seconds
+Trial 6 took 1145.659217 seconds, including 33.546663 seconds for training all classifiers
+Creating classifier ../spyrl/result/lunarlander/d2dspl-5000-21//d2dspl-buffer-07-00005000.p took 42.210721 seconds
+Trial 7 took 1136.403157 seconds, including 42.210721 seconds for training all classifiers
+Creating classifier ../spyrl/result/lunarlander/d2dspl-5000-21//d2dspl-buffer-08-00005000.p took 45.534849 seconds
+Trial 8 took 1383.862996 seconds, including 45.534849 seconds for training all classifiers
+Creating classifier ../spyrl/result/lunarlander/d2dspl-5000-21//d2dspl-buffer-09-00005000.p took 49.366898 seconds
+Trial 9 took 1078.42719 seconds, including 49.366898 seconds for training all classifiers
+Creating classifier ../spyrl/result/lunarlander/d2dspl-5000-21//d2dspl-buffer-10-00005000.p took 57.64184 seconds
+Trial 10 took 1244.791559 seconds, including 57.64184 seconds for training all classifiers
