@@ -1,3 +1,10 @@
 Trial 1 finished in 3091.005869 seconds on dnnserver
 Trial 2 finished in 5109.095084 seconds on dnnserver
 Trial 3 finished in 3692.817094 seconds on dnnserver
+Trial 4 finished in 2274.615301 seconds on richard-System-Product-Name
+Trial 5 finished in 3058.969831 seconds on richard-System-Product-Name
+Trial 6 finished in 2317.97401 seconds on richard-System-Product-Name
+Trial 7 finished in 2389.378117 seconds on richard-System-Product-Name
+Trial 8 finished in 2844.822843 seconds on richard-System-Product-Name
+Trial 9 finished in 2135.817407 seconds on richard-System-Product-Name
+Trial 10 finished in 2593.681396 seconds on richard-System-Product-Name
