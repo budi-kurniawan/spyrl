@@ -4,7 +4,6 @@ from email.mime.text import MIMEText
 from spyrl.listener.session_listener import SessionListener
 from spyrl.listener.trial_listener import TrialListener
 from spyrl.util.util import override
-from docutils.parsers.rst.directives import body
 
 ''' Send email through a gmail account when learning has started and when learning has finished.
     For this to be successful, the Gmail account must be configured to allow sending emails from non-gmail interfaces 
