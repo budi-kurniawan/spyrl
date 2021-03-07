@@ -5,6 +5,7 @@
 import gym
 import sys
 import os
+from spyrl.listener.impl.renderer import Renderer
 sys.path.insert(0, "../spyrl")
 from spyrl.listener.impl.file_log_listener import RewardType
 from spyrl.tester_builder.impl.d2dspl_actor_critic_traces_tester_builder import D2DSPLActorCriticTracesTesterBuilder
@@ -22,12 +23,13 @@ __version__ = "0.1.0"
 if __name__ == '__main__':
     env = gym.make('LunarLander-v2')
     num_actions = env.action_space.n
-    num_learning_episodes = 5000
-    policy_parent_path = 'result/lunarlander/d2dspl-5000-21/'
-    out_path = policy_parent_path + 'performance/'
-    config = ActivityConfig(start_trial=4, num_trials=7, num_episodes=100, out_path=out_path)    
+    num_learning_episodes = 25
+    policy_parent_path = 'result/lunarlander/d2dspl-50-dummy/'
+    out_path = policy_parent_path + 'performance-d2dspl/'
+    config = ActivityConfig(start_trial=1, num_trials=1, num_episodes=100, out_path=out_path)    
     policy_parent_path = os.path.join(get_project_dir(), policy_parent_path)    
     
     tester_builder = D2DSPLActorCriticTracesTesterBuilder(policy_parent_path, num_learning_episodes, None)    
     testing = Testing(listeners=[ConsoleLogListener(), TestResultLogger(RewardType.TOTAL)])
+    testing.add_listener(Renderer())
     testing.test(env, tester_builder, config)

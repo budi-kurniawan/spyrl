@@ -26,8 +26,9 @@ class D2DSPLActorCriticTracesAgent(SeedableAgent):
         self.discretiser = discretiser
         self.buffer = []
         self.base_agent = ActorCriticTracesAgent(num_actions, discretiser, seed, None)
+        self.d2dspl_done = False
 
-    @override(ActorCriticTracesAgent)
+    @override(SeedableAgent)
     def episode_start(self, activity_context: ActivityContext) -> None:
         # reset traces
         self.base_agent.episode_start(activity_context)
@@ -43,45 +44,55 @@ class D2DSPLActorCriticTracesAgent(SeedableAgent):
     @override(SeedableAgent)
     def episode_end(self, activity_context: ActivityContext) -> None:
         episode = activity_context.episode
-        buffer = self.buffer
-        buffer.append((episode, self.ep_reward, self.state_stats, self.state_visits, self.next_state_stats, self.reward_stats))
-        if episode % self.buffer_trim_interval == 0:
-            print('trim buffer at episode ', episode)
-            buffer.sort(key=lambda tup: tup[1], reverse=True) # sorted by ep_reward, biggest on top
-            del buffer[self.max_num_samples_for_classifier : ] # keep the first n samples with the highest ep_rewards
-        if episode == activity_context.num_episodes:
-            if len(buffer) > self.max_num_samples_for_classifier:
-                print('trim buffer before saving it')
+        if episode <= self.d2dspl_num_episodes:
+            buffer = self.buffer
+            buffer.append((episode, self.ep_reward, self.state_stats, self.state_visits, self.next_state_stats, self.reward_stats))
+            if episode % self.buffer_trim_interval == 0:
+                print('trim buffer at episode ', episode)
                 buffer.sort(key=lambda tup: tup[1], reverse=True) # sorted by ep_reward, biggest on top
-                del buffer[self.max_num_samples_for_classifier : ] # keep the first n samples with the highest ep_rewards            
-            out_path = activity_context.out_path
-            trial = activity_context.trial
-            buffer_path = out_path + '/d2dspl-buffer-' + str(trial).zfill(2) + '-' + str(episode).zfill(8) + '.p'
-            # not saving buffer as it is too big (2GB)
-#             pickle.dump(buffer, open(buffer_path, "wb"))
-            normalised_training_set = self.create_training_set(trial, episode, out_path)
-            print('creating classifier learning for buffer ', buffer_path)
-            start_time = datetime.now()
-            self.create_classifier(trial, episode, out_path, normalised_training_set)            
-            end_time = datetime.now()
-            num_seconds = (end_time - start_time).total_seconds()
-            self.time_spent_on_creating_classifiers += num_seconds
-            self.write_to_learning_times_file(out_path, 'Creating classifier ' + buffer_path + ' took ' + str(num_seconds) + ' seconds')
+                del buffer[self.max_num_samples_for_classifier : ] # keep the first n samples with the highest ep_rewards
+            if episode == self.d2dspl_num_episodes:
+                if len(buffer) > self.max_num_samples_for_classifier:
+                    print('trim buffer before saving it')
+                    buffer.sort(key=lambda tup: tup[1], reverse=True) # sorted by ep_reward, biggest on top
+                    del buffer[self.max_num_samples_for_classifier : ] # keep the first n samples with the highest ep_rewards            
+                out_path = activity_context.out_path
+                trial = activity_context.trial
+                buffer_path = os.path.join(out_path, 'd2dspl-buffer-' + str(trial).zfill(2) + '-' + str(episode).zfill(8) + '.p')
+                # not saving buffer as it is too big (2GB)
+    #             pickle.dump(buffer, open(buffer_path, "wb"))
+                normalised_training_set = self.create_training_set(trial, episode, out_path)
+                print('creating classifier learning for buffer ', buffer_path)
+                start_time = datetime.now()
+                self.create_classifier(trial, episode, out_path, normalised_training_set)            
+                end_time = datetime.now()
+                num_seconds = (end_time - start_time).total_seconds()
+                self.time_spent_on_creating_classifiers += num_seconds
+                self.write_to_learning_times_file(out_path, 'Creating classifier ' + buffer_path + ' took ' + str(num_seconds) + ' seconds')
+        if episode == self.d2dspl_num_episodes:
+            del self.buffer
+            self.d2dspl_done = True
         
-    @override(ActorCriticTracesAgent)
+    @override(SeedableAgent)
     def update(self, activity_context, state, action, reward, next_state, terminal, env_data) -> None:
         self.base_agent.update(activity_context, state, action, reward, next_state, terminal, env_data)
-        self.ep_reward += reward
-        discrete_state = self.discretiser.discretise(state)
-        self.state_visits[discrete_state] += 1
-        self.state_stats[discrete_state] += state
-        self.next_state_stats[discrete_state] += next_state
-        self.reward_stats[discrete_state] += reward
+        if not self.d2dspl_done:
+            self.ep_reward += reward
+            discrete_state = self.discretiser.discretise(state)
+            self.state_visits[discrete_state] += 1
+            self.state_stats[discrete_state] += state
+            self.next_state_stats[discrete_state] += next_state
+            self.reward_stats[discrete_state] += reward
 
     def select_action(self, state) -> int:
         return self.base_agent.select_action(state)
 
-    @override(ActorCriticTracesAgent)
+    @override(SeedableAgent)
+    def trial_start(self, activity_context: ActivityContext):
+        num_episodes = activity_context.num_episodes
+        self.d2dspl_num_episodes = num_episodes // 2
+
+    @override(SeedableAgent)
     def trial_end(self, activity_context: ActivityContext):
         trial = activity_context.trial
         trial_end_time = datetime.now()
@@ -89,7 +100,6 @@ class D2DSPLActorCriticTracesAgent(SeedableAgent):
         msg = 'Trial ' + str(trial) + ' took ' + str(trial_duration_in_seconds) + ' seconds, ' + \
                 'including ' + str(self.time_spent_on_creating_classifiers) + ' seconds for training all classifiers'
         self.write_to_learning_times_file(activity_context.out_path, msg)
-        del self.buffer
 
     def create_training_set(self, trial, episode, out_path):
         normalised_training_set = []
@@ -149,3 +159,7 @@ class D2DSPLActorCriticTracesAgent(SeedableAgent):
         learning_times_file = open(os.path.join(out_path, 'd2dspl-agent-learning-times.txt'), 'a+')
         learning_times_file.write(message + '\n')        
         learning_times_file.close()
+        
+    @override(SeedableAgent)        
+    def save_policy(self, path) -> None:
+        self.base_agent.save_policy(path)

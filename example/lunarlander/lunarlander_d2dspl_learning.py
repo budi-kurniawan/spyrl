@@ -4,6 +4,7 @@
 """
 import gym
 import sys
+from spyrl.listener.impl.gmailer import Gmailer
 sys.path.insert(0, "../spyrl")
 from spyrl.activity.learning import Learning
 from spyrl.activity.activity_config import ActivityConfig
@@ -22,11 +23,14 @@ if __name__ == '__main__':
     env = gym.make('LunarLander-v2')
     num_actions = env.action_space.n
     max_num_samples_for_classifier = 1000
-    num_episodes = 5000
-    session_id = '21'
-    config = ActivityConfig(start_trial=4, num_trials = 7, num_episodes=num_episodes, 
+    num_episodes = 50
+    session_id = 'dummy'
+    milestone_episodes = [5, 10]
+    config = ActivityConfig(start_trial=1, num_trials = 2, num_episodes=num_episodes, 
                             out_path='result/lunarlander/d2dspl-' + str(num_episodes) + '-' + session_id + '/')
     agent_builder = D2DSPLActorCriticTracesAgentBuilder(num_actions, LunarLanderDiscretiser24576(), 
                         max_num_samples_for_classifier, None, [128, 128])
-    learning = Learning(listener=BasicFunctions(render=False, draw=False, reward_type=RewardType.TOTAL))
+    learning = Learning(listener=BasicFunctions(render=False, draw=False, reward_type=RewardType.TOTAL, 
+                milestone_episodes=milestone_episodes))
+    learning.add_listener(Gmailer("D2DSPL with AC"))
     learning.learn(env, agent_builder, config)
