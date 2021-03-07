@@ -22,7 +22,7 @@ if __name__ == '__main__':
     num_learning_episodes = 5000
     policy_parent_path = 'result/lunarlander/d2dspl-acet-10000-22/'
     out_path = policy_parent_path + 'performance-acet-'+ str(num_learning_episodes) + '/'
-    config = ActivityConfig(start_trial=1, num_trials=1, num_episodes=100, out_path=out_path)    
+    config = ActivityConfig(start_trial=2, num_trials=9, num_episodes=100, out_path=out_path)    
     policy_parent_path = os.path.join(get_project_dir(), policy_parent_path)
     tester_builder = ActorCriticTesterBuilder(policy_parent_path, num_learning_episodes, LunarLanderDiscretiser24576())
     testing = Testing(listeners=[ConsoleLogListener(), TestResultLogger(RewardType.TOTAL)])

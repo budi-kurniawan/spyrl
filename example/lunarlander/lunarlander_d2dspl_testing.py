@@ -5,8 +5,8 @@
 import gym
 import sys
 import os
-from spyrl.listener.impl.renderer import Renderer
 sys.path.insert(0, "../spyrl")
+from spyrl.listener.impl.renderer import Renderer
 from spyrl.listener.impl.file_log_listener import RewardType
 from spyrl.tester_builder.impl.d2dspl_actor_critic_traces_tester_builder import D2DSPLActorCriticTracesTesterBuilder
 from spyrl.activity.testing import Testing
@@ -31,5 +31,5 @@ if __name__ == '__main__':
     
     tester_builder = D2DSPLActorCriticTracesTesterBuilder(policy_parent_path, num_learning_episodes, None)    
     testing = Testing(listeners=[ConsoleLogListener(), TestResultLogger(RewardType.TOTAL)])
-    testing.add_listener(Renderer())
+    #testing.add_listener(Renderer())
     testing.test(env, tester_builder, config)
