@@ -1,0 +1,6 @@
+Creating classifier ../spyrl/result/lunarlander/d2dspl-5000-21//d2dspl-buffer-01-00005000.p took 123.228136 seconds
+Trial 1 took 1687.312764 seconds, including 123.228136 seconds for training all classifiers
+Creating classifier ../spyrl/result/lunarlander/d2dspl-5000-21//d2dspl-buffer-02-00005000.p took 199.650608 seconds
+Trial 2 took 2417.690665 seconds, including 199.650608 seconds for training all classifiers
+Creating classifier ../spyrl/result/lunarlander/d2dspl-5000-21//d2dspl-buffer-03-00005000.p took 73.426235 seconds
+Trial 3 took 2040.269825 seconds, including 73.426235 seconds for training all classifiers
