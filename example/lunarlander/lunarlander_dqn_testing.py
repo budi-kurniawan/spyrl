@@ -25,5 +25,5 @@ if __name__ == '__main__':
     policy_parent_path = os.path.join(get_project_dir(), policy_parent_path)
     
     tester_builder = DQNTesterBuilder(policy_parent_path, num_learning_episodes, None, input_dim=8)
-    testing = Testing(listeners=[ConsoleLogListener(), TestResultLogger(RewardType.TOTAL), Renderer()])
+    testing = Testing(listeners=[ConsoleLogListener(), TestResultLogger(RewardType.TOTAL)])
     testing.test(env, tester_builder, config)
