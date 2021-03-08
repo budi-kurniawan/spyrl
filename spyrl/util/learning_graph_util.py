@@ -118,17 +118,17 @@ if __name__ == '__main__':
     parent = '../../result/lunarlander/dqn-old/'
     parent2 = '../../result/lunarlander/dqn-old-02/'
     parent3 = '../../result/lunarlander/dqn-hacked/'
-    parent4 = '../../result/lunarlander/dqn-02/'
-    context['max_records'] = 500
+    parent4 = '../../result/lunarlander/dqn-03/'
+    context['max_records'] = 10000
     context['start_trial'] = 1
-    context['num_trials'] = 1
-    context['num_avg_samples'] = 1
+    context['num_trials'] = 10
+    context['num_avg_samples'] = 10
     context['show_figures'] = True
     context['ylim'] = (-800, 200)
     
     data_sources = [
-            DataSource(name='dqn', data_paths=[parent, parent3, parent4], 
-                       labels=['dqn-old', 'dqn-hacked', 'dqn-01'],
+            DataSource(name='dqn', data_paths=[parent4], 
+                       labels=['dqn-03'],
                        image_path=None, image_xy=None, result_path='./temp/temp-01.png')
     ]
     create_charts(data_sources)
