@@ -11,6 +11,7 @@ from spyrl.listener.impl.file_log_listener import RewardType
 from spyrl.activity.learning import Learning
 from spyrl.activity.activity_config import ActivityConfig
 from spyrl.listener.impl.basic_functions import BasicFunctions
+from spyrl.listener.impl.gmailer import Gmailer
 
 __author__ = "Budi Kurniawan"
 __copyright__ = "Copyright 2021, Budi Kurniawan"
@@ -35,9 +36,11 @@ if __name__ == '__main__':
         start_trial = int(sys.argv[1])
     
     env = gym.make('LunarLander-v2')
-    config = ActivityConfig(start_trial=start_trial, num_trials=3, num_episodes=10000, out_path='result/lunarlander/dqn-03/')
+    config = ActivityConfig(start_trial=start_trial, num_trials=10, num_episodes=10000, out_path='result/lunarlander/dqn-03/')
     agent_builder = DQNAgentBuilder(env.action_space.n)
     milestone_episodes = [1000,2000,3000,4000,5000,6000,7000,8000,9000]
     learning = Learning(listener=BasicFunctions(render=False, draw=False, milestone_episodes=milestone_episodes, 
             reward_type=RewardType.TOTAL))
+    learning.add_listener(Gmailer("DQN-03"))
+    
     learning.learn(env, agent_builder, config)
