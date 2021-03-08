@@ -5,8 +5,11 @@ from spyrl.listener.session_listener import SessionListener
 from spyrl.listener.trial_listener import TrialListener
 from spyrl.util.util import override
 
-''' Send email through a gmail account when learning has started and when learning has finished.
-    For this to be successful, the Gmail account must be configured to allow sending emails from non-gmail interfaces 
+''' Send email through a gmail account when learning has started or finished.
+    The Gmail account must be configured to allow sending emails from non-gmail interfaces:
+
+    - Go to https://myaccount.google.com/security, then change "Allow less secure app" to 'on'
+
     The gmail account, password and the target email must be stored in a spyrl.gmail.config file in the user's home directory.
     This setting is meant so that no gmail / password is checked in to a source control.
     The spyrl.gmail.config file must have these 3 lines, such as these:

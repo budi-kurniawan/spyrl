@@ -90,6 +90,7 @@ if __name__ == '__main__':
 #             DataSource(label='d2dspl-5K-08', data_parent_path=parent + 'd2dspl-5000-08/performance', num_trials=3),
 #             DataSource(label='d2dspl-5K-21', data_parent_path=parent + 'd2dspl-5000-21/performance'),
             DataSource(label='ACET-5K-22', data_parent_path=parent + 'd2dspl-acet-10000-22/performance-acet-5000'),
+            DataSource(label='ACET-10K-22', data_parent_path=parent + 'd2dspl-acet-10000-22/performance-acet-10000'),
             DataSource(label='d2dspl-5K-22', data_parent_path=parent + 'd2dspl-acet-10000-22/performance-d2dspl'),
 #             DataSource(label='dqn-old-1K', data_parent_path=parent + 'dqn-old/performance-1000', num_trials=1),
 #             DataSource(label='dqn-old-2K', data_parent_path=parent + 'dqn-old/performance-2000', num_trials=1),
