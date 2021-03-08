@@ -4,10 +4,9 @@
 """
 import gym
 import sys
-from spyrl.agent.impl.double_dqn_agent import DoubleDQNAgent
 sys.path.insert(0, "../spyrl")
 from spyrl.agent_builder.agent_builder import AgentBuilder
-from spyrl.agent.impl.dqn_agent import DQNAgent
+from spyrl.agent.impl.double_dqn_agent import DoubleDQNAgent
 from spyrl.listener.impl.file_log_listener import RewardType
 from spyrl.activity.learning import Learning
 from spyrl.activity.activity_config import ActivityConfig
