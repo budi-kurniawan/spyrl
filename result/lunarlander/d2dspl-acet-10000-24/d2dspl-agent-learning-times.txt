@@ -1,0 +1,20 @@
+Creating classifier ../spyrl/result/lunarlander/d2dspl-acet-10000-24/d2dspl-buffer-01-00005000.p took 9.396892 seconds
+Trial 1 took 2588.486999 seconds, including 9.396892 seconds for training all classifiers
+Creating classifier ../spyrl/result/lunarlander/d2dspl-acet-10000-24/d2dspl-buffer-02-00005000.p took 9.513064 seconds
+Trial 2 took 2516.33057 seconds, including 9.513064 seconds for training all classifiers
+Creating classifier ../spyrl/result/lunarlander/d2dspl-acet-10000-24/d2dspl-buffer-03-00005000.p took 40.722019 seconds
+Trial 3 took 5056.008272 seconds, including 40.722019 seconds for training all classifiers
+Creating classifier ../spyrl/result/lunarlander/d2dspl-acet-10000-24/d2dspl-buffer-04-00005000.p took 24.919111 seconds
+Trial 4 took 2550.321267 seconds, including 24.919111 seconds for training all classifiers
+Creating classifier ../spyrl/result/lunarlander/d2dspl-acet-10000-24/d2dspl-buffer-05-00005000.p took 12.220617 seconds
+Trial 5 took 3040.79445 seconds, including 12.220617 seconds for training all classifiers
+Creating classifier ../spyrl/result/lunarlander/d2dspl-acet-10000-24/d2dspl-buffer-06-00005000.p took 13.069059 seconds
+Trial 6 took 2297.826837 seconds, including 13.069059 seconds for training all classifiers
+Creating classifier ../spyrl/result/lunarlander/d2dspl-acet-10000-24/d2dspl-buffer-07-00005000.p took 33.462078 seconds
+Trial 7 took 2398.68886 seconds, including 33.462078 seconds for training all classifiers
+Creating classifier ../spyrl/result/lunarlander/d2dspl-acet-10000-24/d2dspl-buffer-08-00005000.p took 20.187977 seconds
+Trial 8 took 2792.885902 seconds, including 20.187977 seconds for training all classifiers
+Creating classifier ../spyrl/result/lunarlander/d2dspl-acet-10000-24/d2dspl-buffer-09-00005000.p took 27.367406 seconds
+Trial 9 took 2185.520511 seconds, including 27.367406 seconds for training all classifiers
+Creating classifier ../spyrl/result/lunarlander/d2dspl-acet-10000-24/d2dspl-buffer-10-00005000.p took 38.305955 seconds
+Trial 10 took 2661.861964 seconds, including 38.305955 seconds for training all classifiers
