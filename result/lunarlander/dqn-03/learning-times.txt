@@ -1,0 +1,10 @@
+Trial 1 finished in 2536.077368 seconds on richard-System-Product-Name
+Trial 2 finished in 2466.4591 seconds on richard-System-Product-Name
+Trial 3 finished in 2515.69364 seconds on richard-System-Product-Name
+Trial 4 finished in 2496.02919 seconds on richard-System-Product-Name
+Trial 5 finished in 2525.772175 seconds on richard-System-Product-Name
+Trial 6 finished in 2520.790827 seconds on richard-System-Product-Name
+Trial 7 finished in 3288.960915 seconds on richard-System-Product-Name
+Trial 8 finished in 2551.571876 seconds on richard-System-Product-Name
+Trial 9 finished in 2100.946659 seconds on richard-System-Product-Name
+Trial 10 finished in 2527.676207 seconds on richard-System-Product-Name
