@@ -1,0 +1,20 @@
+Creating classifier ../spyrl/result/lunarlander/d2dspl-acet-10000-23/d2dspl-buffer-01-00005000.p took 8.135178 seconds
+Trial 1 took 2548.856203 seconds, including 8.135178 seconds for training all classifiers
+Creating classifier ../spyrl/result/lunarlander/d2dspl-acet-10000-23/d2dspl-buffer-02-00005000.p took 8.454657 seconds
+Trial 2 took 2504.403644 seconds, including 8.454657 seconds for training all classifiers
+Creating classifier ../spyrl/result/lunarlander/d2dspl-acet-10000-23/d2dspl-buffer-03-00005000.p took 42.014275 seconds
+Trial 3 took 2376.910672 seconds, including 42.014275 seconds for training all classifiers
+Creating classifier ../spyrl/result/lunarlander/d2dspl-acet-10000-23/d2dspl-buffer-04-00005000.p took 26.760312 seconds
+Trial 4 took 2243.919657 seconds, including 26.760312 seconds for training all classifiers
+Creating classifier ../spyrl/result/lunarlander/d2dspl-acet-10000-23/d2dspl-buffer-05-00005000.p took 11.999162 seconds
+Trial 5 took 2980.65092 seconds, including 11.999162 seconds for training all classifiers
+Creating classifier ../spyrl/result/lunarlander/d2dspl-acet-10000-23/d2dspl-buffer-06-00005000.p took 12.90374 seconds
+Trial 6 took 2247.054097 seconds, including 12.90374 seconds for training all classifiers
+Creating classifier ../spyrl/result/lunarlander/d2dspl-acet-10000-23/d2dspl-buffer-07-00005000.p took 32.974105 seconds
+Trial 7 took 2356.264096 seconds, including 32.974105 seconds for training all classifiers
+Creating classifier ../spyrl/result/lunarlander/d2dspl-acet-10000-23/d2dspl-buffer-08-00005000.p took 20.615256 seconds
+Trial 8 took 2743.468126 seconds, including 20.615256 seconds for training all classifiers
+Creating classifier ../spyrl/result/lunarlander/d2dspl-acet-10000-23/d2dspl-buffer-09-00005000.p took 27.14402 seconds
+Trial 9 took 2134.557236 seconds, including 27.14402 seconds for training all classifiers
+Creating classifier ../spyrl/result/lunarlander/d2dspl-acet-10000-23/d2dspl-buffer-10-00005000.p took 32.98342 seconds
+Trial 10 took 2592.810478 seconds, including 32.98342 seconds for training all classifiers
