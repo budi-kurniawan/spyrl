@@ -27,20 +27,27 @@ def draw(data_sources, result_path=None):
             if not os.path.exists(file):
                 print(file + " does not exist.")
                 break
+            trial_values = []
+            solves = 0
             with open(file,'r') as csvfile:
                 plots = csv.reader(csvfile, delimiter=',')
-                solves = 0
                 for row in plots:
                     value = float(row[1])
                     if value >= 200:
                         solves += 1
                         num_solves += 1
+                        value = 200
+                    if value < 0:
+                        value = 0
+                    trial_values.append(value)
                     values.append(value)
                     sample = {'value': value, 'label':label}
                     data.append(sample)
-                num_solves2.append(solves)
+            num_solves2.append(solves)
+            print('trial:', trial, ', mean:', np.mean(trial_values), ', median:', np.median(trial_values))
         print(label, ', mean:', np.mean(values), ', median:', np.median(values), ', solves:', num_solves, num_solves2)
-    
+
+    return    
     sns.set(style="whitegrid")
     dataFrame = pd.DataFrame(data)
     bplot = sns.boxplot(x="label", y="value", hue="label", data=dataFrame, linewidth=2.5)
@@ -92,6 +99,8 @@ if __name__ == '__main__':
             DataSource(label='ACET-5K-22', data_parent_path=parent + 'd2dspl-acet-10000-22/performance-acet-5000'),
             DataSource(label='ACET-10K-22', data_parent_path=parent + 'd2dspl-acet-10000-22/performance-acet-10000'),
             DataSource(label='d2dspl-5K-22', data_parent_path=parent + 'd2dspl-acet-10000-22/performance-d2dspl'),
+            DataSource(label='d2dspl-5K-23', data_parent_path=parent + 'd2dspl-acet-10000-23/performance-d2dspl'),
+# bad result            DataSource(label='d2dspl-5K-24', data_parent_path=parent + 'd2dspl-acet-10000-24/performance-d2dspl'),
 #             DataSource(label='dqn-old-1K', data_parent_path=parent + 'dqn-old/performance-1000', num_trials=1),
 #             DataSource(label='dqn-old-2K', data_parent_path=parent + 'dqn-old/performance-2000', num_trials=1),
             #DataSource(label='d2dspl-1K-06', data_parent_path=parent + 'd2dspl-1000-06/performance'),

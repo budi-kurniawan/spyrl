@@ -20,6 +20,10 @@ acet-11: 1K, 2K, 4K, 5K, 8K and 10K episodes with Discretiser12288
 
 acet-21: 1K, 2K, 4K, 5K, 8K and 10K episodes with Discretiser24576
 
-d2dspl-acet-22: 5K, 10K, 500 samples for c, hidden layer [128, 128], Discretiser24576
-d2dspl-acet-23: 5K, 10K, 500 samples for c, hidden layer [100, 100], Discretiser24576
-d2dspl-acet-24: 5K, 10K, 500 samples for c, hidden layer [80, 80], Discretiser24576
+d2dspl-acet-22 (good, best so far): 5K, 10K, 500 samples for c, hidden layer [128, 128], Discretiser24576
+d2dspl-acet-23 (bad): 5K, 10K, 500 samples for c, hidden layer [100, 100], Discretiser24576
+d2dspl-acet-24 (bad): 5K, 10K, 500 samples for c, hidden layer [80, 80], Discretiser24576
+
+
+
+dqn-03, 3 trials, memory_size = 50_000; batch_size = 64; dqn_dims = [num_inputs, 128, self.num_actions], num_episodes=10000

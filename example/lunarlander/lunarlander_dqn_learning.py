@@ -35,9 +35,9 @@ if __name__ == '__main__':
         start_trial = int(sys.argv[1])
     
     env = gym.make('LunarLander-v2')
-    config = ActivityConfig(start_trial=start_trial, num_trials=1, num_episodes=1000, out_path='result/lunarlander/dqn-hacked/')
+    config = ActivityConfig(start_trial=start_trial, num_trials=3, num_episodes=10000, out_path='result/lunarlander/dqn-03/')
     agent_builder = DQNAgentBuilder(env.action_space.n)
-    milestone_episodes = []
+    milestone_episodes = [1000,2000,3000,4000,5000,6000,7000,8000,9000]
     learning = Learning(listener=BasicFunctions(render=False, draw=False, milestone_episodes=milestone_episodes, 
             reward_type=RewardType.TOTAL))
     learning.learn(env, agent_builder, config)
