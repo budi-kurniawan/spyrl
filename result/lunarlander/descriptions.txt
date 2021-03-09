@@ -26,4 +26,5 @@ d2dspl-acet-24 (bad): 5K, 10K, 500 samples for c, hidden layer [80, 80], Discret
 
 
 
-dqn-03, 3 trials, memory_size = 50_000; batch_size = 64; dqn_dims = [num_inputs, 128, self.num_actions], num_episodes=10000
+dqn-03, memory_size = 50_000; batch_size = 64; dqn_dims = [num_inputs, 128, self.num_actions], num_episodes=10000
+ddqn-03, memory_size = 50_000; batch_size = 64; dqn_dims = [num_inputs, 128, self.num_actions], num_episodes=10000
