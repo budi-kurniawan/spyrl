@@ -119,16 +119,17 @@ if __name__ == '__main__':
     parent2 = '../../result/lunarlander/dqn-old-02/'
     parent3 = '../../result/lunarlander/dqn-hacked/'
     parent4 = '../../result/lunarlander/dqn-03/'
+    parent5 = '../../result/lunarlander/ddqn-03/'
     context['max_records'] = 10000
     context['start_trial'] = 1
     context['num_trials'] = 10
     context['num_avg_samples'] = 10
     context['show_figures'] = True
-    context['ylim'] = (-800, 200)
+    context['ylim'] = (-800, 500)
     
     data_sources = [
-            DataSource(name='dqn', data_paths=[parent4], 
-                       labels=['dqn-03'],
+            DataSource(name='dqn', data_paths=[parent5], 
+                       labels=['ddqn-03'],
                        image_path=None, image_xy=None, result_path='./temp/temp-01.png')
     ]
     create_charts(data_sources)
@@ -146,7 +147,7 @@ if __name__ == '__main__':
             DataSource(name='Q-learning', data_paths=[parent], labels=['Joadia Q-learning'],
                        image_path=None, image_xy=None, result_path='./temp/temp-01.png')
     ]
-    create_charts(data_sources)
+    #create_charts(data_sources)
 
     parent = '../../result/lunarlander/d2dspl-01/'
     context['max_records'] = 5000
