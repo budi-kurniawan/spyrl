@@ -1,29 +1,27 @@
 """ A class representing D2D-SQL agents """
 import numpy as np
-import pickle
-import os
 import torch
 from datetime import datetime
 from spyrl.util.util import override
 from spyrl.activity.activity_context import ActivityContext
-from spyrl.agent.dqn_agent import DQNAgent
+from spyrl.agent.impl.dqn_agent import DQNAgent
 
 __author__ = 'bkurniawan'
 
 class D2DSQLAgent(DQNAgent):
-    
-    def __init__(self, normalized_training_set_path, target_loss, memory_size, batch_size, dqn_dims, normalizer, seed=None):
-        super().__init__(memory_size, batch_size, dqn_dims, normalizer, seed)
+
+    def __init__(self, normalised_training_set_path, target_loss, memory_size, batch_size, dqn_dims, normaliser, seed=None):
+        super().__init__(memory_size, batch_size, dqn_dims, normaliser, seed)
         self.target_loss = target_loss
-        self.normalized_training_set_path = normalized_training_set_path
+        self.normalised_training_set_path = normalised_training_set_path
 
     @override(DQNAgent)
     def trial_start(self, activity_context: ActivityContext):
         trial = activity_context.trial
         out_path = activity_context.out_path
-        normalized_training_data = self.get_normalized_training_data()
-        data_len = len(normalized_training_data)
-        for experience in normalized_training_data:
+        normalised_training_data = self.get_normalised_training_data()
+        data_len = len(normalised_training_data)
+        for experience in normalised_training_data:
             s, a, r, s2, done, _ = experience
             self.add_sample(s, a, r, s2, done)
     
@@ -41,7 +39,7 @@ class D2DSQLAgent(DQNAgent):
             Q_predict = self.get_Q(states)
             Q_target = Q_predict.clone().data.numpy() # Q_target is not a second network, most of its values are the same as the reward at the current timestep
             for j in range(data_len):
-                s, a, r, s2, done, action_prefs = normalized_training_data[j]
+                s, a, r, s2, done, action_prefs = normalised_training_data[j]
                 Q_target[j] = action_prefs # we use non-normalised action_prefs and see if it works
     
             Q_target = torch.Tensor(Q_target)
@@ -78,14 +76,15 @@ class D2DSQLAgent(DQNAgent):
         learning_times_file.write(message + '\n')        
         learning_times_file.close()
         
-    def get_normalized_training_data(self):
-        print('d2dsql agent. start initialization with normalized training set in ' + self.normalized_training_set_path)
+    def get_normalised_training_data(self):
+        print('d2dsql agent. start initialization with normalised training set in ' + self.normalised_training_set_path)
         data = []
-        file = open(self.normalized_training_set_path, 'r')
+        file = open(self.normalised_training_set_path, 'r')
         lines = file.readlines()
         
         for line in lines:        
             # format episode name,[state],[actions preferences],[next state],reward. Example: 1,[1,2,3,4],[1,2,3,4,5,],[1,2,3,4],1
+            print('line:', line)
             index1 = line.index(',')
             ep = int(line[0 : index1])
             index1 = line.index('[', index1 + 1)
