@@ -5,11 +5,10 @@
 import os
 import gym
 import sys
-from spyrl.agent.impl.double_d2dsql_agent2 import DoubleD2DSQLAgent2
 sys.path.insert(0, "../spyrl")
+from spyrl.agent.impl.double_d2dsql_agent2 import DoubleD2DSQLAgent2
 from spyrl.util.util import get_project_dir
 from spyrl.agent_builder.agent_builder import AgentBuilder
-from spyrl.agent.impl.d2dsql_agent2 import D2DSQLAgent2
 from spyrl.listener.impl.session_logger import SessionLogger
 from spyrl.listener.impl.gmailer import Gmailer
 from spyrl.activity.learning import Learning
