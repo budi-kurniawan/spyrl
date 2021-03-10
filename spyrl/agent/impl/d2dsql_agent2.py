@@ -1,8 +1,8 @@
 """ A class representing D2D-SQL agents with fixed epsilon """
 from spyrl.util.util import override
 from spyrl.activity.activity_context import ActivityContext
-from spyrl.agent.dqn_agent import DQNAgent
-from spyrl.agent.d2dsql_agent import D2DSQLAgent
+from spyrl.agent.impl.dqn_agent import DQNAgent
+from spyrl.agent.impl.d2dsql_agent import D2DSQLAgent
 
 __author__ = 'bkurniawan'
 

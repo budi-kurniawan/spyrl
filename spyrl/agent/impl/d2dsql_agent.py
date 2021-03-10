@@ -84,7 +84,6 @@ class D2DSQLAgent(DQNAgent):
         
         for line in lines:        
             # format episode name,[state],[actions preferences],[next state],reward. Example: 1,[1,2,3,4],[1,2,3,4,5,],[1,2,3,4],1
-            print('line:', line)
             index1 = line.index(',')
             ep = int(line[0 : index1])
             index1 = line.index('[', index1 + 1)

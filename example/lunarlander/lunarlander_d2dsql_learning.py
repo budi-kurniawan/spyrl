@@ -8,7 +8,7 @@ import sys
 sys.path.insert(0, "../spyrl")
 from spyrl.util.util import get_project_dir
 from spyrl.agent_builder.agent_builder import AgentBuilder
-from spyrl.agent.impl.d2dsql_agent import D2DSQLAgent
+from spyrl.agent.impl.d2dsql_agent2 import D2DSQLAgent2
 from spyrl.listener.impl.session_logger import SessionLogger
 from spyrl.listener.impl.gmailer import Gmailer
 from spyrl.activity.learning import Learning
@@ -28,7 +28,7 @@ class D2DSQLAgentBuilder(AgentBuilder):
         trial = seed
         normalised_training_set_path = os.path.join(get_project_dir(), normalised_training_set_parent_path + \
                 '/d2dspl-normalised_training_set-' + str(trial).zfill(2) + '-00005000.txt')
-        return D2DSQLAgent(normalised_training_set_path, target_loss, memory_size, batch_size, dqn_dims, self.normaliser, seed)
+        return D2DSQLAgent2(normalised_training_set_path, target_loss, memory_size, batch_size, dqn_dims, self.normaliser, seed)
 
 if __name__ == '__main__':
     env = gym.make('LunarLander-v2')
@@ -39,7 +39,7 @@ if __name__ == '__main__':
     target_loss = 0.01 #0.001
 
     normalised_training_set_parent_path = 'result/lunarlander/d2dspl-acet-' + str(num_episodes) + '-' + session_id
-    description = 'd2dsql-' + session_id + '. mem_size=50,000, batch_size=64, hidden dims=128, ' + \
+    description = 'd2dsql-' + session_id + '. mem_size=50,000, batch_size=64, hidden dims=128, D2DSQLAgent2 (fixed epsilon)' + \
             'training set from ' + normalised_training_set_parent_path + \
             '/d2dspl-normalised_training_set-0x-00050000.txt\n' + 'target_loss: ' + str(target_loss)
     
@@ -48,6 +48,6 @@ if __name__ == '__main__':
                             out_path='result/lunarlander/d2dsql-' + session_id + '/')
     agent_builder = D2DSQLAgentBuilder(num_actions)
     listeners = [BasicFunctions(render=False, draw=False, reward_type=RewardType.TOTAL, milestone_episodes=milestone_episodes),
-                Gmailer("D2DSQL-24"), SessionLogger(description)]
+                Gmailer("D2DSQL-22"), SessionLogger(description)]
     learning = Learning(listeners=listeners)
     learning.learn(env, agent_builder, config)
