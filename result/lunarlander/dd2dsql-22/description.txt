@@ -1,0 +1,4 @@
+dd2dsql-22. mem_size=50,000, batch_size=64, hidden dims=128, DoubleD2DSQLAgent2 (fixed epsilon)training set from result/lunarlander/d2dspl-acet-10000-22/d2dspl-normalised_training_set-0x-00050000.txt
+target_loss: 0.01
+Learning started at 2021-03-11 00:35:45.607595
+Learning finished at 2021-03-12 00:20:30.229893
