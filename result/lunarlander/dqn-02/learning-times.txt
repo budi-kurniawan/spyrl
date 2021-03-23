@@ -1,3 +1,0 @@
-Trial 1 finished in 5390.993676 seconds on ubuntu20 
-Trial 2 finished in 4166.593594 seconds on ubuntu20
-Trial 3 finished in 5317.518851 seconds on ubuntu20

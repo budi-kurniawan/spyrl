@@ -56,7 +56,8 @@ def draw(axs, data_paths, labels):
         all_runs = np.stack(Y)
         means = np.mean(all_runs, axis=0)
         stddev = np.std(all_runs, axis=0)
-        label = labels[i] + ' (avg: {0:.4f}'.format(np.mean(means)) + ', max: {0:.4f}'.format(y_max) + ')' 
+        #label = labels[i] + ' (avg: {0:.4f}'.format(np.mean(means)) + ', max: {0:.4f}'.format(y_max) + ')' 
+        label = labels[i] + ' ({0:.2f}'.format(np.mean(means)) + ')' 
         axs.plot(X[0], means, color=colors[i], label=label) # no std
         axs.fill_between(X[0], means-stddev, means+stddev, alpha=0.2, edgecolor=edgecolors[i], facecolor=facecolors[i],
                          linewidth=2, linestyle='dashdot', antialiased=True)
@@ -96,7 +97,7 @@ def create_charts(data_sources):
         axs.legend()
         plt.tight_layout(pad=0.05) # will change ax dimension, make them bigger since margins are reduced        
         print(' Saved ' + data_source.result_path)
-        #plt.savefig(data_source.result_path)
+        plt.savefig(data_source.result_path)
         if context['show_figures']:
             plt.show()
             
@@ -115,22 +116,21 @@ if __name__ == '__main__':
     ]
     #create_charts(data_sources)
     
-    parent = '../../result/lunarlander/dqn-old/'
-    parent2 = '../../result/lunarlander/dqn-old-02/'
-    parent3 = '../../result/lunarlander/dqn-hacked/'
-    parent4 = '../../result/lunarlander/dqn-03/'
-    parent5 = '../../result/lunarlander/ddqn-03/'
+    parent1 = '../../result/lunarlander/d2dspl-acet-10000-22/'
+    parent2 = '../../result/lunarlander/dqn-03/'
+    parent3 = '../../result/lunarlander/ddqn-03/'
+    out_path = '/home/budi2020/Documents/PHD/my-papers/neuralComputingAndApplications/results/lunarlander-learning-curve.png'
+
     context['max_records'] = 10000
-    context['start_trial'] = 1
-    context['num_trials'] = 10
-    context['num_avg_samples'] = 10
+    context['start_trial'] = 2
+    context['num_trials'] = 1
+    context['num_avg_samples'] = 50
     context['show_figures'] = True
     context['ylim'] = (-800, 500)
     
     data_sources = [
-            DataSource(name='dqn', data_paths=[parent5], 
-                       labels=['ddqn-03'],
-                       image_path=None, image_xy=None, result_path='./temp/temp-01.png')
+            DataSource(name='dqn', data_paths=[parent1, parent2, parent3], 
+                       labels=['ACET', 'DQN', 'DDQN'], image_path=None, image_xy=None, result_path=out_path)
     ]
     create_charts(data_sources)
     

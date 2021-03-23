@@ -22,6 +22,7 @@ def draw(data_sources, result_path=None):
         values = []
         num_solves = 0
         num_solves2 = []
+        print(label, '==============================')
         for trial in range(1, 1 + ds.num_trials):
             file = ds.data_parent_path + '/scores-' + str(trial).zfill(2) + '.txt'
             if not os.path.exists(file):
@@ -44,8 +45,9 @@ def draw(data_sources, result_path=None):
                     sample = {'value': value, 'label':label}
                     data.append(sample)
             num_solves2.append(solves)
+            print(int(np.mean(trial_values)))
             #print('trial:', trial, ', mean:', np.mean(trial_values), ', median:', np.median(trial_values))
-        print(label, ', mean:', np.mean(values), ', median:', np.median(values), ', solves:', num_solves, num_solves2)
+        print(label, np.mean(values), np.median(values), num_solves, num_solves2)
 
     sns.set(style="whitegrid")
     dataFrame = pd.DataFrame(data)
@@ -99,12 +101,14 @@ if __name__ == '__main__':
             DataSource(label='ACET-10K-22', data_parent_path=parent + 'd2dspl-acet-10000-22/performance-acet-10000'),
             DataSource(label='d2dspl-5K-22', data_parent_path=parent + 'd2dspl-acet-10000-22/performance-d2dspl'),
 # just ok            DataSource(label='d2dspl-5K-23', data_parent_path=parent + 'd2dspl-acet-10000-23/performance-d2dspl'),
-            DataSource(label='ddqn-03-2K', data_parent_path=parent + 'ddqn-03/performance-2000'),
+#             DataSource(label='ddqn-03-2K', data_parent_path=parent + 'ddqn-03/performance-2000'),
+            DataSource(label='dqn-03-5K', data_parent_path=parent + 'dqn-03/performance-5000'),
+            DataSource(label='dqn-03-10K', data_parent_path=parent + 'dqn-03/performance-5000'),
             DataSource(label='ddqn-03-5K', data_parent_path=parent + 'ddqn-03/performance-5000'),
-            DataSource(label='ddqn-03-6K', data_parent_path=parent + 'ddqn-03/performance-6000'),
-            DataSource(label='ddqn-03-7K', data_parent_path=parent + 'ddqn-03/performance-7000'),
-            DataSource(label='ddqn-03-8K', data_parent_path=parent + 'ddqn-03/performance-8000'),
-            DataSource(label='ddqn-03-9K', data_parent_path=parent + 'ddqn-03/performance-9000'),
+#             DataSource(label='ddqn-03-6K', data_parent_path=parent + 'ddqn-03/performance-6000'),
+#             DataSource(label='ddqn-03-7K', data_parent_path=parent + 'ddqn-03/performance-7000'),
+#             DataSource(label='ddqn-03-8K', data_parent_path=parent + 'ddqn-03/performance-8000'),
+#             DataSource(label='ddqn-03-9K', data_parent_path=parent + 'ddqn-03/performance-9000'),
             DataSource(label='ddqn-03-10K', data_parent_path=parent + 'ddqn-03/performance-10000'),
 # bad result            DataSource(label='d2dspl-5K-24', data_parent_path=parent + 'd2dspl-acet-10000-24/performance-d2dspl'),
 #             DataSource(label='dqn-old-1K', data_parent_path=parent + 'dqn-old/performance-1000', num_trials=1),
