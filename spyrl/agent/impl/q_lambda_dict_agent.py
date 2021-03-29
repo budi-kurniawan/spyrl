@@ -1,5 +1,5 @@
 from spyrl.util.util import override
-from spyrl.agent.q_learning_agent import QLearningAgent
+from spyrl.agent.impl.q_learning_dict_agent import QLearningDictAgent
 import numpy as np
 from spyrl.activity.activity_context import ActivityContext
 
@@ -15,34 +15,42 @@ This algorithm is called Watkin's Q(lambda) (Q-learning + eligibility traces) an
     
 Do not use http://www-anw.cs.umass.edu/~barto/courses/cs687/Chapter%207.pdf (wrong)
 """
-class QLambdaTracesAgent(QLearningAgent):
-    def __init__(self, num_actions: int, discretizer, seed=None, initial_policy_path=None):
-        super().__init__(num_actions, discretizer, seed, initial_policy_path)
-        self.e = np.zeros([self.num_states, num_actions], dtype=np.float64)
+class QLambdaDictAgent(QLearningDictAgent):
+    def __init__(self, num_actions: int, discretiser, seed=None, initial_policy_path=None):
+        super().__init__(num_actions, discretiser, seed, initial_policy_path)
+        self.e = {} #np.zeros([self.num_states, num_actions], dtype=np.float64)
         self.visited = []
 
-    @override(QLearningAgent)
+    @override(QLearningDictAgent)
     def episode_start(self, activity_context: ActivityContext)->None:
         super().episode_start(activity_context)
         self.__reset_traces()
 
-    @override(QLearningAgent)
+    @override(QLearningDictAgent)
     def update(self, activity_context, state, action, reward, next_state, terminal, env_data) -> None:
         # this is a better implementation than the one in Sutton's book (1st edition) because you don't need to
         # calculate a' (next action)
-        discrete_state = self.discretizer.discretize(state)
-        next_discrete_state = self.discretizer.discretize(next_state)
         q = self.q
+        discrete_state = self.discretiser.discretise(state)
+        # Though select_action has been called with the same state, it may have been exploring, so q may not have it as a key
+        if discrete_state not in q:
+            q[discrete_state] = np.zeros(self.num_actions)
+        
+        next_discrete_state = self.discretiser.discretise(next_state)
+        if next_discrete_state not in q:
+            q[next_discrete_state] = np.zeros(self.num_actions)
         next_max = np.max(q[next_discrete_state])
-        delta = reward + QLearningAgent.GAMMA * next_max - q[discrete_state][action]
-        q[discrete_state][action] += QLearningAgent.ALPHA * delta
+        delta = reward + QLearningDictAgent.GAMMA * next_max - q[discrete_state][action]
+        q[discrete_state][action] += QLearningDictAgent.ALPHA * delta
 
         # we want to know if action was obtained by exploration or exploitation
         exploit = q[discrete_state][action] == np.max(q[discrete_state])
         if exploit:
             e = self.e
+            if discrete_state not in e:
+                e[discrete_state] = np.zeros(self.num_actions)
             for s, a in self.visited:
-                q[s][a] += QLearningAgent.ALPHA * delta * e[s][a]
+                q[s][a] += QLearningDictAgent.ALPHA * delta * e[s][a]
                 e[s][a] *= self.GAMMA * self.LAMBDA
             e[discrete_state][action] = 1
             if (discrete_state, action) not in self.visited:
@@ -51,7 +59,5 @@ class QLambdaTracesAgent(QLearningAgent):
             self.__reset_traces()
 
     def __reset_traces(self):
-        e = self.e
-        for s, a in self.visited:
-            e[s][a] = 0.0
+        self.e.clear()
         del self.visited[:]
