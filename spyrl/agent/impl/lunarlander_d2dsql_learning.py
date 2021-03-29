@@ -26,8 +26,8 @@ class D2DSQLAgentBuilder(AgentBuilder):
         num_inputs = 8
         memory_size = 50_000; batch_size = 64; dqn_dims = [num_inputs, 128, self.num_actions]
         trial = seed
-        normalised_training_set_path = os.path.join(get_project_dir(), normalised_training_set_parent_path + \
-                '/d2dspl-normalised_training_set-' + str(trial).zfill(2) + '-00005000.txt')
+        normalised_training_set_path = os.path.join(normalised_training_set_parent_path,
+                'd2dspl-normalised_training_set-' + str(trial).zfill(2) + '-00005000.txt')
         return D2DSQLAgent2(normalised_training_set_path, target_loss, memory_size, batch_size, dqn_dims, self.normaliser, seed)
 
 if __name__ == '__main__':
