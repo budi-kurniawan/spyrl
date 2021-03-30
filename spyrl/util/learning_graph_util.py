@@ -103,18 +103,22 @@ def create_charts(data_sources):
             
 if __name__ == '__main__':
     parent = '../../result/lunarlander/acet-01/'
-    context['max_records'] = 10000
-    context['num_trials'] = 10
+    parent = '/home/budi2020/Documents/PythonProjects/scalable_joadia_random_starts/results/joadia-qlambda-dict-01'
+    parent2 = '/home/budi2020/Documents/PythonProjects/scalable_joadia_random_starts/results/joadia-qlambda-dict-02'
+    result_path = '/home/budi2020/Documents/PythonProjects/scalable_joadia_random_starts/results/joadia-qlambda-dict-02/learningcurves.png'
+    
+    context['max_records'] = 5000000
+    context['num_trials'] = 1
     context['start_trial'] = 1
-    context['num_avg_samples'] = 20
+    context['num_avg_samples'] = 500
     context['show_figures'] = True
-    context['ylim'] = (-200, 300)
+    context['ylim'] = (-20, 20)
     
     data_sources = [
-            DataSource(name='acet', data_paths=[parent], labels=['lunarlander-acet-01', 'ac-002'],
-                       image_path=None, image_xy=None, result_path='./temp/temp-01.png')
+            DataSource(name='qlambda-dict', data_paths=[parent, parent2], labels=['qlambda-01', 'qlambda-02'],
+                       image_path=None, image_xy=None, result_path=result_path)
     ]
-    #create_charts(data_sources)
+    create_charts(data_sources)
     
     parent1 = '../../result/lunarlander/d2dspl-acet-10000-22/'
     parent2 = '../../result/lunarlander/dqn-03/'
@@ -132,7 +136,7 @@ if __name__ == '__main__':
             DataSource(name='dqn', data_paths=[parent1, parent2, parent3], 
                        labels=['ACET', 'DQN', 'DDQN'], image_path=None, image_xy=None, result_path=out_path)
     ]
-    create_charts(data_sources)
+    #create_charts(data_sources)
     
     
     parent = '../../../joadia/results/'
