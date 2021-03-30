@@ -44,7 +44,7 @@ class Testing(Activity):
                 stopper = Stopper()
                 self.fire_before_episode_event(EpisodeEvent(activity_context, tester=tester, env=env, stopper=stopper))
                 state = env.reset()
-                self.fire_after_env_reset_event(EpisodeEvent(activity_context, tester=tester, env=env, stopper=stopper))
+                self.fire_after_env_reset_event(EpisodeEvent(activity_context, tester=tester, env=env, state=state, stopper=stopper))
                 tester.episode_start(activity_context)
                 ep_reward = 0.0
                 step = 0

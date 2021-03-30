@@ -7,4 +7,5 @@ class EpisodeEvent:
         self.agent = kwargs.get('agent', None)
         self.tester = kwargs.get('tester', None)
         self.env = kwargs.get('env', None)
+        self.state = kwargs.get('state', None)
         self.stopper = kwargs.get('stopper', None)

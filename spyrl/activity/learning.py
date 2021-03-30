@@ -43,7 +43,7 @@ class Learning(Activity):
                 # env.reset() and fire_before_episode_event must be reversed, just like in Testing.test()
                 self.fire_before_episode_event(EpisodeEvent(activity_context, agent=agent, env=env))
                 state = env.reset()
-                self.fire_after_env_reset_event(EpisodeEvent(activity_context, agent=agent, env=env))
+                self.fire_after_env_reset_event(EpisodeEvent(activity_context, agent=agent, env=env, state=state))
                 agent.episode_start(activity_context)
                 ep_reward = 0.0
                 step = 0

@@ -15,6 +15,7 @@ def get_data(start_trial, num_trials, path, max_records, num_avg_samples, offset
     X = []
     Y = []
     y_max = float('-inf')
+    y_min = float('inf')
     for i in range(start_trial, start_trial + num_trials):
         file = os.path.join(path, 'scores-' + str(i).zfill(2) + '.txt')
         print(file)
@@ -31,6 +32,8 @@ def get_data(start_trial, num_trials, path, max_records, num_avg_samples, offset
                 y_value = float(row[1])
                 if y_max < y_value:
                     y_max = y_value
+                if y_min > y_value:
+                    y_min = y_value
                 y.append(y_value + offset)
                 if len(y) == max_records:
                     break
@@ -44,7 +47,7 @@ def get_data(start_trial, num_trials, path, max_records, num_avg_samples, offset
             y = y[0 : len(x)]
         X.append(x)
         Y.append(y)
-    return X, Y, y_max
+    return X, Y, y_max, y_min
 
 def draw(axs, data_paths, labels):
     colors = ['blue', 'orange', 'green']
@@ -52,12 +55,12 @@ def draw(axs, data_paths, labels):
     facecolors = ['lightblue', 'coral', 'green']
     
     for i in range(len(data_paths)):
-        X, Y, y_max = get_data(context['start_trial'], context['num_trials'], data_paths[i], context['max_records'], context['num_avg_samples'], context['offset'])
+        X, Y, y_max, y_min = get_data(context['start_trial'], context['num_trials'], data_paths[i], context['max_records'], context['num_avg_samples'], context['offset'])
         all_runs = np.stack(Y)
         means = np.mean(all_runs, axis=0)
         stddev = np.std(all_runs, axis=0)
-        #label = labels[i] + ' (avg: {0:.4f}'.format(np.mean(means)) + ', max: {0:.4f}'.format(y_max) + ')' 
-        label = labels[i] + ' ({0:.2f}'.format(np.mean(means)) + ')' 
+        label = labels[i] + ' (avg: {0:.2f}'.format(np.mean(means)) + ', min: {0:.2f}'.format(y_min) + ', max: {0:.2f}'.format(y_max) + ')' 
+        #label = labels[i] + ' ({0:.2f}'.format(np.mean(means)) + ')' 
         axs.plot(X[0], means, color=colors[i], label=label) # no std
         axs.fill_between(X[0], means-stddev, means+stddev, alpha=0.2, edgecolor=edgecolors[i], facecolor=facecolors[i],
                          linewidth=2, linestyle='dashdot', antialiased=True)
