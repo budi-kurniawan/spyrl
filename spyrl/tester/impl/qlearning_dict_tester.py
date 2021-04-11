@@ -17,4 +17,5 @@ class QLearningDictTester(Tester):
     def load_policy(self): # called by the constructor
         file = open(self.policy_path, 'rb')
         self.q = pickle.load(file)
+        print('len(q):', len(self.q))
         file.close()

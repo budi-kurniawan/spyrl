@@ -107,65 +107,22 @@ def create_charts(data_sources):
 if __name__ == '__main__':
     parent = '../../result/lunarlander/acet-01/'
     parent = '/home/budi2020/Documents/PythonProjects/scalable_joadia_random_starts/results/joadia-qlambda-dict-01'
-    parent2 = '/home/budi2020/Documents/PythonProjects/scalable_joadia_random_starts/results/joadia-qlambda-dict-02'
-    result_path = '/home/budi2020/Documents/PythonProjects/scalable_joadia_random_starts/results/joadia-qlambda-dict-02/learningcurves.png'
+    parent2 = '/home/budi2020/Documents/PythonProjects/scalable_joadia_random_starts/results/joadia-qlambda-dict-23-1M'
+    parent3 = '/home/budi2020/Documents/PythonProjects/scalable_joadia_random_starts/results/joadia-qlambda-dict-23-1M-wrapper01'
+    parent4 = '/home/budi2020/Documents/PythonProjects/scalable_joadia_random_starts/results/joadia-qlambda-dict-23-2.5M-wrapper02'
+    result_path = parent4 + '/learningcurves.png'
     
     context['max_records'] = 5000000
     context['num_trials'] = 1
     context['start_trial'] = 1
     context['num_avg_samples'] = 500
     context['show_figures'] = True
-    context['ylim'] = (-20, 20)
+    context['ylim'] = (-35, 25)
     
     data_sources = [
-            DataSource(name='qlambda-dict', data_paths=[parent, parent2], labels=['qlambda-01', 'qlambda-02'],
-                       image_path=None, image_xy=None, result_path=result_path)
+            DataSource(name='qlambda-dict', data_paths=[parent2, parent3, parent4], labels=['qlambda-23', 
+                        'qlambda-23-reduced-features', 'qlambda-23-reduced-features-2'],
+                        image_path=None, image_xy=None, result_path=result_path)
     ]
     create_charts(data_sources)
-    
-    parent1 = '../../result/lunarlander/d2dspl-acet-10000-22/'
-    parent2 = '../../result/lunarlander/dqn-03/'
-    parent3 = '../../result/lunarlander/ddqn-03/'
-    out_path = '/home/budi2020/Documents/PHD/my-papers/neuralComputingAndApplications/results/lunarlander-learning-curve.png'
-
-    context['max_records'] = 10000
-    context['start_trial'] = 2
-    context['num_trials'] = 1
-    context['num_avg_samples'] = 50
-    context['show_figures'] = True
-    context['ylim'] = (-800, 500)
-    
-    data_sources = [
-            DataSource(name='dqn', data_paths=[parent1, parent2, parent3], 
-                       labels=['ACET', 'DQN', 'DDQN'], image_path=None, image_xy=None, result_path=out_path)
-    ]
-    #create_charts(data_sources)
-    
-    
-    parent = '../../../joadia/results/'
-    context['max_records'] = 100000
-    context['start_trial'] = 2
-    context['num_trials'] = 1
-    context['num_avg_samples'] = 20
-    context['show_figures'] = True
-    context['ylim'] = (-60, -30)
-    
-    data_sources = [
-            DataSource(name='Q-learning', data_paths=[parent], labels=['Joadia Q-learning'],
-                       image_path=None, image_xy=None, result_path='./temp/temp-01.png')
-    ]
-    #create_charts(data_sources)
-
-    parent = '../../result/lunarlander/d2dspl-01/'
-    context['max_records'] = 5000
-    context['start_trial'] = 1
-    context['num_trials'] = 10
-    context['num_avg_samples'] = 10
-    context['show_figures'] = True
-    context['ylim'] = (-300, 300)
-    
-    data_sources = [
-            DataSource(name='Q-learning', data_paths=[parent], labels=['D2D-SPL'],
-                       image_path=None, image_xy=None, result_path='./temp/temp-01.png')
-    ]
-    #create_charts(data_sources)
+        
