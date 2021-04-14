@@ -50,9 +50,9 @@ def get_data(start_trial, num_trials, path, max_records, num_avg_samples, offset
     return X, Y, y_max, y_min
 
 def draw(axs, data_paths, labels):
-    colors = ['blue', 'orange', 'green']
-    edgecolors = ['lightblue', 'coral', 'green']
-    facecolors = ['lightblue', 'coral', 'green']
+    colors = ['blue', 'orange', 'green', 'yellow']
+    edgecolors = ['lightblue', 'coral', 'green', 'yellow']
+    facecolors = ['lightblue', 'coral', 'green', 'yellow']
     
     for i in range(len(data_paths)):
         X, Y, y_max, y_min = get_data(context['start_trial'], context['num_trials'], data_paths[i], context['max_records'], context['num_avg_samples'], context['offset'])
@@ -110,6 +110,7 @@ if __name__ == '__main__':
     parent2 = '/home/budi2020/Documents/PythonProjects/scalable_joadia_random_starts/results/joadia-qlambda-dict-23-1M'
     parent3 = '/home/budi2020/Documents/PythonProjects/scalable_joadia_random_starts/results/joadia-qlambda-dict-23-1M-wrapper01'
     parent4 = '/home/budi2020/Documents/PythonProjects/scalable_joadia_random_starts/results/joadia-qlambda-dict-23-2.5M-wrapper02'
+    parent5 = '/home/budi2020/Documents/PythonProjects/scalable_joadia_random_starts/results/joadia-qlambda-dict-23-1M-wrapper02'
     result_path = parent4 + '/learningcurves.png'
     
     context['max_records'] = 5000000
@@ -120,8 +121,8 @@ if __name__ == '__main__':
     context['ylim'] = (-35, 25)
     
     data_sources = [
-            DataSource(name='qlambda-dict', data_paths=[parent2, parent3, parent4], labels=['qlambda-23', 
-                        'qlambda-23-reduced-features', 'qlambda-23-reduced-features-2'],
+            DataSource(name='qlambda-dict', data_paths=[parent2, parent3, parent4, parent5], labels=['qlambda-23', 
+                        'qlambda-23-rf-01', 'qlambda-23-rf-02', 'qlambda-23-rf-02'],
                         image_path=None, image_xy=None, result_path=result_path)
     ]
     create_charts(data_sources)
