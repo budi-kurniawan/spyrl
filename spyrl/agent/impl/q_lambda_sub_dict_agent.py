@@ -25,21 +25,18 @@ class QLambdaSubDictAgent(QLambdaDictAgent):
             file.close()
             count += num_items
             file_index += 1
-        # re-read the files (just for testing)
-#         file_index = 1
-#         q_temp = {}
-#         while True:
-#             p = path + '-' + str(file_index).zfill(4)
-#             if not os.path.exists(p):
-#                 break
-#             file = open(p, 'rb')
-#             temp = pickle.load(file)
-#             q_temp = {**q_temp, **temp}
-#             file.close()
-#             file_index += 1
         
     @override(QLearningDictAgent)
     def load_policy(self, path) -> None:
-        file = open(path,'rb')
-        self.q = pickle.load(file)
-        file.close()
+        file_index = 1
+        self.q = {}
+        while True:
+            p = path + '-' + str(file_index).zfill(4)
+            if not os.path.exists(p):
+                break
+            file = open(p, 'rb')
+            temp = pickle.load(file)
+            self.q = {**self.q, **temp}
+            file.close()
+            file_index += 1
+        print("loaded len(q):", len(self.q))
