@@ -24,7 +24,7 @@ class QLambdaDictAgent(QLearningDictAgent):
     @override(QLearningDictAgent)
     def episode_start(self, activity_context: ActivityContext)->None:
         super().episode_start(activity_context)
-        self.__reset_traces()
+        self.reset_traces()
 
     @override(QLearningDictAgent)
     def update(self, activity_context, state, action, reward, next_state, terminal, env_data) -> None:
@@ -56,8 +56,8 @@ class QLambdaDictAgent(QLearningDictAgent):
             if (discrete_state, action) not in self.visited:
                 self.visited.append((discrete_state, action)) # record visited state/action pairs so we don't have to update state/actions that were never visited
         else:
-            self.__reset_traces()
+            self.reset_traces()
 
-    def __reset_traces(self):
+    def reset_traces(self):
         self.e.clear()
         del self.visited[:]

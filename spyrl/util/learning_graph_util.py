@@ -107,23 +107,24 @@ def create_charts(data_sources):
 if __name__ == '__main__':
     parent = '../../result/lunarlander/acet-01/'
     parent = '/home/budi2020/Documents/PythonProjects/scalable_joadia_random_starts/results/joadia-qlambda-dict-01'
-    parent2 = '/home/budi2020/Documents/PythonProjects/scalable_joadia_random_starts/results/joadia-qlambda-dict-23-1M'
-    parent3 = '/home/budi2020/Documents/PythonProjects/scalable_joadia_random_starts/results/joadia-qlambda-dict-23-1M-wrapper01'
+#     parent2 = '/home/budi2020/Documents/PythonProjects/scalable_joadia_random_starts/results/joadia-qlambda-dict-23-1M'
+#     parent3 = '/home/budi2020/Documents/PythonProjects/scalable_joadia_random_starts/results/joadia-qlambda-dict-23-1M-wrapper01'
     parent4 = '/home/budi2020/Documents/PythonProjects/scalable_joadia_random_starts/results/joadia-qlambda-dict-23-2.5M-wrapper02'
-    parent5 = '/home/budi2020/Documents/PythonProjects/scalable_joadia_random_starts/results/joadia-qlambda-dict-23-1M-wrapper02'
-    parent6 = '/home/budi2020/Documents/PythonProjects/scalable_joadia_random_starts/results/joadia-qlambda-subdict-23-1M-wrapper02'
-    result_path = parent4 + '/learningcurves.png'
+    parent5 = '/home/budi2020/Documents/PythonProjects/scalable_joadia_random_starts/results/joadia-qlambda-subdict-23-1M-wrapper02'
+    parent5b = '/home/budi2020/Documents/PythonProjects/scalable_joadia_random_starts/results/joadia-qlambda-subdict-23-4M-wrapper02'
+    parent6 = '/home/budi2020/Documents/PythonProjects/scalable_joadia_random_starts/results/joadia-qlambda-subdict-23-1M-discretiser23-noshapedreward'
+    result_path = parent6 + '/learningcurves.png'
     
     context['max_records'] = 5000000
     context['num_trials'] = 1
     context['start_trial'] = 1
     context['num_avg_samples'] = 500
     context['show_figures'] = True
-    context['ylim'] = (-35, 25)
+    context['ylim'] = (-100, 25)
     
     data_sources = [
-            DataSource(name='qlambda-dict', data_paths=[parent2, parent3, parent4, parent5, parent6], labels=['qlambda-23', 
-                        'qlambda-23-rf-01', 'qlambda-23-rf-02', 'qlambda-23-rf-02', 'subdict'],
+            DataSource(name='qlambda-dict', data_paths=[parent4, parent5, parent5b, parent6], 
+                       labels=['qlambda-23-rf', 'qlambda-23-rf', 'qlambda-23-rf', 'qlambda-23 compat.'],
                         image_path=None, image_xy=None, result_path=result_path)
     ]
     create_charts(data_sources)
