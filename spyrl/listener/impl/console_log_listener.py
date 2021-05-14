@@ -4,7 +4,7 @@ from spyrl.util.util import override
 
 class ConsoleLogListener(TrialListener, EpisodeListener):
     def __init__(self):
-        self.max_num_steps = 0
+        self.max_reward = 0
 
     @override(EpisodeListener)
     def after_episode(self, event):
@@ -12,9 +12,11 @@ class ConsoleLogListener(TrialListener, EpisodeListener):
         trial = activity_context.trial
         episode = activity_context.episode
         step = activity_context.step
+        if event.reward > self.max_reward:
+            self.max_reward = event.reward
         print("Trial " + str(trial) + " episode " + str(episode) + ", reward:" + str(event.reward)
               + ", avg reward:" + str(event.avg_reward)
-              + ", steps:" + str(step) + " (max " + str(self.max_num_steps) + ")")
+              + ", steps:" + str(step) + " (max reward so far: " + str(self.max_reward) + ")")
 
     @override(TrialListener)
     def after_trial(self, event):

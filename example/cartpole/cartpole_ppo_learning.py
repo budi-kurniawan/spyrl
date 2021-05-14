@@ -28,7 +28,7 @@ if __name__ == '__main__':
     num_actions = env.action_space.n
     local_steps_per_epoch = 4000
     #env = GymEnvWrapper(env)
-    config = ActivityConfig(num_episodes=40000, out_path='result/cartpole/ppo_test01/')
+    config = ActivityConfig(num_episodes=1000, out_path='result/cartpole/ppo_test01/')
     
     agent = PPOAgent(env.observation_space, env.action_space, local_steps_per_epoch)
     agent_builder = PassThroughAgentBuilder(agent)

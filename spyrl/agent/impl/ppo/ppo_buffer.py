@@ -27,8 +27,6 @@ class PPOBuffer:
         """
         Append one timestep of agent-environment interaction to the buffer.
         """
-        if self.ptr >= self.max_size:
-            print("========== self.ptr:", self.ptr, self.max_size)
         assert self.ptr < self.max_size     # buffer has to have room so you can store
         self.obs_buf[self.ptr] = obs
         self.act_buf[self.ptr] = act

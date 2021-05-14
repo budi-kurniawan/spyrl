@@ -8,11 +8,10 @@ from torch.optim import Adam
 from spyrl.util.util import override
 from spyrl.activity.activity_context import ActivityContext
 from spyrl.agent.torch_seedable_agent import TorchSeedableAgent
-from spyrl.agent.impl.dqn.dqn import DQN, ReplayMemory
 from spyrl.agent.impl.ppo.core import MLPActorCritic
 from spyrl.agent.impl.ppo.ppo_buffer import PPOBuffer
-from spyrl.agent.impl.ppo.mpi_tools import mpi_fork, mpi_avg, proc_id, mpi_statistics_scalar, num_procs
-from spyrl.agent.impl.ppo.mpi_pytorch import setup_pytorch_for_mpi, sync_params, mpi_avg_grads
+from spyrl.agent.impl.ppo.mpi_tools import mpi_avg
+from spyrl.agent.impl.ppo.mpi_pytorch import mpi_avg_grads
 
 
 """ A Torch-based class representing PPO agents 
@@ -41,38 +40,20 @@ class PPOAgent(TorchSeedableAgent):
         # Set up optimizers for policy and value function
         self.pi_optimizer = Adam(self.ac.pi.parameters(), lr=pi_lr)
         self.vf_optimizer = Adam(self.ac.v.parameters(), lr=vf_lr)
-        self.ep_ret = 0
-        self.ep_len = 0
-
-#         self.memory = ReplayMemory(memory_size, self.random)
-#         self.batch_size = batch_size
-#         self.dqn = DQN(dqn_dims)
-#         self.input_dim = dqn_dims[0]
-#         self.output_dim = dqn_dims[-1]
-#         self.loss_fn = nn.MSELoss()
-#         self.optim = optim.Adam(self.dqn.parameters())
-#         self.normaliser = normaliser
-#         self.gamma = 0.99
 
     @override(TorchSeedableAgent)
     def update(self, activity_context: ActivityContext, state: np.ndarray, action: int, reward: float, next_state: np.ndarray, terminal: bool, env_data: Dict[str, object]) -> None:
-        self.ep_ret += reward
-        self.ep_len += 1        
         self.buf.store(state, action, reward, self.v, self.logp)
         epoch_ended = activity_context.total_steps % self.local_steps_per_epoch == 0
         timeout = activity_context.step % 1000 == 0
-        terminal2 = terminal or timeout
-        if terminal2 or epoch_ended:
+        if terminal or timeout or epoch_ended:
             if timeout or epoch_ended:
                 _, v, _ = self.ac.step(torch.as_tensor(next_state, dtype=torch.float32))
-                print('call finish_path. v:', v)
             else:
                 v = 0
             self.buf.finish_path(v)
-            self.ep_ret, self.ep_len = 0, 0
         if epoch_ended:
             self.ppo_update()
-            activity_context.terminate_episode = True
 
     def ppo_update(self):
         train_pi_iters = 80
@@ -90,7 +71,6 @@ class PPOAgent(TorchSeedableAgent):
             loss_pi, pi_info = self.compute_loss_pi(data)
             kl = mpi_avg(pi_info['kl'])
             if kl > 1.5 * target_kl:
-                #logger.log('Early stopping at step %d due to reaching max kl.'%i)
                 break
             loss_pi.backward()
             mpi_avg_grads(self.ac.pi)    # average grads across MPI processes
@@ -105,13 +85,6 @@ class PPOAgent(TorchSeedableAgent):
             mpi_avg_grads(self.ac.v)    # average grads across MPI processes
             self.vf_optimizer.step()
 
-#         # Log changes from update
-#         kl, ent, cf = pi_info['kl'], pi_info_old['ent'], pi_info['cf']
-#         logger.store(LossPi=pi_l_old, LossV=v_l_old,
-#                      KL=kl, Entropy=ent, ClipFrac=cf,
-#                      DeltaLossPi=(loss_pi.item() - pi_l_old),
-#                      DeltaLossV=(loss_v.item() - v_l_old))
-        
     def save_model(self, path): # used to save a model for intermediate learning
         # See https://pytorch.org/tutorials/beginner/saving_loading_models.html
         # TODO, need to save random generators too
@@ -139,15 +112,6 @@ class PPOAgent(TorchSeedableAgent):
         self.logp = logp
         return a
 
-#     @override(TorchSeedableAgent)
-#     def episode_start(self, activity_context: ActivityContext):
-#         min_eps = 0.01
-#         slope = (min_eps - 1.0) / (activity_context.num_episodes - 1)
-#         self.current_epsilon = max(slope * activity_context.episode + 1.0, min_eps)
-#             
-#     def get_epsilon(self):
-#         return self.current_epsilon
-    
     def compute_loss_pi(self, data):
         clip_ratio = 0.2
         obs, act, adv, logp_old = data['obs'], data['act'], data['adv'], data['logp']
@@ -170,5 +134,3 @@ class PPOAgent(TorchSeedableAgent):
     def compute_loss_v(self, data):
         obs, ret = data['obs'], data['ret']
         return ((self.ac.v(obs) - ret)**2).mean()
-
-    

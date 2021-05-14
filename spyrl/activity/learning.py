@@ -60,9 +60,6 @@ class Learning(Activity):
                     state = next_state
                     ep_reward += reward
                     self.fire_after_step_event(StepEvent(activity_context, env=env, reward=reward, agent=agent))
-                    if activity_context.terminate_episode:
-                        activity_context.terminate_episode = False
-                        break
                     if terminal:
                         break
                 if max_reward < ep_reward:
