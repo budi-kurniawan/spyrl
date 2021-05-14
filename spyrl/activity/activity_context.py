@@ -7,5 +7,7 @@ class ActivityContext(object):
         self.trial = None
         self.episode = None
         self.step = None
+        self.total_steps = None
         self.trial_start_time = None
         self.trial_end_time = None
+        self.terminate_episode = False

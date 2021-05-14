@@ -38,6 +38,7 @@ class Learning(Activity):
             agent.trial_start(activity_context)
             max_reward = 0
             max_num_steps = 0
+            total_steps = 0
             for episode in range(activity_context.start_episode, activity_context.start_episode + config.num_episodes):
                 activity_context.episode = episode
                 # env.reset() and fire_before_episode_event must be reversed, just like in Testing.test()
@@ -49,7 +50,9 @@ class Learning(Activity):
                 step = 0
                 while True:
                     step += 1
+                    total_steps += 1
                     activity_context.step = step
+                    activity_context.total_steps = total_steps
                     self.fire_before_step_event(StepEvent(activity_context, env=env))
                     action = agent.select_action(state)
                     next_state, reward, terminal, env_data = env.step(action)
@@ -57,6 +60,9 @@ class Learning(Activity):
                     state = next_state
                     ep_reward += reward
                     self.fire_after_step_event(StepEvent(activity_context, env=env, reward=reward, agent=agent))
+                    if activity_context.terminate_episode:
+                        activity_context.terminate_episode = False
+                        break
                     if terminal:
                         break
                 if max_reward < ep_reward:
