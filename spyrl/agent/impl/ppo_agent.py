@@ -116,7 +116,7 @@ class PPOAgent(TorchSeedableAgent):
         return a
 
     def compute_loss_pi(self, data):
-        clip_ratio = 0.2
+        clip_ratio = self.clip_ratio
         obs, act, adv, logp_old = data['obs'], data['act'], data['adv'], data['logp']
 
         # Policy loss
