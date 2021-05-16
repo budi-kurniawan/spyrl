@@ -22,21 +22,29 @@ __author__ = 'bkurniawan'
 
 class PPOAgent(TorchSeedableAgent):
     #def __init__(self, memory_size, batch_size, dqn_dims, normaliser, seed=None) -> None:
-    def __init__(self, observation_space, action_space, local_steps_per_epoch, seed=None) -> None:
+    #def __init__(self, observation_space, action_space, local_steps_per_epoch, seed=None) -> None:
+
+    def __init__(self, observation_space, action_space, nn_dims, **kwargs) -> None:
+        seed = kwargs.get('seed', None)
         super().__init__(seed)
-        gamma = 0.99
-        lam = 0.97
-        pi_lr = 3e-4
-        vf_lr = 1e-3
-        self.local_steps_per_epoch = local_steps_per_epoch
-#         epochs=50, ,
-#         max_ep_len=1000,
-#         
+        self.local_steps_per_epoch = kwargs.get('local_steps_per_epoch', 4000)
+        gamma = kwargs.get('gamma', 0.99)
+        lam = kwargs.get('lam', 0.97)
+        pi_lr = kwargs.get('pi_lr', 3e-4)
+        vf_lr = kwargs.get('vf_lr', 1e-3)
+        self.train_pi_iters = kwargs.get('train_pi_iters', 80)
+        self.train_v_iters = kwargs.get('train_v_iters', 80)
+        self.target_kl = kwargs.get('target_kl', 0.01)
+        self.clip_ratio = kwargs.get('clip_ratio', 0.2)
+        self.max_ep_len = kwargs.get('max_ep_len', 1000)
+        obs_dim = nn_dims[0]
+        act_dim = nn_dims[-1]
+        
         obs_dim = observation_space.shape
         act_dim = action_space.shape
 
         self.ac = MLPActorCritic(observation_space, action_space)
-        self.buf = PPOBuffer(obs_dim, act_dim, local_steps_per_epoch, gamma, lam)
+        self.buf = PPOBuffer(obs_dim, act_dim, self.local_steps_per_epoch, gamma, lam)
         # Set up optimizers for policy and value function
         self.pi_optimizer = Adam(self.ac.pi.parameters(), lr=pi_lr)
         self.vf_optimizer = Adam(self.ac.v.parameters(), lr=vf_lr)
@@ -45,7 +53,7 @@ class PPOAgent(TorchSeedableAgent):
     def update(self, activity_context: ActivityContext, state: np.ndarray, action: int, reward: float, next_state: np.ndarray, terminal: bool, env_data: Dict[str, object]) -> None:
         self.buf.store(state, action, reward, self.v, self.logp)
         epoch_ended = activity_context.total_steps % self.local_steps_per_epoch == 0
-        timeout = activity_context.step % 1000 == 0
+        timeout = activity_context.step % self.max_ep_len == 0
         if terminal or timeout or epoch_ended:
             if timeout or epoch_ended:
                 _, v, _ = self.ac.step(torch.as_tensor(next_state, dtype=torch.float32))
@@ -56,29 +64,24 @@ class PPOAgent(TorchSeedableAgent):
             self.ppo_update()
 
     def ppo_update(self):
-        train_pi_iters = 80
-        train_v_iters = 80
-        target_kl = 0.01
         data = self.buf.get()
-
         pi_l_old, pi_info_old = self.compute_loss_pi(data)
         pi_l_old = pi_l_old.item()
         v_l_old = self.compute_loss_v(data).item()
 
         # Train policy with multiple steps of gradient descent
-        for i in range(train_pi_iters):
+        for _ in range(self.train_pi_iters):
             self.pi_optimizer.zero_grad()
             loss_pi, pi_info = self.compute_loss_pi(data)
             kl = mpi_avg(pi_info['kl'])
-            if kl > 1.5 * target_kl:
+            if kl > 1.5 * self.target_kl:
                 break
             loss_pi.backward()
             mpi_avg_grads(self.ac.pi)    # average grads across MPI processes
             self.pi_optimizer.step()
 
-
         # Value function learning
-        for i in range(train_v_iters):
+        for _ in range(self.train_v_iters):
             self.vf_optimizer.zero_grad()
             loss_v = self.compute_loss_v(data)
             loss_v.backward()
