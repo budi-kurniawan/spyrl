@@ -11,6 +11,7 @@ from spyrl.agent.torch_seedable_agent import TorchSeedableAgent
 from spyrl.agent.impl.ppo.core import MLPActorCritic
 from spyrl.agent.impl.ppo.ppo_buffer import PPOBuffer
 from spyrl.agent.impl.ppo.mpi_tools import mpi_avg
+from spyrl.agent.agent import Agent
 
 
 """ A Torch-based class representing PPO agents 
@@ -20,8 +21,7 @@ from spyrl.agent.impl.ppo.mpi_tools import mpi_avg
 __author__ = 'bkurniawan'
 
 class PPOAgent(TorchSeedableAgent):
-    def __init__(self, nn_dims, **kwargs) -> None:
-        seed = kwargs.get('seed', None)
+    def __init__(self, nn_dims, normaliser=None, seed=None, **kwargs) -> None:
         super().__init__(seed)
         self.local_steps_per_epoch = kwargs.get('local_steps_per_epoch', 4000)
         gamma = kwargs.get('gamma', 0.99)
@@ -98,7 +98,7 @@ class PPOAgent(TorchSeedableAgent):
         pickle.dump(self.ac, file)
         file.close()
         
-    @override(TorchSeedableAgent)
+    @override(Agent)
     def load_policy(self):
         file = open(self.policy_path, 'rb')
         self.ac = pickle.load(file)

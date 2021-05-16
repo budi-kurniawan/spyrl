@@ -2,20 +2,27 @@
 """
     Cartpole learning with PPO
 """
+import os
 import gym
 import sys
+from spyrl.util.util import get_project_dir
 sys.path.insert(0, "../spyrl")
+from spyrl.agent_builder.agent_builder import AgentBuilder
 from spyrl.agent.impl.ppo_agent import PPOAgent
-from spyrl.agent_builder.impl.pass_through_agent_builder import PassThroughAgentBuilder
 from spyrl.activity.learning import Learning
 from spyrl.activity.activity_config import ActivityConfig
 from spyrl.listener.impl.basic_functions import BasicFunctions
-from example.cartpole.helper.env_wrapper import GymEnvWrapper
 
 __author__ = "Budi Kurniawan"
 __copyright__ = "Copyright 2021, Budi Kurniawan"
 __license__ = "GPL"
 __version__ = "0.1.0"
+
+class PPOAgentBuilder(AgentBuilder):
+    def create_agent(self, seed, initial_policy_path=None):
+        normaliser = None
+        seed = 1
+        return PPOAgent(nn_dims, normaliser, seed)
 
 if __name__ == '__main__':
     id = 'CartPole-v2'
@@ -27,11 +34,13 @@ if __name__ == '__main__':
     env = gym.make(id)
     num_actions = env.action_space.n
     num_states = env.observation_space.shape[0]
-    
     nn_dims = (num_states, 64, 64, num_actions)
-    config = ActivityConfig(num_episodes=750, out_path='result/cartpole/ppo_test01/')
+    
+    out_path = os.path.join(get_project_dir(), 'result/cartpole/ppo-01/')
+    print(out_path)
+    config = ActivityConfig(num_episodes=700, out_path=out_path)
     
     agent = PPOAgent(nn_dims)
-    agent_builder = PassThroughAgentBuilder(agent)
+    agent_builder = PPOAgentBuilder(agent)
     learning = Learning(listener=BasicFunctions(render=False))
     learning.learn(env, agent_builder, config)
