@@ -4,9 +4,9 @@
 """
 import gym
 import sys
+sys.path.insert(0, "../spyrl")
 from spyrl.agent.impl.ppo_agent import PPOAgent
 from spyrl.agent_builder.impl.pass_through_agent_builder import PassThroughAgentBuilder
-sys.path.insert(0, "../spyrl")
 from spyrl.activity.learning import Learning
 from spyrl.activity.activity_config import ActivityConfig
 from spyrl.listener.impl.basic_functions import BasicFunctions
@@ -26,13 +26,12 @@ if __name__ == '__main__':
     )
     env = gym.make(id)
     num_actions = env.action_space.n
-    local_steps_per_epoch = 4000
-    #env = GymEnvWrapper(env)
-    config = ActivityConfig(num_episodes=1000, out_path='result/cartpole/ppo_test01/')
+    num_states = env.observation_space.shape[0]
     
-    agent = PPOAgent(env.observation_space, env.action_space, local_steps_per_epoch)
+    nn_dims = (num_states, 64, 64, num_actions)
+    config = ActivityConfig(num_episodes=750, out_path='result/cartpole/ppo_test01/')
+    
+    agent = PPOAgent(nn_dims)
     agent_builder = PassThroughAgentBuilder(agent)
     learning = Learning(listener=BasicFunctions(render=False))
     learning.learn(env, agent_builder, config)
-    
-    

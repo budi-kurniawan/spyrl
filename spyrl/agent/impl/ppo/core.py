@@ -1,7 +1,5 @@
 import numpy as np
 import scipy.signal
-from gym.spaces import Box, Discrete
-
 import torch
 import torch.nn as nn
 from torch.distributions.normal import Normal
@@ -104,24 +102,21 @@ class MLPCritic(nn.Module):
         return torch.squeeze(self.v_net(obs), -1) # Critical to ensure v has right shape.
 
 
-
 class MLPActorCritic(nn.Module):
-
-
-    def __init__(self, observation_space, action_space, 
-                 hidden_sizes=(64,64), activation=nn.Tanh):
+    def __init__(self, num_states, num_actions, hidden_sizes, activation=nn.Tanh):
         super().__init__()
+#         obs_dim = observation_space.shape[0]
+#         print('obs dim-core:', obs_dim, action_space.n)
+#         if isinstance(action_space, Box):
+#             self.pi = MLPGaussianActor(obs_dim, action_space.shape[0], hidden_sizes, activation)
+#         elif isinstance(action_space, Discrete):
+#             self.pi = MLPCategoricalActor(obs_dim, action_space.n, hidden_sizes, activation)
 
-        obs_dim = observation_space.shape[0]
-
-        # policy builder depends on action space
-        if isinstance(action_space, Box):
-            self.pi = MLPGaussianActor(obs_dim, action_space.shape[0], hidden_sizes, activation)
-        elif isinstance(action_space, Discrete):
-            self.pi = MLPCategoricalActor(obs_dim, action_space.n, hidden_sizes, activation)
+        # currently only supports discrete actions
+        self.pi = MLPCategoricalActor(num_states, num_actions, hidden_sizes, activation)
 
         # build value function
-        self.v  = MLPCritic(obs_dim, hidden_sizes, activation)
+        self.v  = MLPCritic(num_states, hidden_sizes, activation)
 
     def step(self, obs):
         with torch.no_grad():

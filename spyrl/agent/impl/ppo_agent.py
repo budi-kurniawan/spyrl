@@ -11,20 +11,16 @@ from spyrl.agent.torch_seedable_agent import TorchSeedableAgent
 from spyrl.agent.impl.ppo.core import MLPActorCritic
 from spyrl.agent.impl.ppo.ppo_buffer import PPOBuffer
 from spyrl.agent.impl.ppo.mpi_tools import mpi_avg
-from spyrl.agent.impl.ppo.mpi_pytorch import mpi_avg_grads
 
 
 """ A Torch-based class representing PPO agents 
-    This is a modified version of https://github.com/openai/spinningup/blob/20921137141b154454c0a2698709d9f9a0302101/spinup/algos/pytorch/ppo/ppo.py
+    Inspired by https://github.com/openai/spinningup/blob/20921137141b154454c0a2698709d9f9a0302101/spinup/algos/pytorch/ppo/ppo.py
 """
 
 __author__ = 'bkurniawan'
 
 class PPOAgent(TorchSeedableAgent):
-    #def __init__(self, memory_size, batch_size, dqn_dims, normaliser, seed=None) -> None:
-    #def __init__(self, observation_space, action_space, local_steps_per_epoch, seed=None) -> None:
-
-    def __init__(self, observation_space, action_space, nn_dims, **kwargs) -> None:
+    def __init__(self, nn_dims, **kwargs) -> None:
         seed = kwargs.get('seed', None)
         super().__init__(seed)
         self.local_steps_per_epoch = kwargs.get('local_steps_per_epoch', 4000)
@@ -37,14 +33,12 @@ class PPOAgent(TorchSeedableAgent):
         self.target_kl = kwargs.get('target_kl', 0.01)
         self.clip_ratio = kwargs.get('clip_ratio', 0.2)
         self.max_ep_len = kwargs.get('max_ep_len', 1000)
-        obs_dim = nn_dims[0]
-        act_dim = nn_dims[-1]
+        num_states = nn_dims[0]
+        num_actions = nn_dims[-1]
+        hidden_sizes = nn_dims[1:-1]
         
-        obs_dim = observation_space.shape
-        act_dim = action_space.shape
-
-        self.ac = MLPActorCritic(observation_space, action_space)
-        self.buf = PPOBuffer(obs_dim, act_dim, self.local_steps_per_epoch, gamma, lam)
+        self.ac = MLPActorCritic(num_states, num_actions, hidden_sizes)
+        self.buf = PPOBuffer(num_states, self.local_steps_per_epoch, gamma, lam)
         # Set up optimizers for policy and value function
         self.pi_optimizer = Adam(self.ac.pi.parameters(), lr=pi_lr)
         self.vf_optimizer = Adam(self.ac.v.parameters(), lr=vf_lr)
@@ -77,7 +71,7 @@ class PPOAgent(TorchSeedableAgent):
             if kl > 1.5 * self.target_kl:
                 break
             loss_pi.backward()
-            mpi_avg_grads(self.ac.pi)    # average grads across MPI processes
+            #mpi_avg_grads(self.ac.pi)    # average grads across MPI processes
             self.pi_optimizer.step()
 
         # Value function learning
@@ -85,7 +79,7 @@ class PPOAgent(TorchSeedableAgent):
             self.vf_optimizer.zero_grad()
             loss_v = self.compute_loss_v(data)
             loss_v.backward()
-            mpi_avg_grads(self.ac.v)    # average grads across MPI processes
+            #mpi_avg_grads(self.ac.v)    # average grads across MPI processes
             self.vf_optimizer.step()
 
     def save_model(self, path): # used to save a model for intermediate learning
@@ -100,13 +94,15 @@ class PPOAgent(TorchSeedableAgent):
 
     @override(TorchSeedableAgent)
     def save_policy(self, path): # used to save a policy that can be used for activity
-        pass
-#         file = open(path, 'wb')
-#         pickle.dump(self.dqn, file)
-#         file.close()
+        file = open(path, 'wb')
+        pickle.dump(self.ac, file)
+        file.close()
         
-    def load_model(self, path):
-        pass
+    @override(TorchSeedableAgent)
+    def load_policy(self):
+        file = open(self.policy_path, 'rb')
+        self.ac = pickle.load(file)
+        file.close()    
 
     @override(TorchSeedableAgent)
     def select_action(self, state: np.ndarray) -> int:
