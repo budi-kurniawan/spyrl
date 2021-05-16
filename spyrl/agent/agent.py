@@ -30,9 +30,6 @@ class Agent:
     def save_policy(self, path) -> None:
         pass
 
-    def load_policy(self, path) -> None:
-        pass
-        
     def seed(self, seed) -> None:
         pass
     

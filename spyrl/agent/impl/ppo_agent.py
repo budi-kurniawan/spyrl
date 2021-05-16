@@ -98,12 +98,6 @@ class PPOAgent(TorchSeedableAgent):
         pickle.dump(self.ac, file)
         file.close()
         
-    @override(Agent)
-    def load_policy(self):
-        file = open(self.policy_path, 'rb')
-        self.ac = pickle.load(file)
-        file.close()    
-
     @override(TorchSeedableAgent)
     def select_action(self, state: np.ndarray) -> int:
         a, v, logp = self.ac.step(torch.as_tensor(state, dtype=torch.float32))

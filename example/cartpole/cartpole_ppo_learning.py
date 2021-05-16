@@ -38,7 +38,7 @@ if __name__ == '__main__':
     
     out_path = os.path.join(get_project_dir(), 'result/cartpole/ppo-01/')
     print(out_path)
-    config = ActivityConfig(num_episodes=700, out_path=out_path)
+    config = ActivityConfig(num_episodes=626, out_path=out_path)
     
     agent = PPOAgent(nn_dims)
     agent_builder = PPOAgentBuilder(agent)
