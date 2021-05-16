@@ -33,12 +33,12 @@ class PPOAgent(TorchSeedableAgent):
         self.target_kl = kwargs.get('target_kl', 0.01)
         self.clip_ratio = kwargs.get('clip_ratio', 0.2)
         self.max_ep_len = kwargs.get('max_ep_len', 1000)
-        num_states = nn_dims[0]
+        num_state_vars = nn_dims[0]
         num_actions = nn_dims[-1]
         hidden_sizes = nn_dims[1:-1]
         
-        self.ac = MLPActorCritic(num_states, num_actions, hidden_sizes)
-        self.buf = PPOBuffer(num_states, self.local_steps_per_epoch, gamma, lam)
+        self.ac = MLPActorCritic(num_state_vars, num_actions, hidden_sizes)
+        self.buf = PPOBuffer(num_state_vars, self.local_steps_per_epoch, gamma, lam)
         # Set up optimizers for policy and value function
         self.pi_optimizer = Adam(self.ac.pi.parameters(), lr=pi_lr)
         self.vf_optimizer = Adam(self.ac.v.parameters(), lr=vf_lr)

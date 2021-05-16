@@ -103,7 +103,7 @@ class MLPCritic(nn.Module):
 
 
 class MLPActorCritic(nn.Module):
-    def __init__(self, num_states, num_actions, hidden_sizes, activation=nn.Tanh):
+    def __init__(self, num_state_vars, num_actions, hidden_sizes, activation=nn.Tanh):
         super().__init__()
 #         obs_dim = observation_space.shape[0]
 #         print('obs dim-core:', obs_dim, action_space.n)
@@ -113,10 +113,10 @@ class MLPActorCritic(nn.Module):
 #             self.pi = MLPCategoricalActor(obs_dim, action_space.n, hidden_sizes, activation)
 
         # currently only supports discrete actions
-        self.pi = MLPCategoricalActor(num_states, num_actions, hidden_sizes, activation)
+        self.pi = MLPCategoricalActor(num_state_vars, num_actions, hidden_sizes, activation)
 
         # build value function
-        self.v  = MLPCritic(num_states, hidden_sizes, activation)
+        self.v  = MLPCritic(num_state_vars, hidden_sizes, activation)
 
     def step(self, obs):
         with torch.no_grad():

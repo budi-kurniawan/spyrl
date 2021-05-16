@@ -12,10 +12,10 @@ class PPOBuffer:
     for calculating the advantages of state-action pairs.
     """
 
-    def __init__(self, num_states, size, gamma=0.99, lam=0.95):
+    def __init__(self, num_state_vars, size, gamma=0.99, lam=0.95):
 #         self.obs_buf = np.zeros(core.combined_shape(size, obs_dim), dtype=np.float32)
 #         self.act_buf = np.zeros(core.combined_shape(size, act_dim), dtype=np.float32)
-        self.obs_buf = np.zeros((size, num_states), dtype=np.float32)
+        self.obs_buf = np.zeros((size, num_state_vars), dtype=np.float32)
         self.act_buf = np.zeros(size, dtype=np.float32)
 
         self.adv_buf = np.zeros(size, dtype=np.float32)

@@ -16,15 +16,15 @@ class ActorCriticTracesAgent(SeedableAgent):
     def __init__(self, num_actions: int, discretiser, seed=None, initial_policy_path=None):
         super().__init__(seed)
         self.discretiser = discretiser
-        num_states = discretiser.get_num_discrete_states()
+        num_state_vars = discretiser.get_num_discrete_states()
         self.num_actions = num_actions
         if initial_policy_path is not None:
             self.load_policy(initial_policy_path)
         else:
-            self.theta = np.zeros([num_states, num_actions], dtype=np.float64)
-            self.w = np.zeros(num_states, dtype=np.float64)
-        self.z_theta = np.zeros([num_states, num_actions], dtype=np.float64)
-        self.z_w = np.zeros(num_states, dtype=np.float64)
+            self.theta = np.zeros([num_state_vars, num_actions], dtype=np.float64)
+            self.w = np.zeros(num_state_vars, dtype=np.float64)
+        self.z_theta = np.zeros([num_state_vars, num_actions], dtype=np.float64)
+        self.z_w = np.zeros(num_state_vars, dtype=np.float64)
         self.actions = np.arange(num_actions)        
 
     def episode_start(self, activity_context: ActivityContext) -> None:
