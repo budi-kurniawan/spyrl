@@ -1,1 +1,16 @@
 Trial 1 finished in 878.736609 seconds on ubuntu16
+Trial 1 finished in 0.200797 seconds on ubuntu16
+Trial 1 finished in 0.115137 seconds on ubuntu16
+Trial 1 finished in 0.063352 seconds on ubuntu16
+Trial 1 finished in 0.114002 seconds on ubuntu16
+Trial 1 finished in 0.171151 seconds on ubuntu16
+Trial 1 finished in 0.154188 seconds on ubuntu16
+Trial 1 finished in 0.085797 seconds on ubuntu16
+Trial 1 finished in 0.04602 seconds on ubuntu16
+Trial 1 finished in 0.064141 seconds on ubuntu16
+Trial 1 finished in 0.048193 seconds on ubuntu16
+Trial 1 finished in 0.058999 seconds on ubuntu16
+Trial 1 finished in 0.062769 seconds on ubuntu16
+Trial 1 finished in 0.051542 seconds on ubuntu16
+Trial 1 finished in 0.043053 seconds on ubuntu16
+Trial 1 finished in 0.040082 seconds on ubuntu16
