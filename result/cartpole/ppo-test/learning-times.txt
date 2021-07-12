@@ -1,0 +1,15 @@
+Trial 1 finished in 0.088733 seconds on ubuntu16
+Trial 1 finished in 0.041559 seconds on ubuntu16
+Trial 1 finished in 0.029453 seconds on ubuntu16
+Trial 1 finished in 0.029435 seconds on ubuntu16
+Trial 1 finished in 0.034346 seconds on ubuntu16
+Trial 1 finished in 0.032103 seconds on ubuntu16
+Trial 1 finished in 0.04114 seconds on ubuntu16
+Trial 1 finished in 0.031508 seconds on ubuntu16
+Trial 1 finished in 0.031549 seconds on ubuntu16
+Trial 1 finished in 1.525893 seconds on ubuntu16
+Trial 1 finished in 1.549727 seconds on ubuntu16
+Trial 1 finished in 1.501067 seconds on ubuntu16
+Trial 1 finished in 1.490856 seconds on ubuntu16
+Trial 1 finished in 1.459859 seconds on ubuntu16
+Trial 1 finished in 1.236489 seconds on ubuntu16

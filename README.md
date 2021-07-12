@@ -16,7 +16,6 @@ pip install spyrl
 ```python
 import gym
 import sys
-sys.path.insert(0, "../spyrl")
 from spyrl.activity.learning import Learning
 from spyrl.activity.activity_config import ActivityConfig
 from spyrl.listener.impl.basic_functions import BasicFunctions

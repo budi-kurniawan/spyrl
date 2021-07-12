@@ -1,0 +1,1 @@
+Trial 1 finished in 0.060515 seconds on ubuntu16

@@ -28,8 +28,11 @@ def get_data(start_trial, num_trials, path, max_records, num_avg_samples, offset
         with open(file,'r') as csvfile:
             plots = csv.reader(csvfile, delimiter=',')
             for row in plots:
-                x.append(int(row[0]))
+                x_value = int(row[0])
+                x.append(x_value)
                 y_value = float(row[1])
+                if x_value > 5000 and 'acet-graph' in path: # for d2d-spl
+                    y_value = 730.87
                 if y_max < y_value:
                     y_max = y_value
                 if y_min > y_value:
@@ -37,7 +40,6 @@ def get_data(start_trial, num_trials, path, max_records, num_avg_samples, offset
                 y.append(y_value + offset)
                 if len(y) == max_records:
                     break
-    
         if num_avg_samples != 1:
             for j in range(0, int(len(x)/num_avg_samples)):
                 x[j] = x[(j + 1) * num_avg_samples - 1]
@@ -50,21 +52,25 @@ def get_data(start_trial, num_trials, path, max_records, num_avg_samples, offset
     return X, Y, y_max, y_min
 
 def draw(axs, data_paths, labels):
-    colors = ['blue', 'orange', 'green', 'yellow', 'black']
-    edgecolors = ['lightblue', 'coral', 'green', 'yellow', 'black']
-    facecolors = ['lightblue', 'coral', 'green', 'yellow', 'black']
+    colors = ['blue', 'orange', 'green', 'purple']
+    edgecolors = ['lightblue', 'coral', 'green', 'violet']
+    facecolors = ['lightblue', 'coral', 'green', 'violet']
+    
     
     for i in range(len(data_paths)):
         X, Y, y_max, y_min = get_data(context['start_trial'], context['num_trials'], data_paths[i], context['max_records'], context['num_avg_samples'], context['offset'])
         all_runs = np.stack(Y)
         means = np.mean(all_runs, axis=0)
         stddev = np.std(all_runs, axis=0)
-        label = labels[i] + ' (avg: {0:.2f}'.format(np.mean(means)) + ', min: {0:.2f}'.format(y_min) + ', max: {0:.2f}'.format(y_max) + ')' 
+        if "(" not in labels[i]:
+            label = labels[i] + ' (avg: {0:.2f}'.format(np.mean(means)) + ')' 
+        else:
+            label = labels[i]
         #label = labels[i] + ' ({0:.2f}'.format(np.mean(means)) + ')' 
         axs.plot(X[0], means, color=colors[i], label=label) # no std
         axs.fill_between(X[0], means-stddev, means+stddev, alpha=0.2, edgecolor=edgecolors[i], facecolor=facecolors[i],
                          linewidth=2, linestyle='dashdot', antialiased=True)
-        #plt.errorbar(X[0], means, stddev, linestyle='None', marker='.', label=labels[i])
+        
 
 def add_image(ax, data_source):
     if data_source.image_path is None:
@@ -105,27 +111,23 @@ def create_charts(data_sources):
             plt.show()
             
 if __name__ == '__main__':
-    parent = '../../result/lunarlander/acet-01/'
-    parent = '/home/budi2020/Documents/PythonProjects/scalable_joadia_random_starts/results/joadia-qlambda-dict-01'
-#     parent2 = '/home/budi2020/Documents/PythonProjects/scalable_joadia_random_starts/results/joadia-qlambda-dict-23-1M'
-#     parent3 = '/home/budi2020/Documents/PythonProjects/scalable_joadia_random_starts/results/joadia-qlambda-dict-23-1M-wrapper01'
-    parent4 = '/home/budi2020/Documents/PythonProjects/scalable_joadia_random_starts/results/joadia-qlambda-dict-23-2.5M-wrapper02'
-    parent5 = '/home/budi2020/Documents/PythonProjects/scalable_joadia_random_starts/results/joadia-qlambda-subdict-23-1M-wrapper02'
-    parent5b = '/home/budi2020/Documents/PythonProjects/scalable_joadia_random_starts/results/joadia-qlambda-subdict-23-4M-wrapper02'
-    parent6 = '/home/budi2020/Documents/PythonProjects/scalable_joadia_random_starts/results/joadia-qlambda-subdict-23-1M-discretiser23-noshapedreward'
-    result_path = parent6 + '/learningcurves.png'
+    parent1 = '../../result/lunarlander/d2dspl-acet-10000-22/'
+    parent2 = '../../result/lunarlander/dqn-01/'
+    parent3 = '../../result/lunarlander/ddqn-03/'
+    parent4 = '../../result/lunarlander/acet-graph/'
+    out_path = '/home/budi2020/Documents/PHD/my-papers/neuralComputingAndApplications/results/lunarlander-learning-curve.png'
     
-    context['max_records'] = 5000000
+    context['max_records'] = 10000
     context['num_trials'] = 1
     context['start_trial'] = 1
-    context['num_avg_samples'] = 500
+    context['num_avg_samples'] = 50
     context['show_figures'] = True
-    context['ylim'] = (-100, 25)
+    context['ylim'] = (-800, 800)
     
     data_sources = [
-            DataSource(name='qlambda-dict', data_paths=[parent4, parent5, parent5b, parent6], 
-                       labels=['qlambda-23-rf', 'qlambda-23-rf', 'qlambda-23-rf', 'qlambda-23 compat.'],
-                        image_path=None, image_xy=None, result_path=result_path)
+            DataSource(name='lunarlander', data_paths=[parent1, parent2, parent3, parent4], 
+                       labels=['AC', 'DQN', 'DDQN', 'D2D-SPL (730.87)'],
+                        image_path=None, image_xy=None, result_path=out_path)
     ]
     create_charts(data_sources)
         

@@ -23,6 +23,7 @@ __author__ = 'bkurniawan'
 class PPOAgent(TorchSeedableAgent):
     def __init__(self, nn_dims, normaliser=None, seed=None, **kwargs) -> None:
         super().__init__(seed)
+        self.normaliser = normaliser
         self.local_steps_per_epoch = kwargs.get('local_steps_per_epoch', 4000)
         gamma = kwargs.get('gamma', 0.99)
         lam = kwargs.get('lam', 0.97)
@@ -45,12 +46,14 @@ class PPOAgent(TorchSeedableAgent):
 
     @override(TorchSeedableAgent)
     def update(self, activity_context: ActivityContext, state: np.ndarray, action: int, reward: float, next_state: np.ndarray, terminal: bool, env_data: Dict[str, object]) -> None:
-        self.buf.store(state, action, reward, self.v, self.logp)
+        normalised_state = state if self.normaliser == None else self.normaliser.normalise(state)
+        normalised_next_state = next_state if self.normaliser == None else self.normaliser.normalise(next_state)
+        self.buf.store(normalised_state, action, reward, self.v, self.logp)
         epoch_ended = activity_context.total_steps % self.local_steps_per_epoch == 0
         timeout = activity_context.step % self.max_ep_len == 0
         if terminal or timeout or epoch_ended:
             if timeout or epoch_ended:
-                _, v, _ = self.ac.step(torch.as_tensor(next_state, dtype=torch.float32))
+                _, v, _ = self.ac.step(torch.as_tensor(normalised_next_state, dtype=torch.float32))
             else:
                 v = 0
             self.buf.finish_path(v)
@@ -100,10 +103,11 @@ class PPOAgent(TorchSeedableAgent):
         
     @override(TorchSeedableAgent)
     def select_action(self, state: np.ndarray) -> int:
-        a, v, logp = self.ac.step(torch.as_tensor(state, dtype=torch.float32))
+        normalised_state = state if self.normaliser == None else self.normaliser.normalise(state)
+        a, v, logp = self.ac.step(torch.as_tensor(normalised_state, dtype=torch.float32))
         self.v = v
         self.logp = logp
-        return a
+        return a.item(0)
 
     def compute_loss_pi(self, data):
         clip_ratio = self.clip_ratio

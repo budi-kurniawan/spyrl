@@ -22,7 +22,7 @@ class PPOAgentBuilder(AgentBuilder):
     def create_agent(self, seed, initial_policy_path=None):
         normaliser = None
         seed = 1
-        return PPOAgent(nn_dims, normaliser, seed)
+        return PPOAgent(nn_dims, normaliser, seed, local_steps_per_epoch=7)
 
 if __name__ == '__main__':
     id = 'CartPole-v2'
@@ -36,10 +36,9 @@ if __name__ == '__main__':
     num_states = env.observation_space.shape[0]
     nn_dims = (num_states, 64, 64, num_actions)
     
-    out_path = os.path.join(get_project_dir(), 'result/cartpole/ppo-01/')
+    out_path = os.path.join(get_project_dir(), 'result/cartpole/ppo-test/')
     config = ActivityConfig(num_episodes=2, out_path=out_path)
     
-    agent = PPOAgent(nn_dims)
-    agent_builder = PPOAgentBuilder(agent)
+    agent_builder = PPOAgentBuilder(num_actions)
     learning = Learning(listener=BasicFunctions(render=False))
     learning.learn(env, agent_builder, config)
