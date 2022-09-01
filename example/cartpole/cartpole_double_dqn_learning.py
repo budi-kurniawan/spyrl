@@ -4,7 +4,6 @@
 """
 import gym
 import sys
-sys.path.insert(0, "../spyrl")
 from spyrl.agent.impl.double_dqn_agent import DoubleDQNAgent
 from example.cartpole.helper.env_wrapper import GymEnvWrapper
 from spyrl.agent_builder.agent_builder import AgentBuilder

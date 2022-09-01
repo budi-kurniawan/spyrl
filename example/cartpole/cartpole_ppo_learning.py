@@ -6,7 +6,6 @@ import os
 import gym
 import sys
 from spyrl.util.util import get_project_dir
-sys.path.insert(0, "../spyrl")
 from spyrl.agent_builder.agent_builder import AgentBuilder
 from spyrl.agent.impl.ppo_agent import PPOAgent
 from spyrl.activity.learning import Learning
@@ -37,8 +36,8 @@ if __name__ == '__main__':
     nn_dims = (num_states, 64, 64, num_actions)
     
     out_path = os.path.join(get_project_dir(), 'result/cartpole/ppo-test/')
-    config = ActivityConfig(num_episodes=2, out_path=out_path)
+    config = ActivityConfig(num_episodes=20, out_path=out_path)
     
     agent_builder = PPOAgentBuilder(num_actions)
-    learning = Learning(listener=BasicFunctions(render=False))
+    learning = Learning(listener=BasicFunctions(render=True))
     learning.learn(env, agent_builder, config)

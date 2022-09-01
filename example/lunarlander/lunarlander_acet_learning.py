@@ -3,7 +3,6 @@
     LunarLander learning with actor critic with eligibility traces (ACET) agent
 """
 import gym
-import sys
 from spyrl.activity.learning import Learning
 from spyrl.activity.activity_config import ActivityConfig
 from spyrl.agent_builder.impl.actor_critic_traces_agent_builder import ActorCriticTracesAgentBuilder
@@ -23,6 +22,6 @@ if __name__ == '__main__':
     config = ActivityConfig(start_trial=1, num_trials=1, num_episodes=10000, out_path='result/lunarlander/acet-21/')
     agent_builder = ActorCriticTracesAgentBuilder(num_actions, discretiser=LunarLanderDiscretiser24576())
     milestone_episodes = [1000, 2000, 4000, 5000, 8000]
-    learning = Learning(listener=BasicFunctions(render=False, draw=False, reward_type=RewardType.TOTAL, 
+    learning = Learning(listener=BasicFunctions(render=True, draw=False, reward_type=RewardType.TOTAL, 
                         milestone_episodes=milestone_episodes))
     learning.learn(env, agent_builder, config)

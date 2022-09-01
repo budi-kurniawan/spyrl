@@ -4,8 +4,6 @@
 """
 import os
 import gym
-import sys
-sys.path.insert(0, "../spyrl")
 from spyrl.agent.impl.double_d2dsql_agent2 import DoubleD2DSQLAgent2
 from spyrl.util.util import get_project_dir
 from spyrl.agent_builder.agent_builder import AgentBuilder

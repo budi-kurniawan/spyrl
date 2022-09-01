@@ -4,7 +4,6 @@
 """
 import gym
 import sys
-sys.path.insert(0, "../spyrl")
 from spyrl.agent.impl.dqn_wtn_agent import DQNWithTargetNetworkAgent
 from spyrl.agent_builder.agent_builder import AgentBuilder
 from spyrl.listener.impl.file_log_listener import RewardType

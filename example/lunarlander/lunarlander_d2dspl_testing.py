@@ -3,9 +3,7 @@
     LunarLander learning with D2DSPL agent that uses actor critic with eligibility traces (ACET) in reinforcement phase 
 """
 import gym
-import sys
 import os
-sys.path.insert(0, "../spyrl")
 from spyrl.listener.impl.renderer import Renderer
 from spyrl.listener.impl.file_log_listener import RewardType
 from spyrl.tester_builder.impl.d2dspl_actor_critic_traces_tester_builder import D2DSPLActorCriticTracesTesterBuilder

@@ -6,7 +6,6 @@ import gym
 import sys
 import os
 from spyrl.tester_builder.impl.ppo_tester_builder import PPOTesterBuilder
-sys.path.insert(0, "../spyrl")
 from spyrl.listener.impl.renderer import Renderer
 from spyrl.activity.testing import Testing
 from spyrl.activity.activity_config import ActivityConfig

@@ -1,0 +1,4 @@
+Trial 1 finished in 0.015635 seconds on L99898570
+Trial 1 finished in 7.887157 seconds on L99898570
+Trial 1 finished in 7.796294 seconds on L99898570
+Trial 1 finished in 7.820251 seconds on L99898570

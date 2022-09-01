@@ -18,6 +18,11 @@ $ pip install -r requirements.txt
 $ pip install -e .
 ```
 
+## Installation on Windows:
+```bash
+Download and install MPI from https://www.microsoft.com/en-us/download/details.aspx?id=57467 (install both the .exe and .mpi files)
+```
+
 
 ## Usage
 

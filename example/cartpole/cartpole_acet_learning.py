@@ -3,8 +3,6 @@
     Cartpole learning with ActorCritic agent with traces
 """
 import gym
-import sys
-#sys.path.insert(0, "../spyrl")
 from spyrl.activity.learning import Learning
 from spyrl.activity.activity_config import ActivityConfig
 from spyrl.listener.impl.basic_functions import BasicFunctions
@@ -29,5 +27,5 @@ if __name__ == '__main__':
     #env = GymEnvWrapper(env)
     config = ActivityConfig(num_episodes=10, out_path='result/cartpole/test4/')
     agent_builder = ActorCriticTracesAgentBuilder(num_actions, discretiser=CartpoleDiscretiser())
-    learning = Learning(listener=BasicFunctions(render=False))
+    learning = Learning(listener=BasicFunctions(render=True))
     learning.learn(env, agent_builder, config)

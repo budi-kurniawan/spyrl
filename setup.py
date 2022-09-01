@@ -22,8 +22,11 @@ setuptools.setup(
     platforms='any',
 
     install_requires=[
-        'gym>=0.25.2',
-        'matplotlib==3.4.0'
+        'gym[all]>=0.25.2',
+        'matplotlib==3.4.0',
+        'pygame',
+        'torch',
+        'scipy', 'mpi4py'
     ],
     extras_require={
     },

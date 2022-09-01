@@ -5,7 +5,6 @@
 import gym
 import sys
 from example.cartpole.helper.env_wrapper import GymEnvWrapper
-sys.path.insert(0, "../spyrl")
 from spyrl.agent_builder.agent_builder import AgentBuilder
 from spyrl.agent.impl.dqn_agent import DQNAgent
 from spyrl.listener.impl.file_log_listener import RewardType
@@ -48,6 +47,6 @@ if __name__ == '__main__':
     config = ActivityConfig(start_trial=start_trial, num_trials=1, num_episodes=1000, out_path='result/cartpole/dqn-01-with-wrapper/')
     agent_builder = DQNAgentBuilder(num_actions)
     milestone_episodes = []
-    learning = Learning(listener=BasicFunctions(render=False, draw=True, milestone_episodes=milestone_episodes, 
+    learning = Learning(listener=BasicFunctions(render=True, draw=True, milestone_episodes=milestone_episodes, 
             reward_type=RewardType.TOTAL))
     learning.learn(env, agent_builder, config)
