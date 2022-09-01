@@ -11,6 +11,14 @@ Use the package manager [pip](https://pip.pypa.io/en/stable/) to install SpyRL.
 pip install spyrl
 ```
 
+## Installation from Source
+```bash
+$ cd to project directory
+$ pip install -r requirements.txt
+$ pip install -e .
+```
+
+
 ## Usage
 
 ```python
