@@ -33,7 +33,7 @@ class Learning(Activity):
             activity_context.trial_end_time = None
             self.fire_before_trial_event(TrialEvent(activity_context)) # allows a listener to change start_episode and search for a policy path
             seed = trial
-            env.seed(seed)
+            #env.seed(seed)
             agent = agent_builder.load_or_create_agent(activity_context, seed)
             agent.trial_start(activity_context)
             max_reward = 0
@@ -43,7 +43,8 @@ class Learning(Activity):
                 activity_context.episode = episode
                 # env.reset() and fire_before_episode_event must be reversed, just like in Testing.test()
                 self.fire_before_episode_event(EpisodeEvent(activity_context, agent=agent, env=env))
-                state = env.reset()
+                # new version of gym adds info
+                state, info = env.reset()
                 self.fire_after_env_reset_event(EpisodeEvent(activity_context, agent=agent, env=env, state=state))
                 agent.episode_start(activity_context)
                 ep_reward = 0.0
@@ -55,10 +56,12 @@ class Learning(Activity):
                     activity_context.total_steps = total_steps
                     self.fire_before_step_event(StepEvent(activity_context, env=env))
                     action = agent.select_action(state)
-                    next_state, reward, terminal, env_data = env.step(action)
+                    # new version of gym adds truncated
+                    next_state, reward, terminal, truncated, env_data = env.step(action)
                     agent.update(activity_context, state, action, reward, next_state, terminal, env_data)
                     state = next_state
                     ep_reward += reward
+                    env.render()
                     self.fire_after_step_event(StepEvent(activity_context, env=env, reward=reward, agent=agent))
                     if terminal:
                         break
@@ -74,6 +77,7 @@ class Learning(Activity):
                         avg_reward=(ep_reward/step), agent=agent, env=env))
             agent.trial_end(activity_context)
             trial_end_time = datetime.now()
+            print("total steps:", total_steps)
             activity_context.trial_end_time = trial_end_time
             self.fire_after_trial_event(TrialEvent(activity_context, agent=agent, env=env))
         self.fire_after_session_event(SessionEvent(activity_context))

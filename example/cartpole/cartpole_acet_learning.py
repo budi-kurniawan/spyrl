@@ -22,10 +22,14 @@ if __name__ == '__main__':
         entry_point='gym.envs.classic_control:CartPoleEnv',
         max_episode_steps=100_000
     )
-    env = gym.make(id)
+    render = False
+    if render:
+        env = gym.make(id, render_mode="human")
+    else:
+        env = gym.make(id)
     num_actions = env.action_space.n
     #env = GymEnvWrapper(env)
-    config = ActivityConfig(num_episodes=10, out_path='result/cartpole/test4/')
+    config = ActivityConfig(num_episodes=1000, out_path='result/cartpole/test4/')
     agent_builder = ActorCriticTracesAgentBuilder(num_actions, discretiser=CartpoleDiscretiser())
-    learning = Learning(listener=BasicFunctions(render=True))
+    learning = Learning(listener=BasicFunctions(render=render))
     learning.learn(env, agent_builder, config)
