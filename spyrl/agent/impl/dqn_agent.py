@@ -69,6 +69,8 @@ class DQNAgent(TorchSeedableAgent):
             return int(torch.argmax(q_values))
 
     def get_Q(self, normalised_states: np.ndarray) -> torch.FloatTensor:
+        # normalised_states is a tensor of shape (len(batch_size), num_actions) when called from train()
+        # or of shape (1, num_actions) when called from select_action()
         normalised_states = torch.Tensor(normalised_states.reshape(-1, self.input_dim))
         self.dqn.train(mode=False)
         return self.dqn(normalised_states)

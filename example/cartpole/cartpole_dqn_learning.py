@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-    LunarLander learning with DQN agent
+    Cartpole learning with DQN agent
 """
 import gym
 import sys
@@ -40,13 +40,18 @@ if __name__ == '__main__':
         entry_point='gym.envs.classic_control:CartPoleEnv',
         max_episode_steps=100_000
     )
-    env = gym.make(id)
+    render = False
+    if render:
+        env = gym.make(id, render_mode="human")
+    else:
+        env = gym.make(id)
+
     num_actions = env.action_space.n
-    env = GymEnvWrapper(env)
+    #env = GymEnvWrapper(env)
 
     config = ActivityConfig(start_trial=start_trial, num_trials=1, num_episodes=1000, out_path='result/cartpole/dqn-01-with-wrapper/')
     agent_builder = DQNAgentBuilder(num_actions)
     milestone_episodes = []
-    learning = Learning(listener=BasicFunctions(render=True, draw=True, milestone_episodes=milestone_episodes, 
+    learning = Learning(listener=BasicFunctions(render=render, draw=True, milestone_episodes=milestone_episodes, 
             reward_type=RewardType.TOTAL))
     learning.learn(env, agent_builder, config)
