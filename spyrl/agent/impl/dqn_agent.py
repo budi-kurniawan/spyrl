@@ -68,9 +68,12 @@ class DQNAgent(TorchSeedableAgent):
             q_values = self.get_Q(state)
             return int(torch.argmax(q_values))
 
+    # Returns rows of values. Each row has n columns, where n = output_dim or num_actions
+    # Each column contains the value for the corresponding action. For example, the first column
+    # contains the Q-value of the first action given the input state.
     def get_Q(self, normalised_states: np.ndarray) -> torch.FloatTensor:
-        # normalised_states is a tensor of shape (len(batch_size), num_actions) when called from train()
-        # or of shape (1, num_actions) when called from select_action()
+        # normalised_states is a tensor of shape (len(batch_size), input_dim) when called from train()
+        # or of shape (1, input_dim) when called from select_action()
         normalised_states = torch.Tensor(normalised_states.reshape(-1, self.input_dim))
         self.dqn.train(mode=False)
         return self.dqn(normalised_states)
@@ -93,10 +96,11 @@ class DQNAgent(TorchSeedableAgent):
         normalised_next_states = np.vstack([x.next_state for x in minibatch])
         done = np.array([x.done for x in minibatch])
 
+        # Q_predict and Q_target are numpy.ndarrays of size (len(minibatch), num_actions).
         Q_predict = self.get_Q(normalised_states)
         Q_target = Q_predict.clone().data.numpy()
-        """ Q_target is an numpy.ndarray of size (len(minibatch), num_actions).
-            At this point Q_target[np.arange(len(Q_target)), actions]) is a 1-dim array of size len(minibatch) and each element is selected from
+        """ Update exactly one column of every row in Q_target.
+            Q_target[np.arange(len(Q_target)), actions]) is a 1-dim array of size len(minibatch) and each element is selected from
             the corresponding row. Which cell in the row is used depends on the value of the corresponding actions
             For example, suppose len(minibatch) = 2 and num_actions=3 and Q_target is [[1, 2, 3], [4, 5, 6]] and actions = [1, 0]
             Q_target[np.arange(len(Q_target)), actions]) is then a 1-dim array of size len(minibatch) -> [2, 4], 
